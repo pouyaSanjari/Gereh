@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -58,6 +55,7 @@ class RequestController extends GetxController {
   RxDouble selectedLat = 0.0.obs;
   RxDouble selectedLon = 0.0.obs;
   RxString selectedInstagramId = ''.obs;
+  RxString selectedInstagramIdError = ''.obs;
 
   RxBool locationSelectionBool = false.obs;
   RxBool imageSelectionBool = false.obs;
@@ -69,22 +67,18 @@ class RequestController extends GetxController {
 
   AppDataBase database = AppDataBase();
 
-//دریافت دسته بندی مشاغل از دیتابیس
-  getJobTitles() async {
-    List response = await database.getJobGroups();
-    if (jobGroups.isEmpty) {
-      for (int i = 0; i < response.length; i++) {
-        jobGroups.add(response[i]);
-      }
-    }
-  }
-
 //دریافت مشاغل از دیتابیس
   getAllJobs() async {
     List response = await database.getJobs();
     if (jobs.isEmpty) {
       for (var i = 0; i < response.length; i++) {
         jobs.add(response[i]);
+      }
+    }
+    List response2 = await database.getJobGroups();
+    if (jobGroups.isEmpty) {
+      for (int i = 0; i < response2.length; i++) {
+        jobGroups.add(response2[i]);
       }
     }
   }
@@ -117,28 +111,11 @@ class RequestController extends GetxController {
     }
   }
 
-  void changeLocation(double lat, double lon) {
-    initialLat.value = lat;
-    initialLon.value = lon;
-    Get.snackbar('latitude', lat.toString());
-  }
-
-  Marker marker() {
-    return Marker(
-      point: LatLng(initialLat.value, initialLon.value),
-      builder: (markerController) => const Icon(Icons.location_pin),
-    );
-  }
-
   getAddressUsingLatLon(double lat, double lon) async {
     var url = Uri.parse('https://map.ir/fast-reverse?lat=$lat&lon=$lon');
     var response = await http.get(url, headers: {'x-api-key': apiKey});
     var decodedResponse =
         convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
     address.value = decodedResponse['address_compact'];
-  }
-
-  MarkerLayerOptions markerLayerOptions() {
-    return MarkerLayerOptions();
   }
 }

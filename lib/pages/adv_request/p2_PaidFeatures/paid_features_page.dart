@@ -319,11 +319,31 @@ class _PaidFeaturesState extends State<PaidFeatures> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: uiDesign.cTextField(
+                  length: 30,
+                  hint: 'بدون @',
+                  error: controller.selectedInstagramIdError.value == ''
+                      ? null
+                      : controller.selectedInstagramIdError.value,
                   icon: Icon(Iconsax.location,
                       size: controller.instagramIdSelectionHeight.value / 3),
                   labeltext: 'آیدی اینستاگرام خود را وارد کنید.',
                   control: instagramController,
+                  onSubmit: (value) => print(value),
                   onChange: (value) {
+                    if (instagramController.text
+                        .contains(RegExp(r'[@#$&-+()?!;:*+%-]'))) {
+                      controller.selectedInstagramIdError.value =
+                          'کاراکتر غیر مجاز!';
+                    } else {
+                      controller.selectedInstagramIdError.value = '';
+                    }
+
+                    // if (instagramController.text.contains(' ')) {
+                    //   controller.selectedInstagramIdError.value =
+                    //       'کاراکتر غیر مجاز!';
+                    // } else {
+                    //   controller.selectedInstagramIdError.value = '';
+                    // }
                     controller.selectedInstagramId.value = value;
                   },
                 ),

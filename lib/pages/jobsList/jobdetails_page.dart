@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
+import 'package:dio/dio.dart';
 import 'package:expandable_fab_menu/expandable_fab_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/services/image_viewer.dart';
 import 'package:sarkargar/controllers/job_details_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
@@ -24,6 +26,7 @@ class JobDetails extends StatefulWidget {
 class _JobDetailsState extends State<JobDetails> {
   UiDesign uiDesign = UiDesign();
   final controller = Get.put(JobDetailsController());
+  final database = AppDataBase();
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +47,14 @@ class _JobDetailsState extends State<JobDetails> {
     controller.wprice.value = ad['wprice'];
     controller.descs.value = ad['descs'];
     controller.time.value = ad['time'];
+    controller.instagramid.value = ad['instagramid'];
 
     controller.phonebool.value = ad['phonebool'] == '0' ? false : true;
     controller.chatbool.value = ad['chatbool'] == '0' ? false : true;
     controller.photobool.value = ad['photobool'] == '0' ? false : true;
     controller.locationbool.value = ad['locationbool'] == '0' ? false : true;
     controller.instagrambool.value = ad['instagrambool'] == '0' ? false : true;
+    getAdvertizer();
 
     return MaterialApp(
       theme: uiDesign.cTheme(),
@@ -218,59 +223,13 @@ class _JobDetailsState extends State<JobDetails> {
       animatedIcon: AnimatedIcons.menu_close,
       marginRight: 30,
       marginLeft: 20,
-      onOpen: () => debugPrint('OPENING DIAL'),
+      onOpen: () => initialContact(),
       onClose: () => debugPrint('DIAL CLOSED'),
       scrollVisible: true, //bool
       overlayColor: Colors.black,
       overlayOpacity: 0.5,
       onPress: () {},
-      children: [
-        ExpandableFabMenuItem(
-          child: const Icon(Iconsax.instagram, color: Colors.white),
-          title: "اینستاگرام",
-          titleColor: Colors.white,
-          subtitle: 'به صفحه اینستاگرام این آگهی بروید.',
-          subTitleColor: Colors.white,
-          backgroundColor: Colors.redAccent,
-          onTap: () => debugPrint('FIRST CHILD'),
-        ),
-        ExpandableFabMenuItem(
-          child: const Icon(FontAwesomeIcons.whatsapp, color: Colors.white),
-          title: "واتس اپ",
-          titleColor: Colors.white,
-          subtitle: "در واتس اپ پیام ارسال کنید.",
-          subTitleColor: Colors.white,
-          backgroundColor: Colors.green,
-          onTap: () => debugPrint('SECOND CHILD'),
-        ),
-        ExpandableFabMenuItem(
-          child: const Icon(Iconsax.sms, color: Colors.white),
-          title: 'پیامک',
-          titleColor: Colors.white,
-          subtitle: 'برای آگهی دهنده پیامک ارسال کنید.',
-          subTitleColor: Colors.white,
-          backgroundColor: Colors.orangeAccent,
-          onTap: () => debugPrint('THIRD CHILD'),
-        ),
-        ExpandableFabMenuItem(
-          child: const Icon(Iconsax.call, color: Colors.white),
-          title: "تماس تلفنی",
-          titleColor: Colors.white,
-          subtitle: "مستقیما با آگهی دهنده تماس بگیرید.",
-          subTitleColor: Colors.white,
-          backgroundColor: Colors.blue,
-          onTap: () => debugPrint('THIRD CHILD'),
-        ),
-        ExpandableFabMenuItem(
-          child: const Icon(Iconsax.sms_tracking, color: Colors.white),
-          title: "چت",
-          titleColor: Colors.white,
-          subtitle: "یک گفتگوی درون برنامه ای شروع کنید.",
-          subTitleColor: Colors.white,
-          backgroundColor: Colors.indigo,
-          onTap: () => debugPrint('FOURTH CHILD'),
-        )
-      ],
+      children: controller.contact,
       child: const Icon(Iconsax.add),
     );
   }
@@ -308,15 +267,16 @@ class _JobDetailsState extends State<JobDetails> {
     await launchUrl(launchUri);
   }
 
-  // getAdvertizer() async {
-  //   var user = await dataBase.getUserDetailsById(
-  //       userId: int.parse(widget.advertizerId));
-  //   setState(() {
-  //     advertizer = '${user[0]['name']} ${user[0]['family']}';
-  //     advertizerNumber = user[0]['number'];
-  //   });
-  //   print(advertizerNumber);
-  // }
+  Future<void> _launchInstagram(String instagramID) async {
+    await launch("https://www.instagram.com/$instagramID/",
+        universalLinksOnly: true);
+  }
+
+  getAdvertizer() async {
+    var user = await database.getUserDetailsById(
+        userId: int.parse(controller.advertizer.value));
+    controller.advertizerNumber.value = user[0]['number'];
+  }
 
   String digi(String number) {
     String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
@@ -326,12 +286,46 @@ class _JobDetailsState extends State<JobDetails> {
   mapImg() async {
     Uri url = Uri.parse(
         'https://map.ir/static?width=700&height=500&markers=color:red|label:a|51.394912,35.72164&zoom_level=17&x-api-key=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImYwYjNkZmEzYmU0MTEyOGEzZGNlNDVkOWQ1OTU0MmU5NmVmYjZhMjMwZWM5MjUzNzRiZGZiNGY1MWIzNmM4ZTI2NTBkZWQ5ZWUxMmU3MjM0In0.eyJhdWQiOiIxODc5NSIsImp0aSI6ImYwYjNkZmEzYmU0MTEyOGEzZGNlNDVkOWQ1OTU0MmU5NmVmYjZhMjMwZWM5MjUzNzRiZGZiNGY1MWIzNmM4ZTI2NTBkZWQ5ZWUxMmU3MjM0IiwiaWF0IjoxNjU4MjU4NTQ5LCJuYmYiOjE2NTgyNTg1NDksImV4cCI6MTY2MDg1MDU0OSwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.Kd5dqFBrzvJmtkVL-LqRsDE3tHw4SSFGxc_dFs9v_4DRRkfaiKxcgSj6iRGjWtQcJTF7kikj6RS9NNI4MV5xBbqSjSiblKWfRXTqtAtoE9a_FJO7yt_DmcSpuUf99bbwSs99UPmOX945iMEFVbJSS-KyHfcQ8Q_G3XwymmD4hjxGvEsV32KzyeXUuUswzL9RwUFjtAn-ix-9-9DSRuSAEFk9MN2FP8_o3YvJ2m-7xJwFYy6nfn-K5_EncWpyJfbFWzkge5VS7XP1Mrnn8Jui9EgcSJsEzQjDt4jHN5_ZIVW63_Mq2kD3VlVrgqM97BrJlTaDQcICxaqt55O5eu9X9A');
-    var response = await http.get(url);
-    print(response.body);
+    await http.get(url);
   }
 
-  @override
-  void initState() {
-    super.initState();
+// این متد مقادیر تماس با آگهی دهند را تکمیل میکند
+  void initialContact() {
+    if (controller.contact.isEmpty) {
+      if (controller.phonebool.value) {
+        controller.contact.add(ExpandableFabMenuItem(
+          child: const Icon(Iconsax.call, color: Colors.white),
+          title: "تماس تلفنی",
+          titleColor: Colors.white,
+          subtitle: "مستقیما با آگهی دهنده تماس بگیرید.",
+          subTitleColor: Colors.white,
+          backgroundColor: Colors.blue,
+          onTap: () =>
+              _makePhoneCall(controller.advertizerNumber.value.toString()),
+        ));
+      }
+      if (controller.chatbool.value) {
+        controller.contact.add(ExpandableFabMenuItem(
+          child: const Icon(Iconsax.sms_tracking, color: Colors.white),
+          title: "چت",
+          titleColor: Colors.white,
+          subtitle: "یک گفتگوی درون برنامه ای شروع کنید.",
+          subTitleColor: Colors.white,
+          backgroundColor: Colors.indigo,
+          onTap: () => debugPrint('FOURTH CHILD'),
+        ));
+      }
+      if (controller.instagrambool.value) {
+        controller.contact.add(ExpandableFabMenuItem(
+          child: const Icon(Iconsax.instagram, color: Colors.white),
+          title: "اینستاگرام",
+          titleColor: Colors.white,
+          subtitle: 'به صفحه اینستاگرام این آگهی بروید.',
+          subTitleColor: Colors.white,
+          backgroundColor: Colors.redAccent,
+          onTap: () => _launchInstagram(controller.instagramid.value),
+        ));
+      }
+    }
   }
 }

@@ -88,7 +88,6 @@ class _SelectCategoryState extends State<SelectCategory> {
   @override
   void initState() {
     controller.getAllJobs();
-    controller.getJobTitles();
     super.initState();
   }
 }
