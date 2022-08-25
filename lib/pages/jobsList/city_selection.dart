@@ -10,12 +10,11 @@ import 'package:sarkargar/controllers/jobs_list_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GetLocation extends StatefulWidget {
   final bool isFirstTime;
-  GetLocation({Key? key, required this.isFirstTime}) : super(key: key);
+  const GetLocation({Key? key, required this.isFirstTime}) : super(key: key);
 
   @override
   State<GetLocation> createState() => _GetLocationState();
