@@ -1,0 +1,144 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:sarkargar/services/database.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+class RequestController extends GetxController {
+  //main request page
+  RxInt activeStep = 0.obs;
+  //title page
+//###################################################
+  RxInt adType = 1.obs;
+  RxString title = ''.obs;
+  RxString selectedCategory = ''.obs;
+  RxString selectedCity = ''.obs;
+  RxString descriptions = ''.obs;
+
+  RxList cities = [].obs;
+  RxList jobGroups = [].obs;
+  RxList jobs = [].obs;
+
+  //errors
+  RxString titleError = ''.obs;
+  RxString categoryError = ''.obs;
+  RxString cityError = ''.obs;
+  RxString descriptionsError = ''.obs;
+//workers count page
+//###################################################
+  RxInt switchEntekhabJensiyat = 0.obs;
+  RxInt switchHiringType = 0.obs;
+  RxBool maleVisibility = true.obs;
+  RxBool femaleVisibility = false.obs;
+  RxBool ghimatTavafoghiMardBL = false.obs;
+  RxBool ghimatTavafoghiZanBL = false.obs;
+  RxString ghimatPishnahadiMard = ''.obs;
+  RxString ghimatPishnahadiMardError = ''.obs;
+  RxString ghimatPishnahadiZan = ''.obs;
+  RxString ghimatPishnahadiZanError = ''.obs;
+  RxString tedadNafaratMard = ''.obs;
+  RxString tedadNafaratMardError = ''.obs;
+  RxString tedadNafaratZan = ''.obs;
+  RxString tedadNafaratZanError = ''.obs;
+//paid features page
+//###################################################
+
+  String apiKey =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImYwYjNkZmEzYmU0MTEyOGEzZGNlNDVkOWQ1OTU0MmU5NmVmYjZhMjMwZWM5MjUzNzRiZGZiNGY1MWIzNmM4ZTI2NTBkZWQ5ZWUxMmU3MjM0In0.eyJhdWQiOiIxODc5NSIsImp0aSI6ImYwYjNkZmEzYmU0MTEyOGEzZGNlNDVkOWQ1OTU0MmU5NmVmYjZhMjMwZWM5MjUzNzRiZGZiNGY1MWIzNmM4ZTI2NTBkZWQ5ZWUxMmU3MjM0IiwiaWF0IjoxNjU4MjU4NTQ5LCJuYmYiOjE2NTgyNTg1NDksImV4cCI6MTY2MDg1MDU0OSwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.Kd5dqFBrzvJmtkVL-LqRsDE3tHw4SSFGxc_dFs9v_4DRRkfaiKxcgSj6iRGjWtQcJTF7kikj6RS9NNI4MV5xBbqSjSiblKWfRXTqtAtoE9a_FJO7yt_DmcSpuUf99bbwSs99UPmOX945iMEFVbJSS-KyHfcQ8Q_G3XwymmD4hjxGvEsV32KzyeXUuUswzL9RwUFjtAn-ix-9-9DSRuSAEFk9MN2FP8_o3YvJ2m-7xJwFYy6nfn-K5_EncWpyJfbFWzkge5VS7XP1Mrnn8Jui9EgcSJsEzQjDt4jHN5_ZIVW63_Mq2kD3VlVrgqM97BrJlTaDQcICxaqt55O5eu9X9A';
+  RxString address = 'یک نقطه روی نقشه انتخاب کنید.'.obs;
+
+  RxDouble locationSelectionHeight = 0.0.obs;
+  RxDouble imageSelectionHeight = 0.0.obs;
+  RxDouble instagramIdSelectionHeight = 0.0.obs;
+  RxDouble initialLat = 35.7324556.obs;
+  RxDouble initialLon = 51.4229012.obs;
+
+  RxDouble selectedLat = 0.0.obs;
+  RxDouble selectedLon = 0.0.obs;
+  RxString selectedInstagramId = ''.obs;
+
+  RxBool locationSelectionBool = false.obs;
+  RxBool imageSelectionBool = false.obs;
+  RxList images = [].obs;
+
+  RxBool instagramIdSelectionBool = false.obs;
+  RxBool phoneBool = true.obs;
+  RxBool chatBool = false.obs;
+
+  AppDataBase database = AppDataBase();
+
+//دریافت دسته بندی مشاغل از دیتابیس
+  getJobTitles() async {
+    List response = await database.getJobGroups();
+    if (jobGroups.isEmpty) {
+      for (int i = 0; i < response.length; i++) {
+        jobGroups.add(response[i]);
+      }
+    }
+  }
+
+//دریافت مشاغل از دیتابیس
+  getAllJobs() async {
+    List response = await database.getJobs();
+    if (jobs.isEmpty) {
+      for (var i = 0; i < response.length; i++) {
+        jobs.add(response[i]);
+      }
+    }
+  }
+
+//دریافت وضعیت سویچ انتخاب موقعیت مکانی و آپدیت سایز ویجت
+  void locationSelectionState(bool boolean) {
+    locationSelectionBool.value = boolean;
+    if (boolean) {
+      locationSelectionHeight.value = 70.0;
+    } else {
+      locationSelectionHeight.value = 0.0;
+    }
+  }
+
+  void imageSelectionState(bool boolean) {
+    imageSelectionBool.value = boolean;
+    if (boolean) {
+      imageSelectionHeight.value = 210.0;
+    } else {
+      imageSelectionHeight.value = 0.0;
+    }
+  }
+
+  void instagramIdSelectionState(bool boolean) {
+    instagramIdSelectionBool.value = boolean;
+    if (boolean) {
+      instagramIdSelectionHeight.value = 100.0;
+    } else {
+      instagramIdSelectionHeight.value = 0.0;
+    }
+  }
+
+  void changeLocation(double lat, double lon) {
+    initialLat.value = lat;
+    initialLon.value = lon;
+    Get.snackbar('latitude', lat.toString());
+  }
+
+  Marker marker() {
+    return Marker(
+      point: LatLng(initialLat.value, initialLon.value),
+      builder: (markerController) => const Icon(Icons.location_pin),
+    );
+  }
+
+  getAddressUsingLatLon(double lat, double lon) async {
+    var url = Uri.parse('https://map.ir/fast-reverse?lat=$lat&lon=$lon');
+    var response = await http.get(url, headers: {'x-api-key': apiKey});
+    var decodedResponse =
+        convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+    address.value = decodedResponse['address_compact'];
+  }
+
+  MarkerLayerOptions markerLayerOptions() {
+    return MarkerLayerOptions();
+  }
+}

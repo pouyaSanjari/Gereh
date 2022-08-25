@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "440707374360",
+    "project_id": "sar-kargar",
+    "storage_bucket": "sar-kargar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440707374360:android:a7baeaa964e8bcfe11526d",
+        "android_client_info": {
+          "package_name": "com.pouyasoft.sarkargar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440707374360-cclkntetggl8rnmkgtabi5tltt7po5dg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnBHObI32G7nWJJidiRFPBIKPppzexfa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440707374360-cclkntetggl8rnmkgtabi5tltt7po5dg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

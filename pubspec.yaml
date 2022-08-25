@@ -1,0 +1,82 @@
+name: sarkargar
+description: اولین اپلیکیشن استخدام کارگر روزمزد در ایران
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.1 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  http: ^0.13.4
+  cupertino_icons: ^1.0.2
+  fluttertoast: ^8.0.9
+  dio: ^4.0.6
+  mysql1: ^0.20.0
+  font_awesome_flutter: ^10.1.0
+  shared_preferences: ^2.0.15
+  digit_to_persian_word: ^2.0.0
+  im_stepper: ^1.0.1+1
+  lottie: ^1.3.0
+  flutter_native_splash: ^2.2.4
+  dropdown_search: 3.0.1
+  restart_app: ^1.1.0
+  iconsax: ^0.0.8
+  geolocator: ^9.0.1
+  flutter_svg: ^1.1.1+1
+  url_launcher: ^6.1.5
+  image_picker: ^0.8.5+3
+  socket_io_client: ^2.0.0-beta.4-nullsafety.0
+  intl: ^0.17.0
+  sqflite:
+  bloc: ^8.0.3
+  flutter_bloc: ^8.0.1
+  equatable: ^2.0.3
+  octo_image: ^1.0.2
+  cached_network_image: ^3.2.1
+  toggle_switch: ^2.0.1
+  flutter_switch: ^0.3.2
+  mapir_raster: ^0.0.1
+  flutter_map: ^0.14.0
+  latlong2: ^0.8.1
+  get: ^4.6.5
+  flutter_map_marker_cluster: ^0.4.4
+  syncfusion_flutter_maps: ^20.2.43
+  expandable: ^5.0.1
+  function_tree: ^0.8.13
+  drop_shadow_image: ^0.9.0
+  photo_view: ^0.14.0
+  get_storage: ^2.0.3
+  expandable_fab_menu: ^0.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+  glassmorphism: ^3.0.0
+
+
+flutter_native_splash:
+  color: "#ffffff"
+  android: true
+  ios: true
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - images/
+    - assets/lottie/
+    - assets/SVG/
+
+  fonts:
+    - family: sans
+      fonts:
+        - asset: assets/fonts/samim.ttf
+
