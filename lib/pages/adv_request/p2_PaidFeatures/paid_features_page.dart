@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import '../../../controllers/request_controller.dart';
-import 'get_location_page.dart';
+import 'map.dart';
 
 class PaidFeatures extends StatefulWidget {
   const PaidFeatures({Key? key}) : super(key: key);
@@ -288,9 +288,9 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 child: Column(
                   children: [
                     uiDesign.cRawMaterialButton(
-                      fillColor: Colors.blueGrey,
+                      fillColor: uiDesign.mainColor(),
                       text: '   انتخاب موقعیت از روی نقشه   ',
-                      onClick: () => Get.to(() => const GetLocationPage())
+                      onClick: () => Get.to(() => const MapPage())
                           ?.then((value) => address = value[0]),
                     ),
                     Obx(() => Text(controller.address.value)),

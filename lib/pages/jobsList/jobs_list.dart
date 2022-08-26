@@ -5,12 +5,11 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/pages/jobsList/filter_screen.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
+import 'package:sarkargar/services/select_city.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'city_selection.dart';
 
 class JobsList extends StatefulWidget {
   const JobsList({Key? key}) : super(key: key);
@@ -37,7 +36,13 @@ class _JobsListState extends State<JobsList> {
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: appBar(),
-            body: buildFutureBuilder()),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Obx(() => Row(children: controller.chips.values.toList())),
+                Expanded(child: buildFutureBuilder()),
+              ],
+            )),
       ),
     );
   }
@@ -57,8 +62,9 @@ class _JobsListState extends State<JobsList> {
       titleSpacing: 0,
       actions: [
         IconButton(
-            onPressed: () {
-              Get.to(() => GetLocation(isFirstTime: false));
+            onPressed: () async {
+              await Get.to(() => const SelectCity())!
+                  .then((value) => controller.city.value = value);
             },
             // ignore: prefer_const_constructors
             icon: Icon(
@@ -70,24 +76,22 @@ class _JobsListState extends State<JobsList> {
       elevation: 0,
       backgroundColor: Colors.grey[50],
       title: uiDesign.cTextField(
-        suffix: InkWell(
-          onTap: () {
-            searchTC.clear();
-          },
-          child: const Icon(
-            Iconsax.close_circle,
-            color: Colors.black,
-            size: 25,
-          ),
-        ),
+        onSubmit: (value) {
+          searchMethod(value);
+          searchTC.clear();
+          controller.addSearchFilterChip(
+            chipText: value.toString(),
+            onDeleted: () {
+              searchTC.clear();
+              searchMethod('');
+              controller.chips.remove('search');
+            },
+          );
+        },
         textInputAction: TextInputAction.search,
-        onSubmit: (value) {},
         icon: const Icon(Iconsax.search_normal_1),
         labeltext: 'جستجو',
         control: searchTC,
-        onChange: (value) {
-          searchMethod(value);
-        },
       ),
     );
   }
@@ -358,6 +362,11 @@ class _JobsListState extends State<JobsList> {
         },
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
 //0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

@@ -80,6 +80,7 @@ class _MainRequestPageState extends State<MainRequestPage>
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: uiDesign.cRawMaterialButton(
+              fillColor: uiDesign.mainColor(),
               text: 'ادامه...',
               onClick: () {
                 if (controller.title.trim().isEmpty) {
@@ -110,7 +111,7 @@ class _MainRequestPageState extends State<MainRequestPage>
               backBTN(),
               uiDesign.cRawMaterialButton(
                 text: 'ادامه',
-                fillColor: Colors.black,
+                fillColor: uiDesign.mainColor(),
                 icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () {
                   switch (controller.switchEntekhabJensiyat.value) {
@@ -188,7 +189,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 text: 'بازگشت',
               ),
               uiDesign.cRawMaterialButton(
-                fillColor: Colors.black,
+                fillColor: uiDesign.mainColor(),
                 icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () => controller.activeStep.value++,
                 text: 'ادامه',
@@ -350,12 +351,13 @@ class _MainRequestPageState extends State<MainRequestPage>
     return IconStepper(
       enableStepTapping: false,
       stepReachedAnimationEffect: Curves.easeOutBack,
-      stepRadius: 15,
-      activeStepColor: Colors.transparent,
+      stepRadius: 18,
+      activeStepColor: uiDesign.mainColor(),
       stepColor: Colors.transparent,
       enableNextPreviousButtons: false,
-      lineColor: Colors.blueGrey,
-      activeStepBorderColor: Colors.blueGrey,
+      activeStepBorderPadding: 0,
+      lineColor: uiDesign.thirdColor(),
+      activeStepBorderColor: uiDesign.mainColor(),
       activeStep: controller.activeStep.value,
       lineLength: 100,
       onStepReached: (index) {
@@ -363,20 +365,30 @@ class _MainRequestPageState extends State<MainRequestPage>
           controller.activeStep.value = index;
         });
       },
-      icons: const [
+      icons: [
         ///کارت چیه؟
-        Icon(Iconsax.message_question),
+        Icon(
+          Iconsax.message_question,
+          color: controller.activeStep.value == 0 ? Colors.white : Colors.black,
+        ),
 
         ///چند نفر میخوای؟
         Icon(
           Iconsax.people,
+          color: controller.activeStep.value == 1 ? Colors.white : Colors.black,
         ),
 
         ///چقد مایه داری؟
-        Icon(Iconsax.dollar_circle),
+        Icon(
+          Iconsax.dollar_circle,
+          color: controller.activeStep.value == 2 ? Colors.white : Colors.black,
+        ),
 
         ///ثبت درخواست
-        Icon(Iconsax.tick_square)
+        Icon(
+          Iconsax.tick_square,
+          color: controller.activeStep.value == 3 ? Colors.white : Colors.black,
+        )
       ],
     );
   }
@@ -385,7 +397,7 @@ class _MainRequestPageState extends State<MainRequestPage>
   Widget header() {
     return Container(
       padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(color: Colors.black87),
+      decoration: BoxDecoration(color: uiDesign.thirdColor()),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

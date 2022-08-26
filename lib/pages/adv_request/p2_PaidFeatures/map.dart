@@ -15,6 +15,7 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final getController = Get.put(RequestController());
+  final uiDesign = UiDesign();
   String mapAddress =
       'https://map.ir/shiveh/xyz/1.0.0/Shiveh:Shiveh@EPSG:3857@png/{z}/{x}/{y}.png?x-api-key=';
   String apiKey =
@@ -42,12 +43,15 @@ class _MapPageState extends State<MapPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () => Get.back(result: [getController.address.value]),
-          backgroundColor: Colors.grey[50],
-          child:
-              const Icon(FontAwesomeIcons.check, size: 35, color: Colors.green),
+          backgroundColor: uiDesign.secounadryColor(),
+          child: const Icon(
+            FontAwesomeIcons.check,
+            size: 30,
+          ),
         ),
         appBar: AppBar(
           title: const Text('انتخاب موقعیت مکانی'),
+          backgroundColor: uiDesign.thirdColor(),
           centerTitle: true,
         ),
         // To obtain the maps local point, we have added a gesture
@@ -79,17 +83,18 @@ class _MapPageState extends State<MapPage> {
                 ),
               ),
             ),
-            Obx(() => SizedBox(
-                  height: 73,
+            Obx(() => Container(
+                  color: uiDesign.mainColor(),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text('آدرس:', style: UiDesign().titleTextStyle()),
                         Text(
                           getController.address.value,
-                          style: UiDesign().descriptionsTextStyle(),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),

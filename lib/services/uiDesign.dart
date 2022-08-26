@@ -49,24 +49,26 @@ class UiDesign {
   ///تم نرمافزار
   ThemeData cTheme() {
     return ThemeData(
-        cardTheme: const CardTheme(
-            clipBehavior: Clip.antiAlias,
-            margin: EdgeInsets.all(0),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20)))),
-        fontFamily: 'sans',
-        appBarTheme: const AppBarTheme(
-            titleTextStyle: TextStyle(
-              fontFamily: 'sans',
-              color: Colors.black,
-              fontSize: 20,
-            ),
-            backgroundColor: Color.fromARGB(255, 250, 250, 250)),
-        colorScheme: ThemeData().colorScheme.copyWith(
-              primary: Colors.black,
-              secondary: Colors.black,
-            ));
+      cardTheme: const CardTheme(
+          clipBehavior: Clip.antiAlias,
+          margin: EdgeInsets.all(0),
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)))),
+      fontFamily: 'sans',
+      appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'sans',
+            color: Colors.black,
+            fontSize: 20,
+          ),
+          backgroundColor: Color.fromARGB(255, 250, 250, 250)),
+      colorScheme: ThemeData().colorScheme.copyWith(
+            primary: mainColor(),
+            secondary: const Color(0xff8bd3c7),
+            error: mainColor(),
+          ),
+    );
   }
 
   ///دکمه های سفارشی
@@ -140,11 +142,14 @@ class UiDesign {
         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
         suffixIcon: control.text.isEmpty ? null : suffix,
         counterText: '',
-        focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: mainColor()),
+            borderRadius: const BorderRadius.all(Radius.circular(30))),
         enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        disabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.all(Radius.circular(10))),
         hintText: hint,
         prefixIcon: icon,
@@ -300,9 +305,9 @@ class UiDesign {
     return BottomNavigationBar(
       selectedFontSize: 15,
       unselectedFontSize: 11,
-      selectedItemColor: Colors.black,
+      selectedItemColor: mainColor(),
       unselectedItemColor: const Color.fromARGB(255, 184, 184, 184),
-      selectedIconTheme: const IconThemeData(color: Colors.black),
+      selectedIconTheme: IconThemeData(color: mainColor()),
       onTap: onTap,
       currentIndex: currentIndex,
       type: BottomNavigationBarType.fixed,
@@ -332,7 +337,7 @@ class UiDesign {
   FlutterSwitch cSwitch(bool val, ValueChanged<bool> onChange) {
     return FlutterSwitch(
         padding: 2,
-        activeColor: Colors.green,
+        activeColor: secounadryColor(),
         height: 28,
         width: 55,
         value: val,
@@ -385,6 +390,10 @@ class UiDesign {
     String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
     return digit;
   }
+
+  Color mainColor() => const Color.fromARGB(255, 250, 113, 95);
+  Color secounadryColor() => const Color.fromARGB(255, 81, 194, 96);
+  Color thirdColor() => const Color(0xff7eb0d5);
 
   TextStyle titleTextStyle() => const TextStyle(fontSize: 20);
   TextStyle descriptionsTextStyle() =>

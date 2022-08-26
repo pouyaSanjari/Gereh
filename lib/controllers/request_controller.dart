@@ -13,6 +13,7 @@ class RequestController extends GetxController {
   RxString selectedCategory = ''.obs;
   RxString selectedCity = ''.obs;
   RxString descriptions = ''.obs;
+  RxString city = ''.obs;
 
   RxList cities = [].obs;
   RxList jobGroups = [].obs;
