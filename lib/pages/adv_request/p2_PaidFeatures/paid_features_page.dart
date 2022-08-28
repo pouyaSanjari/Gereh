@@ -282,9 +282,8 @@ class _PaidFeaturesState extends State<PaidFeatures> {
             () => AnimatedSize(
               duration: const Duration(milliseconds: 300),
               curve: Curves.linear,
-              child: AnimatedContainer(
+              child: SizedBox(
                 height: controller.locationSelectionHeight.value,
-                duration: const Duration(milliseconds: 300),
                 child: Column(
                   children: [
                     uiDesign.cRawMaterialButton(
@@ -313,39 +312,35 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                     'کابران به راحتی می توانند صفحه اینستاگرام شما را مشاهده کنند.'),
           ),
           Obx(
-            () => AnimatedContainer(
-              height: controller.instagramIdSelectionHeight.value,
+            () => AnimatedOpacity(
+              opacity: controller.instagramIdSelectionOpacity.value,
               duration: const Duration(milliseconds: 500),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: uiDesign.cTextField(
-                  length: 30,
-                  hint: 'بدون @',
-                  error: controller.selectedInstagramIdError.value == ''
-                      ? null
-                      : controller.selectedInstagramIdError.value,
-                  icon: Icon(Iconsax.location,
-                      size: controller.instagramIdSelectionHeight.value / 3),
-                  labeltext: 'آیدی اینستاگرام خود را وارد کنید.',
-                  control: instagramController,
-                  onSubmit: (value) => print(value),
-                  onChange: (value) {
-                    if (instagramController.text
-                        .contains(RegExp(r'[@#$&-+()?!;:*+%-]'))) {
-                      controller.selectedInstagramIdError.value =
-                          'کاراکتر غیر مجاز!';
-                    } else {
-                      controller.selectedInstagramIdError.value = '';
-                    }
-
-                    // if (instagramController.text.contains(' ')) {
-                    //   controller.selectedInstagramIdError.value =
-                    //       'کاراکتر غیر مجاز!';
-                    // } else {
-                    //   controller.selectedInstagramIdError.value = '';
-                    // }
-                    controller.selectedInstagramId.value = value;
-                  },
+              child: AnimatedContainer(
+                height: controller.instagramIdSelectionHeight.value,
+                duration: const Duration(milliseconds: 500),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: uiDesign.cTextField(
+                    length: 30,
+                    hint: 'بدون @',
+                    error: controller.selectedInstagramIdError.value == ''
+                        ? null
+                        : controller.selectedInstagramIdError.value,
+                    icon: Icon(Iconsax.instagram,
+                        size: controller.instagramIdSelectionHeight.value / 4),
+                    labeltext: 'آیدی اینستاگرام خود را وارد کنید.',
+                    control: instagramController,
+                    onChange: (value) {
+                      if (instagramController.text
+                          .contains(RegExp(r'[@#$&-+()?!;:*+%-]'))) {
+                        controller.selectedInstagramIdError.value =
+                            'کاراکتر غیر مجاز!';
+                      } else {
+                        controller.selectedInstagramIdError.value = '';
+                      }
+                      controller.selectedInstagramId.value = value;
+                    },
+                  ),
                 ),
               ),
             ),

@@ -128,13 +128,12 @@ class _FilterScreenState extends State<FilterScreen> {
                         backgroundColor: Colors.green,
                         onPressed: () {
                           // printInfo(info: controller.jobsList.value.toString());
-                          var filterdList =
-                              controller.jobsList.where((element) {
-                            return element['category'] == job;
-                          }).toList();
+
                           job.isEmpty
                               ? Get.back()
-                              : Get.back(result: filterdList);
+                              : Get.back(
+                                  result: sharedPreferences
+                                      .get('selectedJobFilter'));
                         },
                         child: const Icon(Iconsax.clipboard_export, size: 30),
                       )

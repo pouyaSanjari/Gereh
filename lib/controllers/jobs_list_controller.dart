@@ -7,7 +7,11 @@ import 'package:sarkargar/services/uiDesign.dart';
 import '../services/select_city.dart';
 
 class JobsListController extends GetxController {
+  final box = GetStorage();
   RxList jobsList = [].obs;
+  RxList searchedList = [].obs;
+
+  RxList searches = [].obs;
   RxList jobsImages = [].obs;
   RxList<String> citiesList = <String>[].obs;
   RxList<String> provienceList = <String>[].obs;
@@ -23,8 +27,10 @@ class JobsListController extends GetxController {
   void initialChip() {
     chips.addAll({
       'city': InkWell(
-        onTap: () => Get.to(() => const SelectCity())!
-            .then((value) => city.value = value),
+        onTap: () => Get.to(() => const SelectCity())!.then((value) {
+          box.write('city', value);
+          return city.value = value;
+        }),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Chip(
@@ -96,7 +102,7 @@ class JobsListController extends GetxController {
   }
 
   void initialData() async {
-    final box = GetStorage();
+    // final box = GetStorage();
     cityNamesEnabled.value = box.read('cityNamesEnabled') ?? false;
     city.value = box.read('city') ?? '';
     provience.value = box.read('provience') ?? '';

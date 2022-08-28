@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/pages/jobsList/filter_screen.dart';
@@ -20,6 +21,7 @@ class JobsList extends StatefulWidget {
 
 class _JobsListState extends State<JobsList> {
   final controller = Get.put(JobsListController());
+  final box = GetStorage();
   late SharedPreferences sharedPreferences;
   List snap = [];
   UiDesign uiDesign = UiDesign();
@@ -34,15 +36,16 @@ class _JobsListState extends State<JobsList> {
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: appBar(),
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(() => Row(children: controller.chips.values.toList())),
-                Expanded(child: buildFutureBuilder()),
-              ],
-            )),
+          resizeToAvoidBottomInset: false,
+          appBar: appBar(),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Obx(() => Row(children: controller.chips.values.toList())),
+              Expanded(child: buildFutureBuilder()),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -51,6 +54,8 @@ class _JobsListState extends State<JobsList> {
 
   AppBar appBar() {
     return AppBar(
+      actions: const [SizedBox(width: 15)],
+      leadingWidth: 45,
       leading: IconButton(
           onPressed: () {
             getFilters();
@@ -60,30 +65,19 @@ class _JobsListState extends State<JobsList> {
             color: Colors.black,
           )),
       titleSpacing: 0,
-      actions: [
-        IconButton(
-            onPressed: () async {
-              await Get.to(() => const SelectCity())!
-                  .then((value) => controller.city.value = value);
-            },
-            // ignore: prefer_const_constructors
-            icon: Icon(
-              size: 25,
-              Iconsax.map_1,
-              color: Colors.black,
-            )),
-      ],
       elevation: 0,
       backgroundColor: Colors.grey[50],
       title: uiDesign.cTextField(
         onSubmit: (value) {
-          searchMethod(value);
+          controller.searches.add(value);
+          searchMethod();
           searchTC.clear();
           controller.addSearchFilterChip(
             chipText: value.toString(),
             onDeleted: () {
               searchTC.clear();
-              searchMethod('');
+              controller.searches.removeWhere((element) => element == value);
+              searchMethod();
               controller.chips.remove('search');
             },
           );
@@ -141,6 +135,7 @@ class _JobsListState extends State<JobsList> {
           return Obx(
             () => RefreshIndicator(
               onRefresh: () async {
+                controller.chips.removeWhere((key, value) => key == 'search');
                 snap = await dataBase.getAds(
                     query:
                         "SELECT * FROM `requests` WHERE `city` = '${controller.city.value}'");
@@ -151,42 +146,90 @@ class _JobsListState extends State<JobsList> {
               },
               child: ListView.separated(
                 physics: const BouncingScrollPhysics(),
-                itemCount: controller.jobsList.length,
+                itemCount: controller.searchedList.isEmpty
+                    ? controller.jobsList.length
+                    : controller.searchedList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  var category = controller.jobsList[index]['category'];
-                  var adtype = controller.jobsList[index]['adtype'] == '0'
-                      ? 'استخدام'
-                      : 'تبلیغ';
-                  Color adTypeBgColor =
-                      controller.jobsList[index]['adtype'] == '0'
-                          ? const Color(0xff888d79)
-                          : const Color.fromARGB(255, 92, 139, 184);
+                  var category = '';
+                  var adtype = '';
+                  Color adTypeBgColor = const Color(0xff888d79);
+                  bool instagrambool = false;
+                  bool phonebool = false;
+                  bool chatbool = false;
+                  bool locationbool = false;
+                  List itemImage = [];
+                  var address = '';
+                  var title = '';
+                  if (controller.searchedList.isEmpty) {
+                    category = controller.jobsList[index]['category'];
+                    adtype = controller.jobsList[index]['adtype'] == '0'
+                        ? 'استخدام'
+                        : 'تبلیغ';
+                    adTypeBgColor = controller.jobsList[index]['adtype'] == '0'
+                        ? const Color(0xff888d79)
+                        : const Color.fromARGB(255, 92, 139, 184);
 
-                  bool instagrambool =
-                      controller.jobsList[index]['instagrambool'] == '0'
-                          ? false
-                          : true;
-                  bool phonebool =
-                      controller.jobsList[index]['phonebool'] == '0'
-                          ? false
-                          : true;
-                  bool chatbool = controller.jobsList[index]['chatbool'] == '0'
-                      ? false
-                      : true;
-                  bool locationbool =
-                      controller.jobsList[index]['locationbool'] == '0'
-                          ? false
-                          : true;
+                    instagrambool =
+                        controller.jobsList[index]['instagrambool'] == '0'
+                            ? false
+                            : true;
+                    phonebool = controller.jobsList[index]['phonebool'] == '0'
+                        ? false
+                        : true;
+                    chatbool = controller.jobsList[index]['chatbool'] == '0'
+                        ? false
+                        : true;
+                    locationbool =
+                        controller.jobsList[index]['locationbool'] == '0'
+                            ? false
+                            : true;
 
-                  var itemImage = controller.jobsImages
-                      .where((element) =>
-                          element['adId'] == controller.jobsList[index]['id'])
-                      .toList();
+                    itemImage = controller.jobsImages
+                        .where((element) =>
+                            element['adId'] == controller.jobsList[index]['id'])
+                        .toList();
 
-                  var address = controller.jobsList[index]['address'] == ''
-                      ? controller.jobsList[index]['city']
-                      : controller.jobsList[index]['address'];
-                  var title = controller.jobsList[index]['title'];
+                    address = controller.jobsList[index]['address'] == ''
+                        ? controller.jobsList[index]['city']
+                        : controller.jobsList[index]['address'];
+                    title = controller.jobsList[index]['title'];
+                  } else {
+                    category = controller.searchedList[index]['category'];
+                    adtype = controller.searchedList[index]['adtype'] == '0'
+                        ? 'استخدام'
+                        : 'تبلیغ';
+                    adTypeBgColor =
+                        controller.searchedList[index]['adtype'] == '0'
+                            ? const Color(0xff888d79)
+                            : const Color.fromARGB(255, 92, 139, 184);
+
+                    instagrambool =
+                        controller.searchedList[index]['instagrambool'] == '0'
+                            ? false
+                            : true;
+                    phonebool =
+                        controller.searchedList[index]['phonebool'] == '0'
+                            ? false
+                            : true;
+                    chatbool = controller.searchedList[index]['chatbool'] == '0'
+                        ? false
+                        : true;
+                    locationbool =
+                        controller.searchedList[index]['locationbool'] == '0'
+                            ? false
+                            : true;
+
+                    itemImage = controller.jobsImages
+                        .where((element) =>
+                            element['adId'] ==
+                            controller.searchedList[index]['id'])
+                        .toList();
+
+                    address = controller.searchedList[index]['address'] == ''
+                        ? controller.searchedList[index]['city']
+                        : controller.searchedList[index]['address'];
+                    title = controller.searchedList[index]['title'];
+                  }
                   return ListTile(
                     onTap: () {
                       Get.to(
@@ -364,17 +407,34 @@ class _JobsListState extends State<JobsList> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
 //0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
   void getFilters() async {
     await Get.to(() => const FilterScreen())?.then((value) {
       if (value != null) {
-        controller.jobsList.value = value;
+        print(value);
+        controller.searches.add(value);
+        searchMethod();
+        controller.chips.addAll({
+          'filter': Chip(
+            label: Text(
+              value,
+              style: const TextStyle(color: Colors.white),
+            ),
+            avatar: const Icon(
+              Iconsax.filter5,
+              size: 20,
+              color: Colors.white,
+            ),
+            backgroundColor: uiDesign.mainColor(),
+            deleteIcon: const Icon(Icons.close_rounded, color: Colors.white),
+            onDeleted: () {
+              controller.chips.removeWhere((key, value) => key == 'filter');
+              controller.searches.removeWhere((element) => element == value);
+              searchMethod();
+            },
+          ),
+        });
       } else {
         setState(() {
           snap;
@@ -383,16 +443,16 @@ class _JobsListState extends State<JobsList> {
     });
   }
 
-  void searchMethod(String val) {
-    if (val.isNotEmpty) {
-      controller.jobsList.value = controller.jobsList.where((element) {
-        var elementAsString = element.toString();
-        return elementAsString.contains(val);
-      }).toList();
+  void searchMethod() {
+    if (controller.searches.isNotEmpty) {
+      for (var element in controller.searches) {
+        controller.searchedList.value = controller.jobsList.where((p0) {
+          var elementAsString = p0.toString();
+          return elementAsString.contains(element);
+        }).toList();
+      }
     } else {
-      setState(() {
-        snap;
-      });
+      controller.searchedList.clear();
     }
   }
 }

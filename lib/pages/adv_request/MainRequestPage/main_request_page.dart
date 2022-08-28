@@ -333,7 +333,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                   ),
                   onPressed: () {
                     setState(() {
-                      // controller.activeStep.value = 0;
+                      controller.activeStep.value = 0;
                     });
                     Navigator.of(dialogContext).pop(); // Dismiss alert dialog
                   },

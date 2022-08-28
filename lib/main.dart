@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sarkargar/services/select_city.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:sarkargar/pages/jobsList/city_selection.dart';
 import 'package:sarkargar/pages/generalPages/login.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 
@@ -34,9 +34,7 @@ class _MyAppState extends State<MyApp> {
   StatefulWidget buildPage() {
     if (box.read('id') != null || box.read('id') != '') {
       if (box.read('city') == null || box.read('city') == '') {
-        return GetLocation(
-          isFirstTime: true,
-        );
+        return const SelectCity();
       } else {
         return const MainPage();
       }

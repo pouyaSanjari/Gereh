@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/pages/jobsList/city_selection.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
+import 'package:sarkargar/services/select_city.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/uiDesign.dart';
@@ -120,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              GetLocation(isFirstTime: true),
+                                              const SelectCity(),
                                         ),
                                         (route) => false);
                                   } else {

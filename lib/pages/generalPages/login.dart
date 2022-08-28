@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sarkargar/services/select_city.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:sarkargar/pages/jobsList/city_selection.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/pages/generalPages/signup.dart';
 import 'package:sarkargar/services/database.dart';
@@ -182,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
             } else {
               Fluttertoast.showToast(msg: 'با موفقیت وارد شدید');
               if (box.read('city') == null || box.read('city') == '') {
-                Get.off(GetLocation(isFirstTime: true));
+                Get.off(const SelectCity());
               } else {
                 Get.off(const MainPage());
               }

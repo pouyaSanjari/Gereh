@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -28,7 +29,6 @@ class _SelectCityState extends State<SelectCity> {
   List<Widget> item = [];
   List title = [];
   List<String> searched = [];
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -37,7 +37,13 @@ class _SelectCityState extends State<SelectCity> {
         resizeToAvoidBottomInset: false,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.back(result: controller.selectedCity.value);
+            if (controller.selectedCity.isEmpty ||
+                controller.selectedCity.value == 'یک شهر انتخاب کنید.' ||
+                controller.selectedCity.value == 'لطفا صبر کنید...') {
+              Fluttertoast.showToast(msg: 'یک شهر انتخاب کنید.');
+            } else {
+              Get.back(result: controller.selectedCity.value);
+            }
           },
           backgroundColor: uiDesign.secounadryColor(),
           child: const Icon(
@@ -64,14 +70,16 @@ class _SelectCityState extends State<SelectCity> {
         body: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                const SizedBox(width: 15),
                 const Icon(Iconsax.building_3),
                 const SizedBox(width: 10),
                 Obx(
                   () => Text(
                     controller.selectedCity.value,
-                    style: UiDesign().titleTextStyle(),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
               ],
@@ -80,6 +88,7 @@ class _SelectCityState extends State<SelectCity> {
               child: Obx(
                 () => searchTEC.text.isEmpty
                     ? ListView.builder(
+                        physics: const BouncingScrollPhysics(),
                         itemCount: controller.cities
                             .where((p0) => p0['parent'] == '0')
                             .toList()
@@ -91,7 +100,7 @@ class _SelectCityState extends State<SelectCity> {
                           item = cities(ostan[index]['id']);
                           return ExpansionTile(
                             title: Text(title[index]['title']),
-                            childrenPadding: EdgeInsets.only(right: 20),
+                            childrenPadding: const EdgeInsets.only(right: 20),
                             children: item,
                           );
                         },
@@ -120,6 +129,7 @@ class _SelectCityState extends State<SelectCity> {
                     backgroundColor:
                         MaterialStateProperty.all(uiDesign.mainColor())),
                 onPressed: () {
+                  controller.selectedCity.value = 'لطفا صبر کنید...';
                   getCityNameByLocation();
                 },
                 icon: const Icon(
@@ -244,6 +254,7 @@ class _SelectCityState extends State<SelectCity> {
 
   @override
   void initState() {
+    controller.selectedCity.value = 'یک شهر انتخاب کنید.';
     getCitiesList();
     super.initState();
   }

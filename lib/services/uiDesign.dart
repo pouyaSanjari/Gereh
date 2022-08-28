@@ -145,9 +145,9 @@ class UiDesign {
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: mainColor()),
             borderRadius: const BorderRadius.all(Radius.circular(30))),
-        enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: thirdColor()),
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
         disabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -191,9 +191,9 @@ class UiDesign {
         focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
             borderRadius: BorderRadius.all(Radius.circular(30))),
-        enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: thirdColor()),
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
         hintText: hint,
         prefixIcon: icon,
         labelText: labeltext,

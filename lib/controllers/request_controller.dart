@@ -50,6 +50,7 @@ class RequestController extends GetxController {
   RxDouble locationSelectionHeight = 0.0.obs;
   RxDouble imageSelectionHeight = 0.0.obs;
   RxDouble instagramIdSelectionHeight = 0.0.obs;
+  RxDouble instagramIdSelectionOpacity = 0.0.obs;
   RxDouble initialLat = 35.7324556.obs;
   RxDouble initialLon = 51.4229012.obs;
 
@@ -105,6 +106,13 @@ class RequestController extends GetxController {
 
   void instagramIdSelectionState(bool boolean) {
     instagramIdSelectionBool.value = boolean;
+
+    if (instagramIdSelectionOpacity.value == 0.0) {
+      instagramIdSelectionOpacity.value = 1.0;
+    } else {
+      instagramIdSelectionOpacity.value = 0.0;
+    }
+
     if (boolean) {
       instagramIdSelectionHeight.value = 100.0;
     } else {
