@@ -287,7 +287,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 child: Column(
                   children: [
                     uiDesign.cRawMaterialButton(
-                      fillColor: uiDesign.mainColor(),
+                      fillColor: uiDesign.firstColor(),
                       text: '   انتخاب موقعیت از روی نقشه   ',
                       onClick: () => Get.to(() => const MapPage())
                           ?.then((value) => address = value[0]),

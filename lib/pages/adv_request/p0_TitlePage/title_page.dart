@@ -38,7 +38,7 @@ class _TitlePageState extends State<TitlePage> {
         Center(
           child: Obx(
             () => ToggleSwitch(
-              activeBgColor: [uiDesign.secounadryColor()],
+              activeBgColor: [uiDesign.secondColor()],
               inactiveBgColor: Colors.grey[300],
               minWidth: 200,
               animate: true,

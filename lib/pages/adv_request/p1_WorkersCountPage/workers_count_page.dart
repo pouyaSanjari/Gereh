@@ -31,7 +31,7 @@ class _WorkersCountState extends State<WorkersCount> {
           const SizedBox(height: 5),
           Center(
             child: ToggleSwitch(
-              activeBgColor: [uiDesign.secounadryColor()],
+              activeBgColor: [uiDesign.secondColor()],
               inactiveBgColor: Colors.grey[300],
               minWidth: 200,
               animate: true,
@@ -75,7 +75,7 @@ class _WorkersCountState extends State<WorkersCount> {
             child: ToggleSwitch(
               minWidth: 200,
               animationDuration: 200,
-              activeBgColor: [uiDesign.secounadryColor()],
+              activeBgColor: [uiDesign.secondColor()],
               inactiveBgColor: Colors.grey[300],
               animate: true,
               labels: const ['روزمزد', 'ماهیانه'],
@@ -177,7 +177,7 @@ class _WorkersCountState extends State<WorkersCount> {
                   child: Checkbox(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5))),
-                      activeColor: uiDesign.mainColor(),
+                      activeColor: uiDesign.firstColor(),
                       value: controller.ghimatTavafoghiMardBL.value,
                       onChanged: (value) {
                         controller.ghimatPishnahadiMardError.value = '';
@@ -230,7 +230,7 @@ class _WorkersCountState extends State<WorkersCount> {
                   child: Checkbox(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5))),
-                      activeColor: uiDesign.mainColor(),
+                      activeColor: uiDesign.firstColor(),
                       value: controller.ghimatTavafoghiZanBL.value,
                       onChanged: (value) {
                         controller.ghimatPishnahadiZanError.value = '';

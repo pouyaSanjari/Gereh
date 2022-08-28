@@ -45,7 +45,7 @@ class _SelectCityState extends State<SelectCity> {
               Get.back(result: controller.selectedCity.value);
             }
           },
-          backgroundColor: uiDesign.secounadryColor(),
+          backgroundColor: uiDesign.secondColor(),
           child: const Icon(
             Icons.check_rounded,
             size: 35,
@@ -123,11 +123,11 @@ class _SelectCityState extends State<SelectCity> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              color: uiDesign.mainColor(),
+              color: uiDesign.firstColor(),
               child: TextButton.icon(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(uiDesign.mainColor())),
+                        MaterialStateProperty.all(uiDesign.firstColor())),
                 onPressed: () {
                   controller.selectedCity.value = 'لطفا صبر کنید...';
                   getCityNameByLocation();

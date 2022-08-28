@@ -64,7 +64,7 @@ class _JobDetailsState extends State<JobDetails> {
         child: Scaffold(
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: actionButtons(),
+          floatingActionButton: actionButton(),
           appBar: appBar(context),
           body: SafeArea(
             child: Padding(
@@ -216,10 +216,10 @@ class _JobDetailsState extends State<JobDetails> {
     }
   }
 
-  ExpandableFabMenu actionButtons() {
+  ExpandableFabMenu actionButton() {
     return ExpandableFabMenu(
       fabAlignment: Alignment.bottomCenter,
-      backgroundColor: Colors.black,
+      backgroundColor: uiDesign.firstColor(),
       animatedIcon: AnimatedIcons.menu_close,
       marginRight: 30,
       marginLeft: 20,
@@ -289,7 +289,7 @@ class _JobDetailsState extends State<JobDetails> {
     await http.get(url);
   }
 
-// این متد مقادیر تماس با آگهی دهند را تکمیل میکند
+  /// این متد مقادیر تماس با آگهی دهند را تکمیل میکند
   void initialContact() {
     if (controller.contact.isEmpty) {
       if (controller.phonebool.value) {

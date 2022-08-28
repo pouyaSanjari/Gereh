@@ -58,7 +58,7 @@ class _JobsListState extends State<JobsList> {
       leadingWidth: 45,
       leading: IconButton(
           onPressed: () {
-            getFilters();
+            controller.getFilters();
           },
           icon: const Icon(
             Iconsax.filter,
@@ -70,14 +70,15 @@ class _JobsListState extends State<JobsList> {
       title: uiDesign.cTextField(
         onSubmit: (value) {
           controller.searches.add(value);
-          searchMethod();
+
+          controller.searchMethod();
           searchTC.clear();
           controller.addSearchFilterChip(
             chipText: value.toString(),
             onDeleted: () {
               searchTC.clear();
               controller.searches.removeWhere((element) => element == value);
-              searchMethod();
+              controller.searchMethod();
               controller.chips.remove('search');
             },
           );
@@ -166,8 +167,8 @@ class _JobsListState extends State<JobsList> {
                         ? 'استخدام'
                         : 'تبلیغ';
                     adTypeBgColor = controller.jobsList[index]['adtype'] == '0'
-                        ? const Color(0xff888d79)
-                        : const Color.fromARGB(255, 92, 139, 184);
+                        ? uiDesign.forthColor()
+                        : uiDesign.fifthColor();
 
                     instagrambool =
                         controller.jobsList[index]['instagrambool'] == '0'
@@ -200,8 +201,8 @@ class _JobsListState extends State<JobsList> {
                         : 'تبلیغ';
                     adTypeBgColor =
                         controller.searchedList[index]['adtype'] == '0'
-                            ? const Color(0xff888d79)
-                            : const Color.fromARGB(255, 92, 139, 184);
+                            ? uiDesign.forthColor()
+                            : uiDesign.fifthColor();
 
                     instagrambool =
                         controller.searchedList[index]['instagrambool'] == '0'
@@ -232,10 +233,20 @@ class _JobsListState extends State<JobsList> {
                   }
                   return ListTile(
                     onTap: () {
+                      print(controller.searchedList[index]);
                       Get.to(
-                        () => JobDetails(
-                            adDetails: controller.jobsList[index],
-                            images: itemImage),
+                        () {
+                          // در صورتی که سرچ کرده باشی یا نه
+                          if (controller.searchedList.isEmpty) {
+                            return JobDetails(
+                                adDetails: controller.jobsList[index],
+                                images: itemImage);
+                          } else {
+                            return JobDetails(
+                                adDetails: controller.searchedList[index],
+                                images: itemImage);
+                          }
+                        },
                       );
                     },
                     title: Directionality(
@@ -409,50 +420,4 @@ class _JobsListState extends State<JobsList> {
 
 //0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
-  void getFilters() async {
-    await Get.to(() => const FilterScreen())?.then((value) {
-      if (value != null) {
-        print(value);
-        controller.searches.add(value);
-        searchMethod();
-        controller.chips.addAll({
-          'filter': Chip(
-            label: Text(
-              value,
-              style: const TextStyle(color: Colors.white),
-            ),
-            avatar: const Icon(
-              Iconsax.filter5,
-              size: 20,
-              color: Colors.white,
-            ),
-            backgroundColor: uiDesign.mainColor(),
-            deleteIcon: const Icon(Icons.close_rounded, color: Colors.white),
-            onDeleted: () {
-              controller.chips.removeWhere((key, value) => key == 'filter');
-              controller.searches.removeWhere((element) => element == value);
-              searchMethod();
-            },
-          ),
-        });
-      } else {
-        setState(() {
-          snap;
-        });
-      }
-    });
-  }
-
-  void searchMethod() {
-    if (controller.searches.isNotEmpty) {
-      for (var element in controller.searches) {
-        controller.searchedList.value = controller.jobsList.where((p0) {
-          var elementAsString = p0.toString();
-          return elementAsString.contains(element);
-        }).toList();
-      }
-    } else {
-      controller.searchedList.clear();
-    }
-  }
 }

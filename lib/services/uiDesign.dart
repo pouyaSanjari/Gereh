@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../pages/generalPages/settings.dart';
 
 class UiDesign {
@@ -64,9 +63,9 @@ class UiDesign {
           ),
           backgroundColor: Color.fromARGB(255, 250, 250, 250)),
       colorScheme: ThemeData().colorScheme.copyWith(
-            primary: mainColor(),
+            primary: firstColor(),
             secondary: const Color(0xff8bd3c7),
-            error: mainColor(),
+            error: firstColor(),
           ),
     );
   }
@@ -143,10 +142,10 @@ class UiDesign {
         suffixIcon: control.text.isEmpty ? null : suffix,
         counterText: '',
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: mainColor()),
+            borderSide: BorderSide(color: firstColor()),
             borderRadius: const BorderRadius.all(Radius.circular(30))),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: thirdColor()),
+            borderSide: BorderSide(color: fifthColor()),
             borderRadius: const BorderRadius.all(Radius.circular(20))),
         disabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
@@ -192,7 +191,7 @@ class UiDesign {
             borderSide: BorderSide(color: Colors.black),
             borderRadius: BorderRadius.all(Radius.circular(30))),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: thirdColor()),
+            borderSide: BorderSide(color: fifthColor()),
             borderRadius: const BorderRadius.all(Radius.circular(20))),
         hintText: hint,
         prefixIcon: icon,
@@ -297,7 +296,7 @@ class UiDesign {
     );
   }
 
-//نویگیشن بار صفحه اصلی
+  ///نویگیشن بار صفحه اصلی
   BottomNavigationBar buildBottomNavigationBar(
       {required ValueChanged<int?> onTap,
       required int currentIndex,
@@ -305,9 +304,9 @@ class UiDesign {
     return BottomNavigationBar(
       selectedFontSize: 15,
       unselectedFontSize: 11,
-      selectedItemColor: mainColor(),
+      selectedItemColor: firstColor(),
       unselectedItemColor: const Color.fromARGB(255, 184, 184, 184),
-      selectedIconTheme: IconThemeData(color: mainColor()),
+      selectedIconTheme: IconThemeData(color: firstColor()),
       onTap: onTap,
       currentIndex: currentIndex,
       type: BottomNavigationBarType.fixed,
@@ -315,6 +314,7 @@ class UiDesign {
     );
   }
 
+  /// ویجت برای زمانی که خطای اتصال رخ داده است
   Center errorWidget(VoidCallback? referesh) {
     return Center(
         child: Column(
@@ -337,13 +337,14 @@ class UiDesign {
   FlutterSwitch cSwitch(bool val, ValueChanged<bool> onChange) {
     return FlutterSwitch(
         padding: 2,
-        activeColor: secounadryColor(),
+        activeColor: secondColor(),
         height: 28,
         width: 55,
         value: val,
         onToggle: onChange);
   }
 
+  /// فاصله بین زمان حال و زمان دریافت شده رو به فارسی مینویسه
   String timeFunction(String time) {
     var adTime = DateTime.parse(time);
     var now = DateTime.now();
@@ -386,14 +387,17 @@ class UiDesign {
     }
   }
 
+  /// عدد دریافتی رو به فارسی می نویسه
   String digi(String number) {
     String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
     return digit;
   }
 
-  Color mainColor() => const Color.fromARGB(255, 250, 113, 95);
-  Color secounadryColor() => const Color.fromARGB(255, 81, 194, 96);
+  Color firstColor() => const Color.fromARGB(255, 250, 113, 95);
+  Color secondColor() => const Color.fromARGB(255, 81, 194, 96);
   Color thirdColor() => const Color(0xff7eb0d5);
+  Color forthColor() => const Color(0xffe9ad30);
+  Color fifthColor() => const Color(0xff0090ab);
 
   TextStyle titleTextStyle() => const TextStyle(fontSize: 20);
   TextStyle descriptionsTextStyle() =>

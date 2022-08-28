@@ -43,7 +43,7 @@ class _MapPageState extends State<MapPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () => Get.back(result: [getController.address.value]),
-          backgroundColor: uiDesign.secounadryColor(),
+          backgroundColor: uiDesign.secondColor(),
           child: const Icon(
             FontAwesomeIcons.check,
             size: 30,
@@ -84,7 +84,7 @@ class _MapPageState extends State<MapPage> {
               ),
             ),
             Obx(() => Container(
-                  color: uiDesign.mainColor(),
+                  color: uiDesign.firstColor(),
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 3),

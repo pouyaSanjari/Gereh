@@ -80,7 +80,7 @@ class _MainRequestPageState extends State<MainRequestPage>
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: uiDesign.cRawMaterialButton(
-              fillColor: uiDesign.mainColor(),
+              fillColor: uiDesign.firstColor(),
               text: 'ادامه...',
               onClick: () {
                 if (controller.title.trim().isEmpty) {
@@ -111,7 +111,7 @@ class _MainRequestPageState extends State<MainRequestPage>
               backBTN(),
               uiDesign.cRawMaterialButton(
                 text: 'ادامه',
-                fillColor: uiDesign.mainColor(),
+                fillColor: uiDesign.firstColor(),
                 icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () {
                   switch (controller.switchEntekhabJensiyat.value) {
@@ -189,7 +189,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 text: 'بازگشت',
               ),
               uiDesign.cRawMaterialButton(
-                fillColor: uiDesign.mainColor(),
+                fillColor: uiDesign.firstColor(),
                 icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () => controller.activeStep.value++,
                 text: 'ادامه',
@@ -352,12 +352,12 @@ class _MainRequestPageState extends State<MainRequestPage>
       enableStepTapping: false,
       stepReachedAnimationEffect: Curves.easeOutBack,
       stepRadius: 18,
-      activeStepColor: uiDesign.mainColor(),
+      activeStepColor: uiDesign.firstColor(),
       stepColor: Colors.transparent,
       enableNextPreviousButtons: false,
       activeStepBorderPadding: 0,
       lineColor: uiDesign.thirdColor(),
-      activeStepBorderColor: uiDesign.mainColor(),
+      activeStepBorderColor: uiDesign.firstColor(),
       activeStep: controller.activeStep.value,
       lineLength: 100,
       onStepReached: (index) {
