@@ -32,14 +32,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   StatefulWidget buildPage() {
-    if (box.read('id') != null || box.read('id') != '') {
+    if (box.read('id') == null || box.read('id') == '') {
+      return const LoginPage();
+    } else {
       if (box.read('city') == null || box.read('city') == '') {
-        return const SelectCity();
+        return SelectCity(isFirstTime: true);
       } else {
         return const MainPage();
       }
-    } else {
-      return const LoginPage();
     }
   }
 }

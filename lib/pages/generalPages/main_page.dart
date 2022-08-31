@@ -6,7 +6,6 @@ import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobs_list.dart';
 import 'package:sarkargar/pages/my_ads/k_my_requests_page.dart';
 import 'package:sarkargar/pages/adv_request/MainRequestPage/main_request_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../chat/Views/chats.dart';
 
@@ -19,7 +18,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late SharedPreferences sharedPreferences;
   int currIndex = 3;
   int logInType = 1;
   UiDesign uiDesign = UiDesign();
@@ -76,38 +74,5 @@ class _MainPageState extends State<MainPage> {
         });
       },
     );
-  }
-
-  initialShared() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      logInType = sharedPreferences.getInt('logInType') ?? 1;
-    });
-    //خارج کردن مقادیر شیرید پرفرنسز برای اولین بار از حالت نال
-    sharedPreferences.getString('malePrice') ??
-        sharedPreferences.setString('malePrice', '');
-    sharedPreferences.getBool('malePriceVisibility') ??
-        sharedPreferences.setBool('malePriceVisibility', true);
-    sharedPreferences.getBool('ghimatTavafoghiMardBL') ??
-        sharedPreferences.setBool('ghimatTavafoghiMardBL', false);
-    sharedPreferences.getString('femalePrice') ??
-        sharedPreferences.setString('femalePrice', '');
-    sharedPreferences.getBool('femalePriceVisibility') ??
-        sharedPreferences.setBool('femalePriceVisibility', true);
-    sharedPreferences.getBool('ghimatTavafoghiZanBL') ??
-        sharedPreferences.setBool('ghimatTavafoghiZanBL', false);
-    sharedPreferences.getString('selectedProvince') ??
-        sharedPreferences.setString('selectedProvince', '');
-    sharedPreferences.getString('selectedCity') ??
-        sharedPreferences.setString('selectedCity', '');
-    sharedPreferences.getString('addressDetails') ??
-        sharedPreferences.setString('addressDetails', '');
-    sharedPreferences.getInt('adType') ?? sharedPreferences.setInt('adType', 0);
-  }
-
-  @override
-  // ignore: must_call_super
-  void initState() {
-    initialShared();
   }
 }

@@ -6,7 +6,7 @@ import 'package:sarkargar/services/uiDesign.dart';
 import '../controllers/request_controller.dart';
 
 class SelectCategory extends StatefulWidget {
-  const SelectCategory({Key? key}) : super(key: key);
+  SelectCategory({Key? key}) : super(key: key);
 
   @override
   State<SelectCategory> createState() => _SelectCategoryState();
@@ -70,9 +70,9 @@ class _SelectCategoryState extends State<SelectCategory> {
       items.add(ListTile(
         title: InkWell(
           onTap: () {
-            controller.selectedCategory.value = selected[i]['title'];
+            // controller.selectedCategory.value = selected[i]['title'];
             controller.categoryError.value = '';
-            Get.back();
+            Get.back(result: selected[i]['title']);
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 30.0),

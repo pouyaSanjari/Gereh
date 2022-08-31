@@ -5,13 +5,15 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
+import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class SelectCity extends StatefulWidget {
-  const SelectCity({Key? key}) : super(key: key);
+  bool isFirstTime;
+  SelectCity({Key? key, required this.isFirstTime}) : super(key: key);
 
   @override
   State<SelectCity> createState() => _SelectCityState();
@@ -42,6 +44,10 @@ class _SelectCityState extends State<SelectCity> {
                 controller.selectedCity.value == 'لطفا صبر کنید...') {
               Fluttertoast.showToast(msg: 'یک شهر انتخاب کنید.');
             } else {
+              if (widget.isFirstTime) {
+                box.write('city', controller.selectedCity.value);
+                Get.off(const MainPage());
+              }
               Get.back(result: controller.selectedCity.value);
             }
           },

@@ -182,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
             } else {
               Fluttertoast.showToast(msg: 'با موفقیت وارد شدید');
               if (box.read('city') == null || box.read('city') == '') {
-                Get.off(const SelectCity());
+                Get.off(SelectCity(isFirstTime: true));
               } else {
                 Get.off(const MainPage());
               }
@@ -242,7 +242,9 @@ class _LoginPageState extends State<LoginPage> {
 
   setUserId() async {
     setState(() {
-      userId = box.read('id');
+      if (box.read('id') != null) {
+        userId = box.read('id');
+      }
     });
   }
 

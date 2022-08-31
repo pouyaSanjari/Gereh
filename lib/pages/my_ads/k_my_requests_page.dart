@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
@@ -9,7 +7,6 @@ import 'package:lottie/lottie.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controllers/jobs_list_controller.dart';
 
@@ -21,7 +18,6 @@ class MyRequests extends StatefulWidget {
 }
 
 class _MyRequestsState extends State<MyRequests> {
-  late SharedPreferences sharedPreferences;
   final controller = Get.put(JobsListController());
   final box = GetStorage();
 

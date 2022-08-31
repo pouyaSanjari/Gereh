@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/profile_page/offers_page.dart';
 import 'package:sarkargar/pages/profile_page/savabegh_page.dart';
 import 'package:sarkargar/pages/profile_page/work_sample_images.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -17,6 +17,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final box = GetStorage();
   List<String> title = [
     'گروه ',
     'سوابق کاری',
@@ -47,7 +48,6 @@ class _ProfilePageState extends State<ProfilePage> {
   int userId = 0;
 
   AppDataBase dataBase = AppDataBase();
-  late SharedPreferences sharedPreferences;
   int signInType = 1;
   UiDesign uiDesign = UiDesign();
 
@@ -176,12 +176,11 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   getUserDetails() async {
-    sharedPreferences = await SharedPreferences.getInstance();
     await checkConnection();
     isConnected == false
         ? Fluttertoast.showToast(msg: 'اتصال اینترنت را بررسی نمایید')
         : null;
-    userId = sharedPreferences.getInt('id') ?? 0;
+    userId = box.read('id') ?? 0;
     var response = await dataBase.getUserDetailsById(userId: userId);
     setState(() {
       name = response[0]['name'];

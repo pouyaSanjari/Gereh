@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/services/select_city.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../services/uiDesign.dart';
 
 class SignUp extends StatefulWidget {
@@ -24,12 +23,12 @@ class SignUp extends StatefulWidget {
 var messageController = TextEditingController();
 
 class _SignUpState extends State<SignUp> {
+  final box = GetStorage();
   TextEditingController nameController = TextEditingController();
   TextEditingController familyController = TextEditingController();
   late String name;
   late String family;
   String res = '';
-  late SharedPreferences sharedPreferences;
   bool activeConnection = false;
   int userId = 0;
   UiDesign uiDesign = UiDesign();
@@ -108,19 +107,15 @@ class _SignUpState extends State<SignUp> {
                                       msg: 'ثبت نام با موفقیت انجام شد');
                                   //بعد از اینکه ثبت نام انجام شد ای دیش رو میگیره و داخل شیرید پرفریس ها ذخیره میکنه
                                   getUserId(number: widget.number);
-                                  sharedPreferences.setBool('isLoggedIn', true);
+                                  box.write('isLoggedIn', true);
                                   // حالا وقتی ثبتنام کرد چک میکنه ببینه شهر رو قبلا انتخاب کرده یا نه اگه نه میفرسته به صفحه انتخاب شهر
-                                  if (sharedPreferences.getString(
-                                              'selectedCityFilter') ==
-                                          null ||
-                                      sharedPreferences.getString(
-                                              'selectedCityFilter') ==
-                                          '') {
+                                  if (box.read('selectedCityFilter') == null ||
+                                      box.read('selectedCityFilter') == '') {
                                     Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const SelectCity(),
+                                              SelectCity(isFirstTime: true),
                                         ),
                                         (route) => false);
                                   } else {
@@ -162,10 +157,6 @@ class _SignUpState extends State<SignUp> {
     return response;
   }
 
-  initialSharePreferences() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-  }
-
   Future checkUserConnection() async {
     try {
       final result = await InternetAddress.lookup('google.com');
@@ -187,15 +178,9 @@ class _SignUpState extends State<SignUp> {
       return Fluttertoast.showToast(msg: 'لطفا اتصال اینترنت خود را چک کنید.');
     } else {
       var response = await dataBase.getUserIdByNumber(number: number);
-      sharedPreferences.setInt('id', int.parse(response[0]['id']));
+      box.write('id', int.parse(response[0]['id']));
       setState(() {});
       return response;
     }
-  }
-
-  @override
-  // ignore: must_call_super
-  void initState() {
-    initialSharePreferences();
   }
 }

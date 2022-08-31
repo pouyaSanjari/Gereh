@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -13,7 +11,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  late SharedPreferences sharedPreferences;
   List<String> list = [
     'حریم خصوصی',
     'پرسش های متداول',
@@ -127,23 +124,6 @@ class _SettingsState extends State<Settings> {
                   ],
                 ),
                 RawMaterialButton(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                  fillColor: Colors.blueGrey,
-                  elevation: 0,
-                  child: const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                      'تغییر نوع حساب کاربری',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  onPressed: () {
-                    sharedPreferences.setInt('logInType', signInType);
-                    Restart.restartApp();
-                  },
-                ),
-                RawMaterialButton(
                   elevation: 0,
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -163,18 +143,5 @@ class _SettingsState extends State<Settings> {
         ),
       ),
     );
-  }
-
-  getLoginType() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      signInType = sharedPreferences.getInt('logInType') ?? 1;
-    });
-  }
-
-  @override
-  // ignore: must_call_super
-  void initState() {
-    getLoginType();
   }
 }

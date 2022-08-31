@@ -1,6 +1,7 @@
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
@@ -10,7 +11,6 @@ import 'package:sarkargar/pages/adv_request/p2_PaidFeatures/paid_features_page.d
 import 'package:sarkargar/pages/adv_request/p1_WorkersCountPage/workers_count_page.dart';
 import 'package:sarkargar/pages/adv_request/p3_finish/finish.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../controllers/request_controller.dart';
 
 class MainRequestPage extends StatefulWidget {
@@ -22,15 +22,12 @@ class MainRequestPage extends StatefulWidget {
 
 class _MainRequestPageState extends State<MainRequestPage>
     with SingleTickerProviderStateMixin {
+  final box = GetStorage();
   final controller = Get.put(RequestController());
-  late AnimationController animationController;
   late Animation animation;
-  late SharedPreferences sharedPreferences;
 
   UiDesign uiDesign = UiDesign();
   AppDataBase dataBase = AppDataBase();
-
-  int adType = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -260,7 +257,7 @@ class _MainRequestPageState extends State<MainRequestPage>
 //ذخیره تبلیغ در دیتابیس
   insertAdToDb() async {
     var response = await dataBase.addNewAD(
-      advertizer: sharedPreferences.getInt('id').toString(),
+      advertizer: box.read('id').toString(),
       adtype: controller.adType.value.toString(),
       hiringtype: controller.switchHiringType.value.toString(),
       title: controller.title.value.trim(),
@@ -451,11 +448,6 @@ class _MainRequestPageState extends State<MainRequestPage>
     return digit;
   }
 
-  sharedInitial() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    adType = sharedPreferences.getInt('adType') ?? 0;
-  }
-
   bool zanVisibility() =>
       controller.tedadNafaratZan.isEmpty || controller.adType.value == 1
           ? false
@@ -464,11 +456,4 @@ class _MainRequestPageState extends State<MainRequestPage>
       controller.tedadNafaratMard.isEmpty || controller.adType.value == 1
           ? false
           : true;
-
-  @override
-  void initState() {
-    animationController = AnimationController(vsync: this);
-    sharedInitial();
-    super.initState();
-  }
 }

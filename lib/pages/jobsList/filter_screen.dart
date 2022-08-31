@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({Key? key}) : super(key: key);
@@ -15,9 +15,7 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  late SharedPreferences sharedPreferences;
-  final controller = Get.put(JobsListController());
-
+  final box = GetStorage();
   UiDesign uiDesign = UiDesign();
   AppDataBase dataBase = AppDataBase();
   bool workGroupDropDownEnabled = false;
@@ -76,7 +74,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     onChange: (value) {
                       if (value != null) {
                         setState(() {
-                          sharedPreferences.setString('workGroupfilter', value);
+                          box.write('workGroupfilter', value);
                           workGroupDropDownEnabled = true;
                           workGroup = value.toString();
                           getJobGroups();
@@ -97,7 +95,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     selectedItem:
                         job == '' ? 'شغل مورد نظر خود را انتخاب کنید' : job,
                     onChange: (value) {
-                      sharedPreferences.setString('selectedJobFilter', value!);
+                      box.write('selectedJobFilter', value!);
                       job = value.toString();
                     },
                     items: jobTitles,
@@ -115,9 +113,8 @@ class _FilterScreenState extends State<FilterScreen> {
                           setState(() {
                             job = '';
                             workGroup = '';
-                            sharedPreferences.setString('workGroupfilter', '');
-                            sharedPreferences.setString(
-                                'selectedJobFilter', '');
+                            box.write('workGroupfilter', '');
+                            box.write('selectedJobFilter', '');
                             workGroupDropDownEnabled = false;
                           });
                         },
@@ -131,9 +128,7 @@ class _FilterScreenState extends State<FilterScreen> {
 
                           job.isEmpty
                               ? Get.back()
-                              : Get.back(
-                                  result: sharedPreferences
-                                      .get('selectedJobFilter'));
+                              : Get.back(result: box.read('selectedJobFilter'));
                         },
                         child: const Icon(Iconsax.clipboard_export, size: 30),
                       )
@@ -183,11 +178,9 @@ class _FilterScreenState extends State<FilterScreen> {
 
 //اینیشال کردن پرفرنسز ها و گرفتن اطلاعات هنگام ورود به صفحه
   sharedInitial() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-
     setState(() {
-      workGroup = sharedPreferences.getString('workGroupfilter') ?? '';
-      job = sharedPreferences.getString('selectedJobFilter') ?? '';
+      workGroup = box.read('workGroupfilter') ?? '';
+      job = box.read('selectedJobFilter') ?? '';
       job == ''
           ? workGroupDropDownEnabled = false
           : workGroupDropDownEnabled = true;

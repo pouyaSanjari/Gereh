@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
@@ -28,7 +29,10 @@ class JobsListController extends GetxController {
   void initialChip() {
     chips.addAll({
       'city': InkWell(
-        onTap: () => Get.to(() => const SelectCity())!.then((value) {
+        onTap: () => Get.to(() => SelectCity(
+                  isFirstTime: false,
+                ))!
+            .then((value) {
           box.write('city', value);
           return city.value = value;
         }),
@@ -57,55 +61,64 @@ class JobsListController extends GetxController {
   void addSearchFilterChip(
       {required String chipText, VoidCallback? onDeleted}) {
     searchText.value = chipText;
+    if (searchedList.isEmpty) {
+      Fluttertoast.showToast(msg: 'موردی یافت نشد.');
+      chips.removeWhere((key, value) => key == 'search');
+      return;
+    }
     if (chipText.isEmpty) {
       chips.removeWhere((key, value) => key == 'search');
       return;
     }
     if (chips.containsKey('search')) {
       chips.removeWhere((key, value) => key == 'search');
-      chips.addAll({
-        'search': Obx(
-          () => Chip(
-            label: Text(
-              searchText.value,
-              style: const TextStyle(color: Colors.white),
+      chips.addAll(
+        {
+          'search': Obx(
+            () => Chip(
+              label: Text(
+                searchText.value,
+                style: const TextStyle(color: Colors.white),
+              ),
+              avatar: const Icon(
+                Iconsax.search_normal,
+                size: 20,
+                color: Colors.white,
+              ),
+              backgroundColor: uiDesign.firstColor(),
+              deleteIcon: const Icon(Icons.close_rounded, color: Colors.white),
+              onDeleted: onDeleted,
             ),
-            avatar: const Icon(
-              Iconsax.search_normal,
-              size: 20,
-              color: Colors.white,
-            ),
-            backgroundColor: uiDesign.firstColor(),
-            deleteIcon: const Icon(Icons.close_rounded, color: Colors.white),
-            onDeleted: onDeleted,
-          ),
-        )
-      });
+          )
+        },
+      );
       return;
     } else {
-      chips.addAll({
-        'search': Obx(
-          () => Chip(
-            label: Text(
-              searchText.value,
-              style: const TextStyle(color: Colors.white),
+      chips.addAll(
+        {
+          'search': Obx(
+            () => Chip(
+              label: Text(
+                searchText.value,
+                style: const TextStyle(color: Colors.white),
+              ),
+              avatar: const Icon(
+                Iconsax.search_normal,
+                size: 20,
+                color: Colors.white,
+              ),
+              backgroundColor: uiDesign.firstColor(),
+              deleteIcon: const Icon(Icons.close_rounded, color: Colors.white),
+              onDeleted: onDeleted,
             ),
-            avatar: const Icon(
-              Iconsax.search_normal,
-              size: 20,
-              color: Colors.white,
-            ),
-            backgroundColor: uiDesign.firstColor(),
-            deleteIcon: const Icon(Icons.close_rounded, color: Colors.white),
-            onDeleted: onDeleted,
-          ),
-        )
-      });
+          )
+        },
+      );
     }
   }
 
 // به ازای هرکدام از مقادیر لیست جستجو یک جستجو در لیست مشاغل انجام میده
-  void searchMethod() {
+  void searchMethod() async {
     if (searches.isNotEmpty) {
       for (var element in searches) {
         searchedList.value = jobsList.where((p0) {
@@ -122,9 +135,14 @@ class JobsListController extends GetxController {
 // همچنین یک چیپ به لیست چسپ ها اضافه میکنه
   void getFilters() async {
     await Get.to(() => const FilterScreen())?.then((value) {
-      if (value != null) {
+      if (value != null && value.toString().trim() != '') {
         searches.add(value);
         searchMethod();
+        if (searchedList.isEmpty) {
+          Fluttertoast.showToast(msg: 'موردی یافت نشد.');
+          chips.removeWhere((key, value) => key == 'filter');
+          return;
+        }
         chips.addAll({
           'filter': Chip(
             label: Text(

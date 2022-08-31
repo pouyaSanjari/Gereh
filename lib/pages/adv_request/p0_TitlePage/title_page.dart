@@ -91,10 +91,12 @@ class _TitlePageState extends State<TitlePage> {
               labeltext: 'یک دسته بندی انتخاب کنید',
               onClick: () {
                 focusNode.unfocus();
-                Get.to(() => const SelectCategory())
-                    ?.then((value) => setState(() {
-                          categoryTEC.text = controller.selectedCategory.value;
-                        }));
+                Get.to(() => SelectCategory())?.then((value) {
+                  controller.selectedCategory.value = value;
+                  setState(() {
+                    categoryTEC.text = value;
+                  });
+                });
               }),
         ),
 
@@ -114,9 +116,10 @@ class _TitlePageState extends State<TitlePage> {
               labeltext: 'شهر خود را انتخاب کنید.',
               onClick: () {
                 focusNode.unfocus();
-                Get.to(() => const SelectCity())?.then((value) => setState(() {
-                      cityTEC.text = controller.selectedCity.value;
-                    }));
+                Get.to(() => SelectCity(isFirstTime: false))
+                    ?.then((value) => setState(() {
+                          cityTEC.text = controller.selectedCity.value;
+                        }));
               }),
         ),
 

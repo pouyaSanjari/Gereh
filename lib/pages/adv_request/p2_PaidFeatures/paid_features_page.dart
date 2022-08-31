@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -21,15 +21,14 @@ class PaidFeatures extends StatefulWidget {
 }
 
 class _PaidFeaturesState extends State<PaidFeatures> {
+  final box = GetStorage();
   final controller = Get.put(RequestController());
-  late SharedPreferences sharedPreferences;
 
   UiDesign uiDesign = UiDesign();
   final ImagePicker picker = ImagePicker();
 
   bool image = false;
   double imageSelectionHight = 0;
-  int id = 0;
 
   TextEditingController instagramController = TextEditingController();
   List<String> uploadedImages = [];
@@ -368,16 +367,12 @@ class _PaidFeaturesState extends State<PaidFeatures> {
     );
   }
 
-  sharedInitial() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    id = sharedPreferences.getInt('id') ?? 0;
-  }
-
   getImages() async {
     controller.images.clear();
     Uri url =
         Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
-    var jsonresponse = await http.post(url, body: {'userid': id.toString()});
+    var jsonresponse =
+        await http.post(url, body: {'userid': box.read('id').toString()});
     List result = convert.jsonDecode(jsonresponse.body);
     for (int i = 0; i < result.length; i++) {
       uploadedImages.add(result[i]['image']);
@@ -406,7 +401,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
     var request = http.MultipartRequest('POST', url);
     request.files
         .add(await http.MultipartFile.fromPath('photo[0]', image.path));
-    Map<String, String> other = {'id': id.toString()};
+    Map<String, String> other = {'id': box.read('id').toString()};
     request.fields.addAll(other);
     Fluttertoast.showToast(msg: 'درحال آپلود...');
     await request.send();
@@ -417,9 +412,8 @@ class _PaidFeaturesState extends State<PaidFeatures> {
   }
 
   @override
-  // ignore: must_call_super
   void initState() {
     instagramController.text = controller.selectedInstagramId.value;
-    sharedInitial();
+    super.initState();
   }
 }

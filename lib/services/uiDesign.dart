@@ -238,7 +238,8 @@ class UiDesign {
     return Column(
       children: [
         RawMaterialButton(
-          elevation: 0,
+          constraints: BoxConstraints(minHeight: 20, minWidth: 60),
+          elevation: 5,
           fillColor: backColor,
           padding: const EdgeInsets.all(15),
           shape: const CircleBorder(),
@@ -246,7 +247,7 @@ class UiDesign {
           child: icon,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 5),
           child: Text(
             text,
             style: const TextStyle(color: Colors.grey),

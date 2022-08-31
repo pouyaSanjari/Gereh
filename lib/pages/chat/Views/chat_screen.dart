@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/chat/cubit/messages_cubit.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/services/in_app_database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import '../Model/message_model.dart';
@@ -30,6 +30,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
+  final box = GetStorage();
   late io.Socket _socket;
   final TextEditingController _messageInputController = TextEditingController();
   final ImagePicker picker = ImagePicker();
@@ -38,8 +39,6 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   AppDataBase dataBase = AppDataBase();
   List messages = [];
   String id = '';
-
-  late SharedPreferences sharedPreferences;
 
   @override
   Widget build(BuildContext context) {
@@ -210,16 +209,6 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     }
   }
 
-  initialShared() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    id = sharedPreferences.getInt('id').toString();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    setState(() {});
-  }
-
   @override
   void initState() {
     _socket = io.io(
@@ -241,6 +230,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     _messageInputController.dispose();
     _socket.disconnect();
+    id = box.read('id');
     super.dispose();
   }
 }

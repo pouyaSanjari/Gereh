@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/chat/Views/chat_screen.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import '../../../../services/in_app_database.dart';
 
@@ -15,9 +15,9 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
+  final box = GetStorage();
   late io.Socket _socket;
   AppDataBase dataBase = AppDataBase();
-  late SharedPreferences sharedPreferences;
   UiDesign uiDesign = UiDesign();
 
   String id = '';
@@ -103,15 +103,8 @@ class _ChatsState extends State<Chats> {
     );
   }
 
-  sharedInitial() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      id = sharedPreferences.getInt('id').toString();
-    });
-  }
-
   getchatdetails() async {
-    List chats = await dataBase.getChats(id: id);
+    List chats = await dataBase.getChats(id: box.read('id'));
 //پویای عزیز یا هر کسی که در آینده داری این کد رو میخونی
 //نمیدونم تا اینجا رو متوجه شدی یا نه ولی مطمئنم
 //این قسمت رو به هیچ عنوان متوجه نمیشی پس زیاد به مغذت فشار نیار :) و رد شو ازش
@@ -173,7 +166,6 @@ class _ChatsState extends State<Chats> {
 
   @override
   void initState() {
-    sharedInitial();
     _socket = io.io(
       'http://192.168.75.24:3000',
       io.OptionBuilder()
