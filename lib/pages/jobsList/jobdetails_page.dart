@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:expandable_fab_menu/expandable_fab_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -11,7 +10,6 @@ import 'package:sarkargar/services/image_viewer.dart';
 import 'package:sarkargar/controllers/job_details_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
 
 class JobDetails extends StatefulWidget {
   final Map adDetails;
@@ -101,14 +99,18 @@ class _JobDetailsState extends State<JobDetails> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          uiDesign.roundedIconWithText(
-                            icon: const Icon(Iconsax.call, color: Colors.white),
-                            backColor: uiDesign.secondColor(),
-                            text: 'تماس',
-                            onClick: () {
-                              _makePhoneCall(
-                                  controller.advertizerNumber.value.toString());
-                            },
+                          Visibility(
+                            visible: controller.phonebool.value,
+                            child: uiDesign.roundedIconWithText(
+                              icon:
+                                  const Icon(Iconsax.call, color: Colors.white),
+                              backColor: uiDesign.secondColor(),
+                              text: 'تماس',
+                              onClick: () {
+                                _makePhoneCall(controller.advertizerNumber.value
+                                    .toString());
+                              },
+                            ),
                           ),
                           uiDesign.roundedIconWithText(
                             icon: const Icon(Iconsax.sms, color: Colors.white),

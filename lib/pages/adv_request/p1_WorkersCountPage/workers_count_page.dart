@@ -82,6 +82,7 @@ class _WorkersCountState extends State<WorkersCount> {
               totalSwitches: 2,
               initialLabelIndex: controller.switchHiringType.value,
               onToggle: (index) {
+                print(index);
                 controller.switchHiringType.value = index!;
               },
             ),
