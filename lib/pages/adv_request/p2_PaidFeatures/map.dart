@@ -70,8 +70,6 @@ class _MapPageState extends State<MapPage> {
             'انتخاب موقعیت مکانی',
             style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: uiDesign.firstColor(),
-          centerTitle: true,
         ),
         // To obtain the maps local point, we have added a gesture
         // detector to the map’s widget.

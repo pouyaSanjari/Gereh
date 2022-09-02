@@ -33,8 +33,6 @@ class _ChatsState extends State<Chats> {
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.grey[50],
-            centerTitle: true,
             title: const Text(
               'انتخاب گفتگو',
               style: TextStyle(color: Colors.black),

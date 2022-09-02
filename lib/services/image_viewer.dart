@@ -22,7 +22,6 @@ class ImageViewerPage extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('گالری تصاویر'),
-            centerTitle: true,
             elevation: 0,
             leading: InkWell(
                 onTap: () => Get.back(),

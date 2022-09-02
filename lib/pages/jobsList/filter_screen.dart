@@ -34,8 +34,6 @@ class _FilterScreenState extends State<FilterScreen> {
         child: Scaffold(
           appBar: AppBar(
               elevation: 0,
-              backgroundColor: Colors.grey[50],
-              centerTitle: true,
               title: const Text('انتخاب شغل',
                   style: TextStyle(color: Colors.black)),
               actions: [

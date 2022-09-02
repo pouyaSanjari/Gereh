@@ -56,7 +56,6 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       Iconsax.arrow_left,
                       color: Colors.black,
                     )),
-                centerTitle: true,
                 title: Text(widget.receiverName),
                 elevation: 0),
             body: Stack(children: [

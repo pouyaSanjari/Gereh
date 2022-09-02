@@ -10,39 +10,34 @@ import '../pages/generalPages/settings.dart';
 class UiDesign {
   AppBar buildAppBar({required BuildContext context, required String title}) {
     return AppBar(
-        centerTitle: true,
-        title: Text(
-          title,
-          style: const TextStyle(fontSize: 18),
-        ),
-        leading: IconButton(
-            onPressed: () {},
-            icon: const FaIcon(
-              Iconsax.alarm,
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 18),
+      ),
+      leading: IconButton(
+          onPressed: () {},
+          icon: const FaIcon(
+            Iconsax.alarm,
+            color: Colors.black,
+            size: 21,
+          )),
+      actions: [
+        IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Settings(),
+                  ));
+            },
+            icon: const Icon(
+              Iconsax.setting,
               color: Colors.black,
-              size: 21,
-            )),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Settings(),
-                    ));
-              },
-              icon: const Icon(
-                Iconsax.setting,
-                color: Colors.black,
-              ))
-        ],
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.dark,
-            statusBarColor: Colors.grey,
-            statusBarBrightness: Brightness.dark),
-        automaticallyImplyLeading: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent);
+            ))
+      ],
+      automaticallyImplyLeading: true,
+      elevation: 0,
+    );
   }
 
   ///تم نرمافزار

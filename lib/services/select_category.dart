@@ -25,7 +25,6 @@ class _SelectCategoryState extends State<SelectCategory> {
         appBar: AppBar(
           title: const Text('انتخاب دسته بندی'),
           elevation: 0,
-          centerTitle: true,
         ),
         body: Obx(
           () => controller.jobGroups.isEmpty

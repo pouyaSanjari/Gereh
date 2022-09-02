@@ -51,7 +51,6 @@ class _JobsListState extends State<JobsList> {
   AppBar appBar() {
     return AppBar(
       actions: const [SizedBox(width: 15)],
-      leadingWidth: 45,
       leading: IconButton(
           onPressed: () {
             controller.getFilters();
@@ -60,9 +59,7 @@ class _JobsListState extends State<JobsList> {
             Iconsax.filter,
             color: Colors.black,
           )),
-      titleSpacing: 0,
       elevation: 0,
-      backgroundColor: Colors.grey[50],
       title: uiDesign.cTextField(
         onSubmit: (value) {
           controller.searches.add(value);

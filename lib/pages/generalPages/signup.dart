@@ -44,9 +44,7 @@ class _SignUpState extends State<SignUp> {
         home: Scaffold(
           appBar: AppBar(
             title: const Text('ثبت نام'),
-            centerTitle: true,
             elevation: 0,
-            backgroundColor: Colors.transparent,
           ),
           body: SafeArea(
             child: Directionality(

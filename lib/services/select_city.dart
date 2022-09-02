@@ -59,9 +59,7 @@ class _SelectCityState extends State<SelectCity> {
           ),
         ),
         appBar: AppBar(
-          leadingWidth: 0,
           elevation: 0,
-          centerTitle: true,
           title: uiDesign.cTextField(
             labeltext: 'جستجو',
             control: searchTEC,

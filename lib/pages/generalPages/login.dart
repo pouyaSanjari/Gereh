@@ -45,10 +45,9 @@ class _LoginPageState extends State<LoginPage> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: AppBar(
-              backgroundColor: Colors.white10,
-              elevation: 0,
-              title: const Text('به اپلیکیشن سرکارگر خوش آمدید'),
-              centerTitle: true),
+            elevation: 0,
+            title: const Text('به اپلیکیشن سرکارگر خوش آمدید'),
+          ),
           body: SingleChildScrollView(
             physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
             child: Column(

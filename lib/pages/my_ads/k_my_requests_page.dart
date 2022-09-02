@@ -41,9 +41,7 @@ class _MyRequestsState extends State<MyRequests> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           elevation: 0,
-          backgroundColor: Colors.grey[50],
           title: Text('لیست آگهی های جاری شما'),
         ),
         body: buildFutureBuilder(),

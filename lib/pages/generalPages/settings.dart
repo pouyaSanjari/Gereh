@@ -49,15 +49,9 @@ class _SettingsState extends State<Settings> {
                 ),
               )
             ],
-            systemOverlayStyle: const SystemUiOverlayStyle(
-                statusBarIconBrightness: Brightness.dark,
-                statusBarColor: Colors.transparent,
-                statusBarBrightness: Brightness.dark),
             elevation: 0,
-            backgroundColor: Colors.transparent,
             automaticallyImplyLeading: true,
             title: const Text('تنظیمات'),
-            centerTitle: true,
           ),
           body: SafeArea(
             child: Column(

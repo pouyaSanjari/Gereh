@@ -55,8 +55,6 @@ class _WorkSamplesState extends State<WorkSamples> {
               color: Colors.black,
             ),
             elevation: 0,
-            backgroundColor: Colors.grey[50],
-            centerTitle: true,
             title: const Text(
               'تصاویر نمونه کار',
               style: TextStyle(color: Colors.black),
