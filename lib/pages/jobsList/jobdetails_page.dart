@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
-import 'package:expandable_fab_menu/expandable_fab_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -316,7 +315,6 @@ class _JobDetailsState extends State<JobDetails> {
       ],
       elevation: 0,
       title: const Text('جزئیات آگهی'),
-      centerTitle: true,
       leading: IconButton(
           icon: const Icon(
             Iconsax.arrow_right_3,
