@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:http/http.dart' as http;
@@ -125,6 +126,12 @@ class RequestController extends GetxController {
     var response = await http.get(url, headers: {'x-api-key': apiKey});
     var decodedResponse =
         convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-    address.value = decodedResponse['address_compact'];
+
+    if (decodedResponse['address_compact'].toString().length < 8) {
+      // هفت کاراکتر اول که کلمه ایران و ویرگول هست رو حذف کردم
+      address.value = decodedResponse['address'].toString().substring(7);
+    } else {
+      address.value = decodedResponse['address_compact'].toString();
+    }
   }
 }

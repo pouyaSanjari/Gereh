@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
@@ -14,7 +16,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  final getController = Get.put(RequestController());
+  final controller = Get.put(RequestController());
   final uiDesign = UiDesign();
   String mapAddress =
       'https://map.ir/shiveh/xyz/1.0.0/Shiveh:Shiveh@EPSG:3857@png/{z}/{x}/{y}.png?x-api-key=';
@@ -42,16 +44,33 @@ class _MapPageState extends State<MapPage> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Get.back(result: [getController.address.value]),
+          onPressed: () => Get.back(result: [controller.address.value]),
           backgroundColor: uiDesign.secondColor(),
           child: const Icon(
             FontAwesomeIcons.check,
             size: 30,
           ),
         ),
+
         appBar: AppBar(
-          title: const Text('انتخاب موقعیت مکانی'),
-          backgroundColor: uiDesign.thirdColor(),
+          actions: [
+            InkWell(
+              onTap: () async {
+                var currentLocatin = await _determinePosition();
+                changeMarkerLocationUsingLatLon(
+                    currentLocatin.latitude, currentLocatin.longitude);
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Icon(Icons.location_searching_rounded),
+              ),
+            )
+          ],
+          title: const Text(
+            'انتخاب موقعیت مکانی',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: uiDesign.firstColor(),
           centerTitle: true,
         ),
         // To obtain the maps local point, we have added a gesture
@@ -61,7 +80,7 @@ class _MapPageState extends State<MapPage> {
             Expanded(
               child: GestureDetector(
                 onTapUp: (TapUpDetails details) {
-                  updateMarkerChange(details.localPosition);
+                  changeMarkerLocationUsingTapPosition(details.localPosition);
                 },
                 child: SfMaps(
                   layers: [
@@ -74,8 +93,32 @@ class _MapPageState extends State<MapPage> {
                         return MapMarker(
                           latitude: _markerPosition.latitude,
                           longitude: _markerPosition.longitude,
-                          child: const Icon(FontAwesomeIcons.locationDot,
-                              color: Colors.black, size: 40),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Obx(() => Container(
+                                  decoration: BoxDecoration(
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.black38,
+                                            blurRadius: 15,
+                                            spreadRadius: 1,
+                                            offset: Offset(-5, 5))
+                                      ],
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  width: 180,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(controller.address.value),
+                                  ))),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Icon(FontAwesomeIcons.locationDot,
+                                  color: uiDesign.firstColor(), size: 30),
+                            ],
+                          ),
                         );
                       },
                     ),
@@ -83,30 +126,13 @@ class _MapPageState extends State<MapPage> {
                 ),
               ),
             ),
-            Obx(() => Container(
-                  color: uiDesign.firstColor(),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text('آدرس:', style: UiDesign().titleTextStyle()),
-                        Text(
-                          getController.address.value,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                ))
           ],
         ),
       ),
     );
   }
 
-  void updateMarkerChange(Offset position) {
+  void changeMarkerLocationUsingTapPosition(Offset position) {
     // We have converted the local point into latlng and inserted marker
     // in that position.
     _markerPosition = markerController.pixelToLatLng(position);
@@ -114,11 +140,74 @@ class _MapPageState extends State<MapPage> {
       markerController.clearMarkers();
     }
     markerController.insertMarker(0);
-    getController.getAddressUsingLatLon(
+// روی نقطه انتخاب شده زوم می کند
+    _mapZoomPanBehavior.latLngBounds = MapLatLngBounds(
+        MapLatLng(_markerPosition.latitude - 0.005,
+            _markerPosition.longitude - 0.005),
+        MapLatLng(_markerPosition.latitude + 0.005,
+            _markerPosition.longitude + 0.005));
+
+    controller.getAddressUsingLatLon(
         _markerPosition.latitude, _markerPosition.longitude);
-    getController.selectedLat.value = _markerPosition.latitude;
-    getController.selectedLon.value = _markerPosition.longitude;
+    controller.selectedLat.value = _markerPosition.latitude;
+    controller.selectedLon.value = _markerPosition.longitude;
 
     // getAddressUsingLatLon(_markerPosition.latitude, _markerPosition.longitude);
+  }
+
+  void changeMarkerLocationUsingLatLon(double lat, double lon) {
+    _markerPosition = MapLatLng(lat, lon);
+    if (markerController.markersCount > 0) {
+      markerController.clearMarkers();
+    }
+    markerController.insertMarker(0);
+
+    _mapZoomPanBehavior.latLngBounds = MapLatLngBounds(
+        MapLatLng(_markerPosition.latitude - 0.005,
+            _markerPosition.longitude - 0.005),
+        MapLatLng(_markerPosition.latitude + 0.005,
+            _markerPosition.longitude + 0.005));
+
+    controller.getAddressUsingLatLon(
+        _markerPosition.latitude, _markerPosition.longitude);
+    controller.selectedLat.value = _markerPosition.latitude;
+    controller.selectedLon.value = _markerPosition.longitude;
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
   }
 }

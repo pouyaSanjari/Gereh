@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/services/image_viewer.dart';
 import 'package:sarkargar/controllers/job_details_controller.dart';
@@ -201,7 +202,7 @@ class _JobDetailsState extends State<JobDetails> {
                     controller.locationbool.value
                         ? InkWell(
                             onTap: () {
-                              openMap(
+                              MapsLauncher.launchCoordinates(
                                   double.parse(controller.locationlat.value),
                                   double.parse(controller.locationlon.value));
                             },
@@ -209,8 +210,7 @@ class _JobDetailsState extends State<JobDetails> {
                               borderRadius: BorderRadius.circular(10),
                               child: CachedNetworkImage(
                                   imageUrl:
-                                      'https://map.ir/static?width=700&height=400&markers=color:red'
-                                      '|${controller.locationlon.value},${controller.locationlat.value}&zoom_level=17&x-api-key=${controller.apiKey}'),
+                                      'https://api.neshan.org/v2/static?key=service.3701bff2e5814681af87132d10abe63a&type=dreamy&zoom=14&center=${controller.locationlat.value},${controller.locationlon.value}&width=700&height=400&marker=red'),
                             ),
                           )
                         : Container(),
@@ -355,16 +355,5 @@ class _JobDetailsState extends State<JobDetails> {
   String digi(String number) {
     String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
     return digit;
-  }
-
-  mapImg() async {
-    Uri url = Uri.parse(
-        'https://map.ir/static?width=700&height=500&markers=color:red|label:a|51.394912,35.72164&zoom_level=17&x-api-key=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImYwYjNkZmEzYmU0MTEyOGEzZGNlNDVkOWQ1OTU0MmU5NmVmYjZhMjMwZWM5MjUzNzRiZGZiNGY1MWIzNmM4ZTI2NTBkZWQ5ZWUxMmU3MjM0In0.eyJhdWQiOiIxODc5NSIsImp0aSI6ImYwYjNkZmEzYmU0MTEyOGEzZGNlNDVkOWQ1OTU0MmU5NmVmYjZhMjMwZWM5MjUzNzRiZGZiNGY1MWIzNmM4ZTI2NTBkZWQ5ZWUxMmU3MjM0IiwiaWF0IjoxNjU4MjU4NTQ5LCJuYmYiOjE2NTgyNTg1NDksImV4cCI6MTY2MDg1MDU0OSwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.Kd5dqFBrzvJmtkVL-LqRsDE3tHw4SSFGxc_dFs9v_4DRRkfaiKxcgSj6iRGjWtQcJTF7kikj6RS9NNI4MV5xBbqSjSiblKWfRXTqtAtoE9a_FJO7yt_DmcSpuUf99bbwSs99UPmOX945iMEFVbJSS-KyHfcQ8Q_G3XwymmD4hjxGvEsV32KzyeXUuUswzL9RwUFjtAn-ix-9-9DSRuSAEFk9MN2FP8_o3YvJ2m-7xJwFYy6nfn-K5_EncWpyJfbFWzkge5VS7XP1Mrnn8Jui9EgcSJsEzQjDt4jHN5_ZIVW63_Mq2kD3VlVrgqM97BrJlTaDQcICxaqt55O5eu9X9A');
-    await http.get(url);
-  }
-
-  static Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl = "google.navigation:q=$latitude,$longitude&mode=d";
-    await launchUrl(Uri.parse(googleUrl));
   }
 }
