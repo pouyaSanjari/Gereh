@@ -34,9 +34,6 @@ class ImageViewerPage extends StatelessWidget {
             children: [
               Expanded(
                 child: GestureDetector(
-                  onVerticalDragEnd: (details) {
-                    Get.back();
-                  },
                   child: PhotoViewGallery.builder(
                     onPageChanged: (index) {
                       controller.current.value = index + 1;
@@ -47,7 +44,7 @@ class ImageViewerPage extends StatelessWidget {
                     builder: (context, index) {
                       return PhotoViewGalleryPageOptions(
                           minScale: 0.13,
-                          maxScale: 0.4,
+                          maxScale: 0.5,
                           imageProvider: CachedNetworkImageProvider(
                               images[index]['image']));
                     },

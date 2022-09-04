@@ -24,16 +24,16 @@ class _JobDetailsState extends State<JobDetails> {
   UiDesign uiDesign = UiDesign();
   final controller = Get.put(JobDetailsController());
   final database = AppDataBase();
+  OverlayEntry? entry;
 
   @override
   Widget build(BuildContext context) {
     var images = widget.images;
     var ad = widget.adDetails;
+
     controller.advertizer.value = ad['advertizerid'];
     controller.adType.value = ad['adtype'];
-    bool isHiring = controller.adType.value == '1' ? false : true;
     controller.hiringtype.value = ad['hiringtype'];
-    bool isHiringDayli = controller.hiringtype.value == '1' ? true : false;
     controller.title.value = ad['title'];
     controller.category.value = ad['category'];
     controller.city.value = ad['city'];
@@ -41,22 +41,19 @@ class _JobDetailsState extends State<JobDetails> {
     controller.locationlat.value = ad['locationlat'];
     controller.locationlon.value = ad['locationlon'];
     controller.men.value = ad['men'];
-    bool menVisibility =
-        controller.men.value == '0' && controller.hiringtype.value == '0'
-            ? false
-            : true;
     controller.women.value = ad['women'];
-    bool womenVisibility =
-        controller.women.value == '0' && controller.hiringtype.value == '0'
-            ? false
-            : true;
     controller.mprice.value = ad['mprice'];
     controller.wprice.value = ad['wprice'];
     controller.descs.value = ad['descs'];
     controller.time.value = ad['time'];
     controller.instagramid.value = ad['instagramid'];
 
+    bool isHiring = controller.adType.value == '1' ? false : true;
+    bool isHiringDayli = controller.hiringtype.value == '1' ? true : false;
+    bool menVisibility = controller.men.value == '0' ? false : true;
+    bool womenVisibility = controller.women.value == '0' ? false : true;
     controller.phonebool.value = ad['phonebool'] == '0' ? false : true;
+    controller.smsbool.value = ad['smsbool'] == '0' ? false : true;
     controller.chatbool.value = ad['chatbool'] == '0' ? false : true;
     controller.photobool.value = ad['photobool'] == '0' ? false : true;
     controller.locationbool.value = ad['locationbool'] == '0' ? false : true;
@@ -69,7 +66,18 @@ class _JobDetailsState extends State<JobDetails> {
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           appBar: appBar(context),
+          floatingActionButton: FloatingActionButton.extended(
+              backgroundColor: uiDesign.firstColor(),
+              onPressed: () {
+                if (entry == null) {
+                  showContactInfo();
+                } else {
+                  hideOverlay();
+                }
+              },
+              label: const Text('برقراری ارتباط')),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(10),
@@ -87,56 +95,47 @@ class _JobDetailsState extends State<JobDetails> {
                       children: [
                         const Icon(Iconsax.clock, size: 15, color: Colors.grey),
                         const SizedBox(width: 5),
-                        Text(
-                          uiDesign.timeFunction(controller.time.value),
-                          style: uiDesign.descriptionsTextStyle(),
+                        Expanded(
+                          child: Text(
+                            uiDesign.timeFunction(controller.time.value),
+                            style: uiDesign.descriptionsTextStyle(),
+                          ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Visibility(
-                            visible: controller.phonebool.value,
-                            child: uiDesign.roundedIconWithText(
-                              icon:
-                                  const Icon(Iconsax.call, color: Colors.white),
-                              backColor: uiDesign.secondColor(),
-                              text: 'تماس',
-                              onClick: () {
-                                _makePhoneCall(controller.advertizerNumber.value
-                                    .toString());
-                              },
+                        Container(
+                          height: 20,
+                          width: 55,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: isHiring
+                                  ? uiDesign.forthColor()
+                                  : uiDesign.fifthColor()),
+                          child: Center(
+                            child: Text(
+                              isHiring ? 'استخدام' : 'تبلیغ',
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
-                          uiDesign.roundedIconWithText(
-                            icon: const Icon(Iconsax.sms, color: Colors.white),
-                            backColor: uiDesign.fifthColor(),
-                            text: 'پیامک',
-                            onClick: () {
-                              _textMe(controller.advertizerNumber.value);
-                            },
+                        ),
+                        const SizedBox(width: 5),
+                        Visibility(
+                          visible: isHiring,
+                          child: Container(
+                            height: 20,
+                            width: 55,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: isHiringDayli
+                                    ? uiDesign.firstColor()
+                                    : uiDesign.thirdColor()),
+                            child: Center(
+                              child: Text(
+                                isHiringDayli ? 'روزمزد' : 'ماهیانه',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
                           ),
-                          uiDesign.roundedIconWithText(
-                            icon: const Icon(Iconsax.instagram,
-                                color: Colors.white),
-                            backColor: uiDesign.firstColor(),
-                            text: 'اینستاگرام',
-                            onClick: () {
-                              _launchInstagram(controller.instagramid.value);
-                            },
-                          ),
-                          uiDesign.roundedIconWithText(
-                            icon: const Icon(Iconsax.sms_tracking,
-                                color: Colors.white),
-                            backColor: uiDesign.forthColor(),
-                            text: 'چت',
-                            onClick: () {},
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 30),
                     row(
@@ -197,7 +196,7 @@ class _JobDetailsState extends State<JobDetails> {
                         visible: womenVisibility,
                         child: const Divider(height: 30)),
                     Text('توضیحات', style: uiDesign.titleTextStyle()),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
                     Text(controller.descs.value),
                     const SizedBox(height: 15),
                     controller.locationbool.value
@@ -222,7 +221,29 @@ class _JobDetailsState extends State<JobDetails> {
                               'با کلیک بر بروی نقشه می توانید محل آگهی را مشاهده کنید.',
                               style: uiDesign.descriptionsTextStyle()),
                         )),
-                    const SizedBox(height: 90)
+                    Divider(height: 30),
+                    Container(
+                      width: 400,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[350],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(children: [
+                          Text(
+                            'تذکر مهم!',
+                            style: TextStyle(
+                                color: uiDesign.firstColor(), fontSize: 18),
+                          ),
+                          const Text(
+                            'کاربر گرامی لطفا توجه فرمائید که سایت و اپلیکیشن سرکارگر هیچگونه مسئولیتی در قبال صحت اطلاعات درج شده در آگهی ندارد. لذا خواهشمند است قبل از مراجعه حضوری از صحت اطلاعات آگهی اطمینان حاصل فرمائید. همچنین از پرداخت مبلغ قبل از مراجعه حضوری و بدون اطمینان از صحت موارد مندرج در آگهی بپرهیزید.',
+                            textAlign: TextAlign.justify,
+                          )
+                        ]),
+                      ),
+                    ),
+                    const SizedBox(height: 70)
                   ],
                 ),
               ),
@@ -250,18 +271,7 @@ class _JobDetailsState extends State<JobDetails> {
 
   Widget imagesView(BuildContext context, List<dynamic> images) {
     if (images.isEmpty) {
-      return Container(
-        height: 150,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(15)),
-        child: const Icon(
-          Iconsax.gallery_slash,
-          size: 100,
-          color: Colors.grey,
-        ),
-      );
+      return Container();
     } else {
       return SizedBox(
         height: 250,
@@ -356,5 +366,93 @@ class _JobDetailsState extends State<JobDetails> {
   String digi(String number) {
     String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
     return digit;
+  }
+
+  void showContactInfo() {
+    entry = OverlayEntry(
+      builder: (context) => Obx(
+        () => AnimatedPositioned(
+          duration: const Duration(milliseconds: 500),
+          bottom: 20,
+          left: controller.contactInfoPosition.value ? 10 : -100,
+          curve: Curves.easeInOutExpo,
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.black26, borderRadius: BorderRadius.circular(50)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Visibility(
+                    visible: controller.phonebool.value,
+                    child: uiDesign.roundedIconWithText(
+                      icon: const Icon(Iconsax.call, color: Colors.white),
+                      backColor: uiDesign.secondColor(),
+                      text: 'تماس',
+                      onClick: () {
+                        _makePhoneCall(
+                            controller.advertizerNumber.value.toString());
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: controller.smsbool.value,
+                    child: uiDesign.roundedIconWithText(
+                      icon: const Icon(Iconsax.sms, color: Colors.white),
+                      backColor: uiDesign.fifthColor(),
+                      text: 'پیامک',
+                      onClick: () {
+                        _textMe(controller.advertizerNumber.value);
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: controller.instagrambool.value,
+                    child: uiDesign.roundedIconWithText(
+                      icon: const Icon(Iconsax.instagram, color: Colors.white),
+                      backColor: uiDesign.firstColor(),
+                      text: 'اینستاگرام',
+                      onClick: () {
+                        _launchInstagram(controller.instagramid.value);
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: controller.chatbool.value,
+                    child: uiDesign.roundedIconWithText(
+                      icon:
+                          const Icon(Iconsax.sms_tracking, color: Colors.white),
+                      backColor: uiDesign.forthColor(),
+                      text: 'چت',
+                      onClick: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    final overlay = Overlay.of(context)!;
+    overlay.insert(entry!);
+    Future.delayed(
+      const Duration(milliseconds: 50),
+      () {
+        controller.contactInfoPosition.value = true;
+      },
+    );
+  }
+
+  void hideOverlay() async {
+    controller.contactInfoPosition.value = false;
+    await Future.delayed(
+      const Duration(milliseconds: 300),
+      () {
+        entry?.remove();
+        entry = null;
+      },
+    );
   }
 }

@@ -233,19 +233,24 @@ class UiDesign {
     return Column(
       children: [
         RawMaterialButton(
-          constraints: BoxConstraints(minHeight: 20, minWidth: 60),
-          elevation: 5,
+          constraints: const BoxConstraints(minHeight: 20, minWidth: 60),
+          elevation: 0,
           fillColor: backColor,
+          splashColor: firstColor(),
+          highlightColor: firstColor(),
           padding: const EdgeInsets.all(15),
           shape: const CircleBorder(),
           onPressed: onClick,
           child: icon,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: Text(
-            text,
-            style: const TextStyle(color: Colors.grey),
+          padding: const EdgeInsets.only(top: 2, bottom: 3),
+          child: Material(
+            color: Colors.transparent,
+            child: Text(
+              text,
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         )
       ],

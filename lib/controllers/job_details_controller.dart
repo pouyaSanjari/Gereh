@@ -1,4 +1,5 @@
 import 'package:expandable_fab_menu/expandable_fab_menu.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class JobDetailsController extends GetxController {
@@ -25,10 +26,19 @@ class JobDetailsController extends GetxController {
   RxString instagramid = ''.obs;
 
   RxBool phonebool = false.obs;
+  RxBool smsbool = false.obs;
   RxBool chatbool = false.obs;
   RxBool photobool = false.obs;
   RxBool locationbool = false.obs;
   RxBool instagrambool = false.obs;
 
+  RxBool contactInfoPosition = false.obs;
+
   RxList<ExpandableFabMenuItem> contact = <ExpandableFabMenuItem>[].obs;
+
+  @override
+  void onClose() {
+    contactInfoPosition.value = false;
+    super.onClose();
+  }
 }
