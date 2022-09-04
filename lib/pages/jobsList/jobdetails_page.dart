@@ -314,6 +314,7 @@ class _JobDetailsState extends State<JobDetails> {
         )
       ],
       elevation: 0,
+      centerTitle: true,
       title: const Text('جزئیات آگهی'),
       leading: IconButton(
           icon: const Icon(

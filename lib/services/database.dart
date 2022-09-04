@@ -1,7 +1,52 @@
 import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:sarkargar/controllers/request_controller.dart';
+
+final requestController = Get.put(RequestController());
+final box = GetStorage();
+final ImagePicker picker = ImagePicker();
+
+// گرفتن تصاویر آپلود شده کاربر
+getImages() async {
+  requestController.images.clear();
+  Uri url = Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
+  var jsonresponse =
+      await http.post(url, body: {'userid': box.read('id').toString()});
+  List result = convert.jsonDecode(jsonresponse.body);
+  for (var i = 0; i < result.length; i++) {
+    requestController.images.add(result[i]['image']);
+  }
+}
+
+// آپلود تصویر
+uploadImage() async {
+  final image =
+      await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+  if (image == null) {
+    return;
+  }
+  var url =
+      Uri.parse('http://sarkargar.ir/phpfiles/userimages/upload_image.php');
+  var request = http.MultipartRequest('POST', url);
+  request.files.add(await http.MultipartFile.fromPath('photo[0]', image.path));
+  Map<String, String> other = {'id': box.read('id').toString()};
+  request.fields.addAll(other);
+  Fluttertoast.showToast(msg: 'درحال آپلود...');
+  await request.send();
+  getImages();
+}
+
+deleteImage(String imageId) async {
+  Uri url = Uri.parse('http://sarkargar.ir/phpfiles/userimages/deletefile.php');
+  await http.post(url, body: {'imageid': imageId});
+  getImages();
+}
 
 class AppDataBase {
   ///گرفتن اطلاعات کاربر از طریق ایدی
@@ -91,6 +136,7 @@ class AppDataBase {
     required String locationlat,
     required String locationlon,
     required String phonebool,
+    required String smsbool,
     required String chatbool,
     required String photobool,
     required String locationbool,
@@ -114,6 +160,7 @@ class AppDataBase {
       'locationlat': locationlat,
       'locationlon': locationlon,
       'phonebool': phonebool,
+      'smsbool': smsbool,
       'chatbool': chatbool,
       'photobool': photobool,
       'locationbool': locationbool,
@@ -125,6 +172,7 @@ class AppDataBase {
       'descs': descs,
       'time': DateTime.now().toString(),
     });
+    print(response.body);
     return response.statusCode;
   }
 

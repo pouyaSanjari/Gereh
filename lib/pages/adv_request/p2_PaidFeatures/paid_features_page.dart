@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -49,24 +50,42 @@ class _PaidFeaturesState extends State<PaidFeatures> {
             () => listTiles(
                 leading: Iconsax.call,
                 iconColor: Colors.green,
-                title: 'نمایش شماره تلفن',
+                title: 'تماس',
                 switc: uiDesign.cSwitch(controller.phoneBool.value, (value) {
                   controller.phoneBool.value = value;
-                  if (value == false) {
-                    controller.chatBool.value = true;
+                  if (value == false &&
+                      controller.smsbool.value == false &&
+                      controller.chatBool.value == false) {
+                    controller.smsbool.value = true;
                   }
                 }),
-                sub:
-                    'کاربران می توانند مستقیما با شما تماس بگیرند یا پیام ارسال کنند.'),
+                sub: 'کاربران می توانند مستقیما با شما تماس بگیرند.'),
           ),
           Obx(
             () => listTiles(
                 leading: Iconsax.sms,
+                iconColor: uiDesign.thirdColor(),
+                title: 'پیامک',
+                switc: uiDesign.cSwitch(controller.smsbool.value, (value) {
+                  controller.smsbool.value = value;
+                  if (value == false &&
+                      controller.phoneBool.value == false &&
+                      controller.chatBool.value == false) {
+                    controller.phoneBool.value = true;
+                  }
+                }),
+                sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
+          ),
+          Obx(
+            () => listTiles(
+                leading: Iconsax.sms_tracking,
                 iconColor: Colors.orangeAccent,
                 title: 'چت',
                 switc: uiDesign.cSwitch(controller.chatBool.value, (value) {
                   controller.chatBool.value = value;
-                  if (value == false) {
+                  if (value == false &&
+                      controller.phoneBool.value == false &&
+                      controller.smsbool.value == false) {
                     controller.phoneBool.value = true;
                   }
                 }),
@@ -243,9 +262,12 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                                           ),
                                         );
                                       },
-                                      child: CachedNetworkImage(
-                                        imageUrl: snap[index]['image'],
-                                        fit: BoxFit.cover,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: CachedNetworkImage(
+                                          imageUrl: snap[index]['image'],
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     );
                                   }
@@ -379,36 +401,6 @@ class _PaidFeaturesState extends State<PaidFeatures> {
     }
     controller.images.isEmpty ? controller.images.value = uploadedImages : null;
     return result;
-  }
-
-  deleteImage(String imageId) async {
-    Uri url =
-        Uri.parse('http://sarkargar.ir/phpfiles/userimages/deletefile.php');
-    await http.post(url, body: {'imageid': imageId});
-    setState(() {
-      snap;
-    });
-  }
-
-  uploadImage() async {
-    final image =
-        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
-    if (image == null) {
-      return;
-    }
-    var url =
-        Uri.parse('http://sarkargar.ir/phpfiles/userimages/upload_image.php');
-    var request = http.MultipartRequest('POST', url);
-    request.files
-        .add(await http.MultipartFile.fromPath('photo[0]', image.path));
-    Map<String, String> other = {'id': box.read('id').toString()};
-    request.fields.addAll(other);
-    Fluttertoast.showToast(msg: 'درحال آپلود...');
-    await request.send();
-
-    setState(() {
-      snap;
-    });
   }
 
   @override

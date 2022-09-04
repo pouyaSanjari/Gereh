@@ -9,6 +9,9 @@ class RequestController extends GetxController {
   RxInt activeStep = 0.obs;
   //title page
 //###################################################
+
+  RxString titleimage = ''.obs;
+
   RxInt adType = 1.obs;
   RxString title = ''.obs;
   RxString selectedCategory = ''.obs;
@@ -66,6 +69,7 @@ class RequestController extends GetxController {
 
   RxBool instagramIdSelectionBool = false.obs;
   RxBool phoneBool = true.obs;
+  RxBool smsbool = false.obs;
   RxBool chatBool = false.obs;
 
   AppDataBase database = AppDataBase();

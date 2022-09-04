@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/services/select_category.dart';
 import 'package:sarkargar/services/select_city.dart';
@@ -17,9 +19,8 @@ class TitlePage extends StatefulWidget {
 
 class _TitlePageState extends State<TitlePage> {
   final controller = Get.put(RequestController());
+  final box = GetStorage();
   late FocusNode focusNode;
-
-  AppDataBase dataBase = AppDataBase();
   UiDesign uiDesign = UiDesign();
 
   TextEditingController titleTEC = TextEditingController();
@@ -53,7 +54,52 @@ class _TitlePageState extends State<TitlePage> {
           ),
         ),
 
-        const SizedBox(height: 30),
+        const SizedBox(height: 20),
+
+        Obx(
+          () => Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (controller.images.isEmpty)
+                InkWell(
+                  onTap: () => uploadImage(),
+                  child: Container(
+                      width: 85,
+                      height: 85,
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: const Icon(
+                        Iconsax.gallery_add,
+                        size: 35,
+                      )),
+                )
+              else
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    width: 85,
+                    height: 85,
+                    child: CachedNetworkImage(
+                        imageUrl: controller.images[0], fit: BoxFit.cover),
+                  ),
+                ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(' تصویر شاخص', style: uiDesign.titleTextStyle()),
+                    Text('   این تصور در لیست آگهی ها نمایش داده خواهد شد.',
+                        style: uiDesign.descriptionsTextStyle()),
+                    Text('   (با نگه داشتن روی تصویر می توانید آن را حذف کنید)',
+                        style: uiDesign.descriptionsTextStyle())
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
         Text('|عنوان آگهی', style: uiDesign.titleTextStyle()),
         Text('   توضیح مختصری از آگهی خود را وارد کنید.',
             style: uiDesign.descriptionsTextStyle()),
@@ -75,7 +121,7 @@ class _TitlePageState extends State<TitlePage> {
             },
           ),
         ),
-        const SizedBox(height: 30),
+        const SizedBox(height: 15),
         Text('|دسته بندی ', style: uiDesign.titleTextStyle()),
         Text('   انتخاب دسته بندی صحیح بازدید آگهی شما را افزایش خواهد داد.',
             style: uiDesign.descriptionsTextStyle()),
@@ -100,7 +146,7 @@ class _TitlePageState extends State<TitlePage> {
               }),
         ),
 
-        const SizedBox(height: 30),
+        const SizedBox(height: 15),
         Text('|شهر محل آگهی ', style: uiDesign.titleTextStyle()),
         Text('   آگهی شما در لیست آگهی های کدام شهر نمایش داده شود؟',
             style: uiDesign.descriptionsTextStyle()),
@@ -123,7 +169,7 @@ class _TitlePageState extends State<TitlePage> {
               }),
         ),
 
-        const SizedBox(height: 30),
+        const SizedBox(height: 15),
         Text('|توضیحات', style: uiDesign.titleTextStyle()),
         Text(
           '   سعی کنید شرح کاملی از درخواست خود را وارد کنید تا هیچ ابهامی باقی نماند، این مورد می تواند شانس استخدام نیرو و جذب مشتری را افزایش دهد.',
@@ -155,6 +201,7 @@ class _TitlePageState extends State<TitlePage> {
   @override
   // ignore: must_call_super
   void initState() {
+    getImages();
     focusNode = FocusNode();
     titleTEC.text = controller.title.value;
     categoryTEC.text = controller.selectedCategory.value;
@@ -165,6 +212,7 @@ class _TitlePageState extends State<TitlePage> {
   @override
   void dispose() {
     focusNode.dispose();
+
     super.dispose();
   }
 }

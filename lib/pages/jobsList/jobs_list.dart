@@ -60,6 +60,7 @@ class _JobsListState extends State<JobsList> {
             color: Colors.black,
           )),
       elevation: 0,
+      titleSpacing: 0,
       title: uiDesign.cTextField(
         onSubmit: (value) {
           controller.searches.add(value);

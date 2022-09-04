@@ -276,6 +276,7 @@ class _MainRequestPageState extends State<MainRequestPage>
           ? controller.selectedLon.value.toString()
           : '',
       phonebool: controller.phoneBool.value ? '1' : '0',
+      smsbool: controller.smsbool.value ? '1' : '0',
       chatbool: controller.chatBool.value ? '1' : '0',
       photobool: controller.imageSelectionBool.value ? '1' : '0',
       locationbool: controller.locationSelectionBool.value ? '1' : '0',
