@@ -12,43 +12,46 @@ final requestController = Get.put(RequestController());
 final box = GetStorage();
 final ImagePicker picker = ImagePicker();
 
+class AppDataBase {
 // گرفتن تصاویر آپلود شده کاربر
-getImages() async {
-  requestController.images.clear();
-  Uri url = Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
-  var jsonresponse =
-      await http.post(url, body: {'userid': box.read('id').toString()});
-  List result = convert.jsonDecode(jsonresponse.body);
-  for (var i = 0; i < result.length; i++) {
-    requestController.images.add(result[i]['image']);
+  getImages() async {
+    requestController.images.clear();
+    Uri url =
+        Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
+    var jsonresponse =
+        await http.post(url, body: {'userid': box.read('id').toString()});
+    List result = convert.jsonDecode(jsonresponse.body);
+    for (var i = 0; i < result.length; i++) {
+      requestController.images.add(result[i]['image']);
+    }
   }
-}
 
 // آپلود تصویر
-uploadImage() async {
-  final image =
-      await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
-  if (image == null) {
-    return;
+  uploadImage() async {
+    final image =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    if (image == null) {
+      return;
+    }
+    var url =
+        Uri.parse('http://sarkargar.ir/phpfiles/userimages/upload_image.php');
+    var request = http.MultipartRequest('POST', url);
+    request.files
+        .add(await http.MultipartFile.fromPath('photo[0]', image.path));
+    Map<String, String> other = {'id': box.read('id').toString()};
+    request.fields.addAll(other);
+    Fluttertoast.showToast(msg: 'درحال آپلود...');
+    await request.send();
+    getImages();
   }
-  var url =
-      Uri.parse('http://sarkargar.ir/phpfiles/userimages/upload_image.php');
-  var request = http.MultipartRequest('POST', url);
-  request.files.add(await http.MultipartFile.fromPath('photo[0]', image.path));
-  Map<String, String> other = {'id': box.read('id').toString()};
-  request.fields.addAll(other);
-  Fluttertoast.showToast(msg: 'درحال آپلود...');
-  await request.send();
-  getImages();
-}
 
-deleteImage(String imageId) async {
-  Uri url = Uri.parse('http://sarkargar.ir/phpfiles/userimages/deletefile.php');
-  await http.post(url, body: {'imageid': imageId});
-  getImages();
-}
+  deleteImage(String imageId) async {
+    Uri url =
+        Uri.parse('http://sarkargar.ir/phpfiles/userimages/deletefile.php');
+    await http.post(url, body: {'imageid': imageId});
+    getImages();
+  }
 
-class AppDataBase {
   ///گرفتن اطلاعات کاربر از طریق ایدی
   getUserDetailsById({required int userId}) async {
     var url = Uri.parse('https://sarkargar.ir/phpfiles/userDB/userdetails.php');
@@ -281,16 +284,5 @@ class AppDataBase {
     var response = await http.post(url, body: {'messageId': messageId});
 
     return response.body;
-  }
-
-  uploadImage() async {
-    var url = Uri.parse('http://localhost/upload/upload_image.php');
-    var request = http.MultipartRequest('POST', url);
-    Map<String, String> fields = {'adid': '0'};
-    request.fields.addEntries(fields.entries);
-    var picture = http.MultipartFile.fromBytes(
-        'image', (await rootBundle.load('')).buffer.asInt8List(),
-        filename: 'ducking.png');
-    request.files.add(picture);
   }
 }

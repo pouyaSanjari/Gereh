@@ -77,7 +77,12 @@ class _JobDetailsState extends State<JobDetails> {
                   hideOverlay();
                 }
               },
-              label: const Text('برقراری ارتباط')),
+              label: Row(
+                children: const [
+                  Icon(Iconsax.call, size: 18),
+                  Text(' برقراری ارتباط'),
+                ],
+              )),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(10),
@@ -213,6 +218,7 @@ class _JobDetailsState extends State<JobDetails> {
                                       'https://api.neshan.org/v2/static?key=service.3701bff2e5814681af87132d10abe63a&type=dreamy&zoom=14&center=${controller.locationlat.value},${controller.locationlon.value}&width=700&height=400&marker=red'),
                             ),
                           )
+                        //در صورتی که نقشه نداشته باشه کانتینر خالی نشون میده
                         : Container(),
                     Visibility(
                         visible: controller.locationbool.value,
@@ -221,7 +227,7 @@ class _JobDetailsState extends State<JobDetails> {
                               'با کلیک بر بروی نقشه می توانید محل آگهی را مشاهده کنید.',
                               style: uiDesign.descriptionsTextStyle()),
                         )),
-                    Divider(height: 30),
+                    const Divider(height: 50),
                     Container(
                       width: 400,
                       decoration: BoxDecoration(
@@ -282,9 +288,9 @@ class _JobDetailsState extends State<JobDetails> {
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(15)),
               child: InkWell(
-                onTap: () => Get.to(ImageViewerPage(images: widget.images),
-                    transition: Transition.cupertino,
-                    duration: const Duration(milliseconds: 300)),
+                onTap: () => Get.to(
+                  ImageViewerPage(images: widget.images),
+                ),
                 child: CachedNetworkImage(
                     width: MediaQuery.of(context).size.width,
                     imageUrl: images[0]['image'],
@@ -324,7 +330,6 @@ class _JobDetailsState extends State<JobDetails> {
         )
       ],
       elevation: 0,
-      centerTitle: true,
       title: const Text('جزئیات آگهی'),
       leading: IconButton(
           icon: const Icon(

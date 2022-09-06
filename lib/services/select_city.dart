@@ -23,7 +23,6 @@ class _SelectCityState extends State<SelectCity> {
   final controller = Get.put(RequestController());
   AppDataBase appDataBase = AppDataBase();
   UiDesign uiDesign = UiDesign();
-  final box = GetStorage();
 
   TextEditingController searchTEC = TextEditingController();
 
@@ -47,8 +46,9 @@ class _SelectCityState extends State<SelectCity> {
               if (widget.isFirstTime) {
                 box.write('city', controller.selectedCity.value);
                 Get.off(const MainPage());
+              } else {
+                Get.back(result: controller.selectedCity.value);
               }
-              Get.back(result: controller.selectedCity.value);
             }
           },
           backgroundColor: uiDesign.secondColor(),

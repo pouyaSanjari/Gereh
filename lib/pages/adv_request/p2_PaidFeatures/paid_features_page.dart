@@ -24,6 +24,7 @@ class PaidFeatures extends StatefulWidget {
 class _PaidFeaturesState extends State<PaidFeatures> {
   final box = GetStorage();
   final controller = Get.put(RequestController());
+  final database = AppDataBase();
 
   UiDesign uiDesign = UiDesign();
   final ImagePicker picker = ImagePicker();
@@ -166,7 +167,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                                       uiDesign.cRawMaterialButton(
                                         fillColor: Colors.green,
                                         text: '     افزودن تصویر     ',
-                                        onClick: () => uploadImage(),
+                                        onClick: () => database.uploadImage(),
                                       )
                                     ],
                                   ),
@@ -184,7 +185,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                                 itemBuilder: (context, int index) {
                                   if (snap.length < index + 1) {
                                     return InkWell(
-                                      onTap: () => uploadImage(),
+                                      onTap: () => database.uploadImage(),
                                       child: Container(
                                           decoration: BoxDecoration(
                                               border: Border.all(),
@@ -212,7 +213,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                                             actions: [
                                               TextButton(
                                                   onPressed: () async {
-                                                    await deleteImage(
+                                                    await database.deleteImage(
                                                         snap[index]['id']);
                                                     if (!mounted) return;
                                                     Navigator.of(context).pop();

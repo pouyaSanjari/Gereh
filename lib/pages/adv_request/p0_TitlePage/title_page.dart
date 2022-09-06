@@ -22,6 +22,7 @@ class _TitlePageState extends State<TitlePage> {
   final box = GetStorage();
   late FocusNode focusNode;
   UiDesign uiDesign = UiDesign();
+  final dataBase = AppDataBase();
 
   TextEditingController titleTEC = TextEditingController();
   TextEditingController descriptionsTEC = TextEditingController();
@@ -62,7 +63,7 @@ class _TitlePageState extends State<TitlePage> {
             children: [
               if (controller.images.isEmpty)
                 InkWell(
-                  onTap: () => uploadImage(),
+                  onTap: () => dataBase.uploadImage(),
                   child: Container(
                       width: 85,
                       height: 85,
@@ -201,7 +202,7 @@ class _TitlePageState extends State<TitlePage> {
   @override
   // ignore: must_call_super
   void initState() {
-    getImages();
+    dataBase.getImages();
     focusNode = FocusNode();
     titleTEC.text = controller.title.value;
     categoryTEC.text = controller.selectedCategory.value;

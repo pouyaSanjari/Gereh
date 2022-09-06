@@ -29,12 +29,15 @@ class JobsListController extends GetxController {
   void initialChip() {
     chips.addAll({
       'city': InkWell(
-        onTap: () => Get.to(() => SelectCity(
-                  isFirstTime: false,
-                ))!
-            .then((value) {
-          box.write('city', value);
-          return city.value = value;
+        onTap: () => Get.to(
+          () => SelectCity(
+            isFirstTime: false,
+          ),
+        )?.then((value) {
+          if (value != null) {
+            box.write('city', value);
+            city.value = value;
+          }
         }),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -176,7 +179,6 @@ class JobsListController extends GetxController {
 
   @override
   void onInit() {
-    initialChip();
     initialData();
     super.onInit();
   }
