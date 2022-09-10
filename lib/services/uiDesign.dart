@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
-import '../pages/generalPages/settings.dart';
+import '../pages/profile_page/settings.dart';
 
 class UiDesign {
   AppBar buildAppBar({required BuildContext context, required String title}) {
