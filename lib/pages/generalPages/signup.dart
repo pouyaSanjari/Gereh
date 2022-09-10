@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:sarkargar/services/select_city.dart';
+import 'package:sarkargar/components/select_city.dart';
 import '../../services/uiDesign.dart';
 
 class SignUp extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
-import 'package:sarkargar/services/select_city.dart';
+import 'package:sarkargar/components/select_city.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';

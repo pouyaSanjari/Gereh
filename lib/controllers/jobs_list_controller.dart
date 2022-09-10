@@ -6,7 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 
 import '../pages/jobsList/filter_screen.dart';
-import '../services/select_city.dart';
+import '../components/select_city.dart';
 
 class JobsListController extends GetxController {
   final box = GetStorage();

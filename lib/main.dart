@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:sarkargar/services/select_city.dart';
+import 'package:sarkargar/components/select_city.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/generalPages/login.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:sarkargar/services/image_viewer.dart';
+import 'package:sarkargar/components/image_viewer.dart';
 import 'package:sarkargar/controllers/job_details_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:url_launcher/url_launcher.dart';

@@ -6,14 +6,14 @@ import 'package:lottie/lottie.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 
-class Page5 extends StatefulWidget {
-  const Page5({Key? key}) : super(key: key);
+class InsertToDataBase extends StatefulWidget {
+  const InsertToDataBase({Key? key}) : super(key: key);
 
   @override
-  State<Page5> createState() => _Page5State();
+  State<InsertToDataBase> createState() => _InsertToDataBaseState();
 }
 
-class _Page5State extends State<Page5> {
+class _InsertToDataBaseState extends State<InsertToDataBase> {
   final controller = Get.put(RequestController());
 
   @override

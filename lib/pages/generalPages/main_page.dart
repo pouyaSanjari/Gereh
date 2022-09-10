@@ -5,8 +5,8 @@ import 'package:sarkargar/pages/chat/main.chat.page.dart';
 import 'package:sarkargar/pages/profile_page/main.profile.page.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobs_list.dart';
-import 'package:sarkargar/pages/my_ads/k_my_requests_page.dart';
-import 'package:sarkargar/pages/sabt_agahi/main_request_page.dart';
+import 'package:sarkargar/pages/myAds/my.ads.dart';
+import 'package:sarkargar/pages/sabt_agahi/p0.main.page.dart';
 
 class MainPage extends StatefulWidget {
   // ignore: use_key_in_widget_constructors

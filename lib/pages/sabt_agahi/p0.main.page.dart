@@ -6,10 +6,10 @@ import 'package:iconsax/iconsax.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:sarkargar/pages/sabt_agahi/title_page.dart';
-import 'package:sarkargar/pages/sabt_agahi/paid_features_page.dart';
-import 'package:sarkargar/pages/sabt_agahi/workers_count_page.dart';
-import 'package:sarkargar/pages/sabt_agahi/finish.dart';
+import 'package:sarkargar/pages/sabt_agahi/p1.title.dart';
+import 'package:sarkargar/pages/sabt_agahi/p3.paid.features.dart';
+import 'package:sarkargar/pages/sabt_agahi/p2.workers.count.dart';
+import 'package:sarkargar/pages/sabt_agahi/p4.insert.to.database.dart';
 import 'package:sarkargar/services/database.dart';
 import '../../controllers/request_controller.dart';
 
@@ -437,7 +437,7 @@ class _MainRequestPageState extends State<MainRequestPage>
 
       //ثبت درخواست
       case 3:
-        return const Page5();
+        return const InsertToDataBase();
       default:
         return const TitlePage();
     }
