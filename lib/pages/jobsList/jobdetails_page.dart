@@ -285,7 +285,7 @@ class _JobDetailsState extends State<JobDetails> {
           alignment: Alignment.bottomRight,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: InkWell(
                 onTap: () => Get.to(
                   ImageViewerPage(images: widget.images),

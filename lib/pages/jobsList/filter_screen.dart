@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/controllers/jobs_list_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/services/database.dart';
 
