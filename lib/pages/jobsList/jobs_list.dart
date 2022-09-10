@@ -410,10 +410,4 @@ class _JobsListState extends State<JobsList> {
       ),
     );
   }
-
-  @override
-  void initState() {
-    controller.city.value = box.read('city');
-    super.initState();
-  }
 }

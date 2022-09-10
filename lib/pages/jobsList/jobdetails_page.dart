@@ -87,7 +87,6 @@ class _JobDetailsState extends State<JobDetails> {
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

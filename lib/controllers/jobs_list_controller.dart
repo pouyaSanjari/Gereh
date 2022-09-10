@@ -179,6 +179,8 @@ class JobsListController extends GetxController {
 
   @override
   void onInit() {
+    city.value = box.read('city');
+    initialChip();
     initialData();
     super.onInit();
   }

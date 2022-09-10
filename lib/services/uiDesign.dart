@@ -59,7 +59,7 @@ class UiDesign {
           backgroundColor: Color.fromARGB(255, 250, 250, 250)),
       colorScheme: ThemeData().colorScheme.copyWith(
             primary: firstColor(),
-            secondary: const Color(0xff8bd3c7),
+            secondary: firstColor(),
             error: firstColor(),
           ),
     );

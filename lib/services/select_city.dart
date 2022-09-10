@@ -92,7 +92,7 @@ class _SelectCityState extends State<SelectCity> {
               child: Obx(
                 () => searchTEC.text.isEmpty
                     ? ListView.builder(
-                        physics: const BouncingScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics(),
                         itemCount: controller.cities
                             .where((p0) => p0['parent'] == '0')
                             .toList()
@@ -111,6 +111,7 @@ class _SelectCityState extends State<SelectCity> {
                       )
                     : ListView.builder(
                         itemCount: searched.length,
+                        physics: const AlwaysScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: () {
