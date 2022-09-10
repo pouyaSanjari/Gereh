@@ -370,6 +370,9 @@ class _JobsListState extends State<JobsList> {
                                     imageUrl: itemImage[0]['image'],
                                     height: 110,
                                     width: 110,
+                                    filterQuality: FilterQuality.low,
+                                    maxWidthDiskCache: 302,
+                                    maxHeightDiskCache: 302,
                                     fit: BoxFit.cover,
                                   ),
                                   Container(

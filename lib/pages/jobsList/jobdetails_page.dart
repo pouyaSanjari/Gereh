@@ -292,6 +292,9 @@ class _JobDetailsState extends State<JobDetails> {
                 ),
                 child: CachedNetworkImage(
                     width: MediaQuery.of(context).size.width,
+                    maxHeightDiskCache: 687,
+                    maxWidthDiskCache:
+                        MediaQuery.of(context).size.width.toInt(),
                     imageUrl: images[0]['image'],
                     fit: BoxFit.cover),
               ),
