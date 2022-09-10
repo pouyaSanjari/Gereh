@@ -10,7 +10,7 @@ import 'package:sarkargar/services/uiDesign.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-import '../../../controllers/request_controller.dart';
+import '../../controllers/request_controller.dart';
 import 'map.dart';
 
 class PaidFeatures extends StatefulWidget {

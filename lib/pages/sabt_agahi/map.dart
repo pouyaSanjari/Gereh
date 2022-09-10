@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
-import '../../../controllers/request_controller.dart';
+import '../../controllers/request_controller.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);

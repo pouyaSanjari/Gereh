@@ -6,12 +6,12 @@ import 'package:iconsax/iconsax.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:sarkargar/pages/sabt_agahi/p0_TitlePage/title_page.dart';
-import 'package:sarkargar/pages/sabt_agahi/p2_PaidFeatures/paid_features_page.dart';
-import 'package:sarkargar/pages/sabt_agahi/p1_WorkersCountPage/workers_count_page.dart';
-import 'package:sarkargar/pages/sabt_agahi/p3_finish/finish.dart';
+import 'package:sarkargar/pages/sabt_agahi/title_page.dart';
+import 'package:sarkargar/pages/sabt_agahi/paid_features_page.dart';
+import 'package:sarkargar/pages/sabt_agahi/workers_count_page.dart';
+import 'package:sarkargar/pages/sabt_agahi/finish.dart';
 import 'package:sarkargar/services/database.dart';
-import '../../../controllers/request_controller.dart';
+import '../../controllers/request_controller.dart';
 
 class MainRequestPage extends StatefulWidget {
   const MainRequestPage({Key? key}) : super(key: key);
