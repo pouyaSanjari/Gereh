@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/pages/chat/main.chat.page.dart';
-import 'package:sarkargar/pages/profile_page/profile_page.dart';
+import 'package:sarkargar/pages/profile_page/main.profile.page.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobs_list.dart';
 import 'package:sarkargar/pages/my_ads/k_my_requests_page.dart';

@@ -4,9 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:sarkargar/pages/profile_page/offers_page.dart';
-import 'package:sarkargar/pages/profile_page/savabegh_page.dart';
-import 'package:sarkargar/pages/profile_page/work_sample_images.dart';
+import 'package:sarkargar/pages/profile_page/offers.dart';
+import 'package:sarkargar/pages/profile_page/savabegh.dart';
 import 'package:sarkargar/services/database.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -131,19 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 );
                                 break;
-                              case 2:
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return WorkSamples(
-                                        isownder: true,
-                                        id: userId,
-                                      );
-                                    },
-                                  ),
-                                );
-                                break;
+
                               case 3:
                                 Navigator.push(
                                   context,
