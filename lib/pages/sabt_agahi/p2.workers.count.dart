@@ -6,6 +6,8 @@ import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
+import '../../constants/colors.dart';
+
 class WorkersCount extends StatefulWidget {
   const WorkersCount({Key? key}) : super(key: key);
 
@@ -31,7 +33,7 @@ class _WorkersCountState extends State<WorkersCount> {
           const SizedBox(height: 5),
           Center(
             child: ToggleSwitch(
-              activeBgColor: [uiDesign.secondColor()],
+              activeBgColor: [MyColors.green],
               inactiveBgColor: Colors.grey[300],
               minWidth: 200,
               animate: true,
@@ -75,7 +77,7 @@ class _WorkersCountState extends State<WorkersCount> {
             child: ToggleSwitch(
               minWidth: 200,
               animationDuration: 200,
-              activeBgColor: [uiDesign.secondColor()],
+              activeBgColor: const [MyColors.green],
               inactiveBgColor: Colors.grey[300],
               animate: true,
               labels: const ['روزمزد', 'ماهیانه'],
@@ -178,7 +180,7 @@ class _WorkersCountState extends State<WorkersCount> {
                   child: Checkbox(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5))),
-                      activeColor: uiDesign.firstColor(),
+                      activeColor: MyColors.red,
                       value: controller.ghimatTavafoghiMardBL.value,
                       onChanged: (value) {
                         controller.ghimatPishnahadiMardError.value = '';
@@ -231,7 +233,7 @@ class _WorkersCountState extends State<WorkersCount> {
                   child: Checkbox(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5))),
-                      activeColor: uiDesign.firstColor(),
+                      activeColor: MyColors.red,
                       value: controller.ghimatTavafoghiZanBL.value,
                       onChanged: (value) {
                         controller.ghimatPishnahadiZanError.value = '';

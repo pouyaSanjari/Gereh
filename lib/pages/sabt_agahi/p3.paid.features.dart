@@ -5,11 +5,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sarkargar/components/switch.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+import '../../constants/colors.dart';
 import '../../controllers/request_controller.dart';
 import 'map.dart';
 
@@ -51,29 +53,33 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 leading: Iconsax.call,
                 iconColor: Colors.green,
                 title: 'تماس',
-                switc: uiDesign.cSwitch(controller.phoneBool.value, (value) {
-                  controller.phoneBool.value = value;
-                  if (value == false &&
-                      controller.smsbool.value == false &&
-                      controller.chatBool.value == false) {
-                    controller.smsbool.value = true;
-                  }
-                }),
+                switc: MySwitch(
+                    val: controller.phoneBool.value,
+                    onChange: (value) {
+                      controller.phoneBool.value = value;
+                      if (value == false &&
+                          controller.smsbool.value == false &&
+                          controller.chatBool.value == false) {
+                        controller.smsbool.value = true;
+                      }
+                    }),
                 sub: 'کاربران می توانند مستقیما با شما تماس بگیرند.'),
           ),
           Obx(
             () => listTiles(
                 leading: Iconsax.sms,
-                iconColor: uiDesign.thirdColor(),
+                iconColor: MyColors.blueGrey,
                 title: 'پیامک',
-                switc: uiDesign.cSwitch(controller.smsbool.value, (value) {
-                  controller.smsbool.value = value;
-                  if (value == false &&
-                      controller.phoneBool.value == false &&
-                      controller.chatBool.value == false) {
-                    controller.phoneBool.value = true;
-                  }
-                }),
+                switc: MySwitch(
+                    val: controller.smsbool.value,
+                    onChange: (value) {
+                      controller.smsbool.value = value;
+                      if (value == false &&
+                          controller.phoneBool.value == false &&
+                          controller.chatBool.value == false) {
+                        controller.phoneBool.value = true;
+                      }
+                    }),
                 sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
           ),
           Obx(
@@ -81,14 +87,16 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 leading: Iconsax.sms_tracking,
                 iconColor: Colors.orangeAccent,
                 title: 'چت',
-                switc: uiDesign.cSwitch(controller.chatBool.value, (value) {
-                  controller.chatBool.value = value;
-                  if (value == false &&
-                      controller.phoneBool.value == false &&
-                      controller.smsbool.value == false) {
-                    controller.phoneBool.value = true;
-                  }
-                }),
+                switc: MySwitch(
+                    val: controller.chatBool.value,
+                    onChange: (value) {
+                      controller.chatBool.value = value;
+                      if (value == false &&
+                          controller.phoneBool.value == false &&
+                          controller.smsbool.value == false) {
+                        controller.phoneBool.value = true;
+                      }
+                    }),
                 sub:
                     'کاربران می توانند از طریق چت درون برنامه ای با شما ارتباط برقرار کنند.'),
           ),
@@ -107,13 +115,14 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 leading: Iconsax.gallery,
                 iconColor: Colors.lightBlueAccent,
                 title: 'تصاویر نمونه کار',
-                switc: uiDesign.cSwitch(controller.imageSelectionBool.value,
-                    (value) {
-                  controller.imageSelectionBool.value = value;
-                  value == true
-                      ? controller.imageSelectionHeight.value = 210
-                      : controller.imageSelectionHeight.value = 0;
-                }),
+                switc: MySwitch(
+                    val: controller.imageSelectionBool.value,
+                    onChange: (value) {
+                      controller.imageSelectionBool.value = value;
+                      value == true
+                          ? controller.imageSelectionHeight.value = 210
+                          : controller.imageSelectionHeight.value = 0;
+                    }),
                 sub:
                     'افزودن تصویر به آگهی موجب تعامل بیشتر کاربران با آگهی شما خواهد شد.'),
           ),
@@ -292,10 +301,11 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 leading: Iconsax.map_1,
                 iconColor: Colors.brown,
                 title: 'نمایش مکان روی نقشه',
-                switc: uiDesign.cSwitch(controller.locationSelectionBool.value,
-                    (value) {
-                  controller.locationSelectionState(value);
-                }),
+                switc: MySwitch(
+                    val: controller.locationSelectionBool.value,
+                    onChange: (value) {
+                      controller.locationSelectionState(value);
+                    }),
                 sub:
                     'این قابلیت را اضافه می کند که کاربر با کلیک بر روی یک دکمه مکان دقیق موقعیت مورد نظر شما را مشاهده کند.'),
           ),
@@ -308,7 +318,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 child: Column(
                   children: [
                     uiDesign.cRawMaterialButton(
-                      fillColor: uiDesign.firstColor(),
+                      fillColor: MyColors.red,
                       text: '   انتخاب موقعیت از روی نقشه   ',
                       onClick: () => Get.to(() => const MapPage())
                           ?.then((value) => address = value[0]),
@@ -325,10 +335,11 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 leading: Iconsax.instagram,
                 iconColor: Colors.redAccent,
                 title: 'آیدی اینستاگرام',
-                switc: uiDesign.cSwitch(
-                    controller.instagramIdSelectionBool.value, (value) {
-                  controller.instagramIdSelectionState(value);
-                }),
+                switc: MySwitch(
+                    val: controller.instagramIdSelectionBool.value,
+                    onChange: (value) {
+                      controller.instagramIdSelectionState(value);
+                    }),
                 sub:
                     'کابران به راحتی می توانند صفحه اینستاگرام شما را مشاهده کنند.'),
           ),

@@ -3,10 +3,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 
 import '../pages/jobsList/filter_screen.dart';
-import '../components/select_city.dart';
+import '../components/select.city.dart';
 
 class JobsListController extends GetxController {
   final box = GetStorage();
@@ -53,7 +54,7 @@ class JobsListController extends GetxController {
                 size: 20,
                 color: Colors.white,
               ),
-              backgroundColor: uiDesign.firstColor()),
+              backgroundColor: MyColors.red),
         ),
       )
     });
@@ -88,7 +89,7 @@ class JobsListController extends GetxController {
                 size: 20,
                 color: Colors.white,
               ),
-              backgroundColor: uiDesign.firstColor(),
+              backgroundColor: MyColors.red,
               deleteIcon: const Icon(Icons.close_rounded, color: Colors.white),
               onDeleted: onDeleted,
             ),
@@ -110,7 +111,7 @@ class JobsListController extends GetxController {
                 size: 20,
                 color: Colors.white,
               ),
-              backgroundColor: uiDesign.firstColor(),
+              backgroundColor: MyColors.red,
               deleteIcon: const Icon(Icons.close_rounded, color: Colors.white),
               onDeleted: onDeleted,
             ),
@@ -157,7 +158,7 @@ class JobsListController extends GetxController {
               size: 20,
               color: Colors.white,
             ),
-            backgroundColor: uiDesign.firstColor(),
+            backgroundColor: MyColors.red,
             deleteIcon: const Icon(Icons.close_rounded, color: Colors.white),
             onDeleted: () {
               chips.removeWhere((key, value) => key == 'filter');

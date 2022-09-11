@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:sarkargar/components/image_viewer.dart';
+import 'package:sarkargar/components/image.viewer.dart';
 import 'package:sarkargar/controllers/job_details_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../constants/colors.dart';
 
 class JobDetails extends StatefulWidget {
   final Map adDetails;
@@ -49,7 +51,7 @@ class _JobDetailsState extends State<JobDetails> {
     controller.instagramid.value = ad['instagramid'];
 
     bool isHiring = controller.adType.value == '1' ? false : true;
-    bool isHiringDayli = controller.hiringtype.value == '1' ? true : false;
+    bool isHiringDayli = controller.hiringtype.value == '0' ? true : false;
     bool menVisibility = controller.men.value == '0' ? false : true;
     bool womenVisibility = controller.women.value == '0' ? false : true;
     controller.phonebool.value = ad['phonebool'] == '0' ? false : true;
@@ -69,7 +71,7 @@ class _JobDetailsState extends State<JobDetails> {
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           appBar: appBar(context),
           floatingActionButton: FloatingActionButton.extended(
-              backgroundColor: uiDesign.firstColor(),
+              backgroundColor: MyColors.red,
               onPressed: () {
                 if (entry == null) {
                   showContactInfo();
@@ -110,9 +112,8 @@ class _JobDetailsState extends State<JobDetails> {
                           width: 55,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: isHiring
-                                  ? uiDesign.forthColor()
-                                  : uiDesign.fifthColor()),
+                              color:
+                                  isHiring ? MyColors.orange : MyColors.blue),
                           child: Center(
                             child: Text(
                               isHiring ? 'استخدام' : 'تبلیغ',
@@ -129,8 +130,8 @@ class _JobDetailsState extends State<JobDetails> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: isHiringDayli
-                                    ? uiDesign.firstColor()
-                                    : uiDesign.thirdColor()),
+                                    ? MyColors.red
+                                    : MyColors.blueGrey),
                             child: Center(
                               child: Text(
                                 isHiringDayli ? 'روزمزد' : 'ماهیانه',
@@ -235,13 +236,12 @@ class _JobDetailsState extends State<JobDetails> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Column(children: [
+                        child: Column(children: const [
                           Text(
                             'تذکر مهم!',
-                            style: TextStyle(
-                                color: uiDesign.firstColor(), fontSize: 18),
+                            style: TextStyle(color: MyColors.red, fontSize: 18),
                           ),
-                          const Text(
+                          Text(
                             'کاربر گرامی لطفا توجه فرمائید که سایت و اپلیکیشن سرکارگر هیچگونه مسئولیتی در قبال صحت اطلاعات درج شده در آگهی ندارد. لذا خواهشمند است قبل از مراجعه حضوری از صحت اطلاعات آگهی اطمینان حاصل فرمائید. همچنین از پرداخت مبلغ قبل از مراجعه حضوری و بدون اطمینان از صحت موارد مندرج در آگهی بپرهیزید.',
                             textAlign: TextAlign.justify,
                           )
@@ -395,7 +395,7 @@ class _JobDetailsState extends State<JobDetails> {
                     visible: controller.phonebool.value,
                     child: uiDesign.roundedIconWithText(
                       icon: const Icon(Iconsax.call, color: Colors.white),
-                      backColor: uiDesign.secondColor(),
+                      backColor: MyColors.green,
                       text: 'تماس',
                       onClick: () {
                         _makePhoneCall(
@@ -407,7 +407,7 @@ class _JobDetailsState extends State<JobDetails> {
                     visible: controller.smsbool.value,
                     child: uiDesign.roundedIconWithText(
                       icon: const Icon(Iconsax.sms, color: Colors.white),
-                      backColor: uiDesign.fifthColor(),
+                      backColor: MyColors.blue,
                       text: 'پیامک',
                       onClick: () {
                         _textMe(controller.advertizerNumber.value);
@@ -418,7 +418,7 @@ class _JobDetailsState extends State<JobDetails> {
                     visible: controller.instagrambool.value,
                     child: uiDesign.roundedIconWithText(
                       icon: const Icon(Iconsax.instagram, color: Colors.white),
-                      backColor: uiDesign.firstColor(),
+                      backColor: MyColors.red,
                       text: 'اینستاگرام',
                       onClick: () {
                         _launchInstagram(controller.instagramid.value);
@@ -430,7 +430,7 @@ class _JobDetailsState extends State<JobDetails> {
                     child: uiDesign.roundedIconWithText(
                       icon:
                           const Icon(Iconsax.sms_tracking, color: Colors.white),
-                      backColor: uiDesign.forthColor(),
+                      backColor: MyColors.orange,
                       text: 'چت',
                       onClick: () {},
                     ),

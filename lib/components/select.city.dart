@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
@@ -51,7 +52,7 @@ class _SelectCityState extends State<SelectCity> {
               }
             }
           },
-          backgroundColor: uiDesign.secondColor(),
+          backgroundColor: MyColors.green,
           child: const Icon(
             Icons.check_rounded,
             size: 35,
@@ -99,6 +100,7 @@ class _SelectCityState extends State<SelectCity> {
                             .length,
                         itemBuilder: (BuildContext context, int index) {
                           title = controller.cities
+                              // داخل دیتابیس شهر ها با پرنت صفر ذخیره شدن
                               .where((item) => item['parent'] == '0')
                               .toList();
                           item = cities(ostan[index]['id']);
@@ -117,6 +119,13 @@ class _SelectCityState extends State<SelectCity> {
                             onTap: () {
                               controller.selectedCity.value = searched[index];
                               controller.categoryError.value = '';
+                              if (widget.isFirstTime) {
+                                box.write(
+                                    'city', controller.selectedCity.value);
+                                Get.off(const MainPage());
+                              } else {
+                                Get.back(result: controller.selectedCity.value);
+                              }
                             },
                             child: ListTile(
                               title: Text(searched[index]),
@@ -128,11 +137,10 @@ class _SelectCityState extends State<SelectCity> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              color: uiDesign.firstColor(),
+              color: MyColors.red,
               child: TextButton.icon(
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(uiDesign.firstColor())),
+                    backgroundColor: MaterialStateProperty.all(MyColors.red)),
                 onPressed: () {
                   controller.selectedCity.value = 'لطفا صبر کنید...';
                   getCityNameByLocation();

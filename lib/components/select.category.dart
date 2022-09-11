@@ -6,7 +6,7 @@ import 'package:sarkargar/services/uiDesign.dart';
 import '../controllers/request_controller.dart';
 
 class SelectCategory extends StatefulWidget {
-  SelectCategory({Key? key}) : super(key: key);
+  const SelectCategory({Key? key}) : super(key: key);
 
   @override
   State<SelectCategory> createState() => _SelectCategoryState();

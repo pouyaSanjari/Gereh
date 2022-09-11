@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:sarkargar/constants/colors.dart';
 
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -45,7 +46,7 @@ class _MapPageState extends State<MapPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () => Get.back(result: [controller.address.value]),
-          backgroundColor: uiDesign.secondColor(),
+          backgroundColor: MyColors.green,
           child: const Icon(
             FontAwesomeIcons.check,
             size: 30,
@@ -113,8 +114,8 @@ class _MapPageState extends State<MapPage> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Icon(FontAwesomeIcons.locationDot,
-                                  color: uiDesign.firstColor(), size: 30),
+                              const Icon(FontAwesomeIcons.locationDot,
+                                  color: MyColors.red, size: 30),
                             ],
                           ),
                         );

@@ -5,10 +5,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
-import 'package:sarkargar/components/select_city.dart';
+import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
+
+import '../../constants/colors.dart';
 
 class JobsList extends StatefulWidget {
   const JobsList({Key? key}) : super(key: key);
@@ -161,8 +163,8 @@ class _JobsListState extends State<JobsList> {
                         ? 'استخدام'
                         : 'تبلیغ';
                     adTypeBgColor = controller.jobsList[index]['adtype'] == '0'
-                        ? uiDesign.forthColor()
-                        : uiDesign.fifthColor();
+                        ? MyColors.orange
+                        : MyColors.blue;
 
                     instagrambool =
                         controller.jobsList[index]['instagrambool'] == '0'
@@ -195,8 +197,8 @@ class _JobsListState extends State<JobsList> {
                         : 'تبلیغ';
                     adTypeBgColor =
                         controller.searchedList[index]['adtype'] == '0'
-                            ? uiDesign.forthColor()
-                            : uiDesign.fifthColor();
+                            ? MyColors.orange
+                            : MyColors.blue;
 
                     instagrambool =
                         controller.searchedList[index]['instagrambool'] == '0'

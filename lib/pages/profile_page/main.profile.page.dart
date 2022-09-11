@@ -58,7 +58,9 @@ class _ProfilePageState extends State<ProfilePage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: uiDesign.buildAppBar(
-            context: context, title: 'وارد شده به عنوان: کارجو'),
+          context: context,
+          title: 'وارد شده به عنوان: کارجو',
+        ),
         body: Directionality(
           textDirection: TextDirection.rtl,
           child: SafeArea(

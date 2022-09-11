@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/constants/colors.dart';
 import '../pages/profile_page/settings.dart';
 
 class UiDesign {
@@ -58,9 +59,9 @@ class UiDesign {
           ),
           backgroundColor: Color.fromARGB(255, 250, 250, 250)),
       colorScheme: ThemeData().colorScheme.copyWith(
-            primary: firstColor(),
-            secondary: firstColor(),
-            error: firstColor(),
+            primary: MyColors.red,
+            secondary: MyColors.red,
+            error: MyColors.red,
           ),
     );
   }
@@ -136,12 +137,12 @@ class UiDesign {
         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
         suffixIcon: control.text.isEmpty ? null : suffix,
         counterText: '',
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: firstColor()),
-            borderRadius: const BorderRadius.all(Radius.circular(30))),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: fifthColor()),
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
+        focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: MyColors.red),
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+        enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: MyColors.blue),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
         disabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -185,9 +186,9 @@ class UiDesign {
         focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
             borderRadius: BorderRadius.all(Radius.circular(30))),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: fifthColor()),
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
+        enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: MyColors.blue),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
         hintText: hint,
         prefixIcon: icon,
         labelText: labeltext,
@@ -236,8 +237,8 @@ class UiDesign {
           constraints: const BoxConstraints(minHeight: 20, minWidth: 60),
           elevation: 0,
           fillColor: backColor,
-          splashColor: firstColor(),
-          highlightColor: firstColor(),
+          splashColor: MyColors.red,
+          highlightColor: MyColors.red,
           padding: const EdgeInsets.all(15),
           shape: const CircleBorder(),
           onPressed: onClick,
@@ -305,9 +306,9 @@ class UiDesign {
     return BottomNavigationBar(
       selectedFontSize: 15,
       unselectedFontSize: 11,
-      selectedItemColor: firstColor(),
+      selectedItemColor: MyColors.red,
       unselectedItemColor: const Color.fromARGB(255, 184, 184, 184),
-      selectedIconTheme: IconThemeData(color: firstColor()),
+      selectedIconTheme: const IconThemeData(color: MyColors.red),
       onTap: onTap,
       currentIndex: currentIndex,
       type: BottomNavigationBarType.fixed,
@@ -333,16 +334,6 @@ class UiDesign {
         TextButton(onPressed: referesh, child: const Text('تلاش مجدد'))
       ],
     ));
-  }
-
-  FlutterSwitch cSwitch(bool val, ValueChanged<bool> onChange) {
-    return FlutterSwitch(
-        padding: 2,
-        activeColor: secondColor(),
-        height: 28,
-        width: 55,
-        value: val,
-        onToggle: onChange);
   }
 
   /// فاصله بین زمان حال و زمان دریافت شده رو به فارسی مینویسه
@@ -393,12 +384,6 @@ class UiDesign {
     String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
     return digit;
   }
-
-  Color firstColor() => const Color.fromARGB(255, 250, 113, 95);
-  Color secondColor() => const Color.fromARGB(255, 81, 194, 96);
-  Color thirdColor() => const Color(0xff7eb0d5);
-  Color forthColor() => const Color(0xffe9ad30);
-  Color fifthColor() => const Color(0xff0090ab);
 
   TextStyle titleTextStyle() => const TextStyle(fontSize: 20);
   TextStyle descriptionsTextStyle() =>

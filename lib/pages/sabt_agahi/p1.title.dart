@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/select_category.dart';
-import 'package:sarkargar/components/select_city.dart';
+import 'package:sarkargar/components/select.category.dart';
+import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import '../../constants/colors.dart';
 import '../../controllers/request_controller.dart';
 
 class TitlePage extends StatefulWidget {
@@ -40,7 +41,7 @@ class _TitlePageState extends State<TitlePage> {
         Center(
           child: Obx(
             () => ToggleSwitch(
-              activeBgColor: [uiDesign.secondColor()],
+              activeBgColor: const [MyColors.green],
               inactiveBgColor: Colors.grey[300],
               minWidth: 200,
               animate: true,

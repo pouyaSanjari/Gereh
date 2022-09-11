@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/sabt_agahi/p1.title.dart';
 import 'package:sarkargar/pages/sabt_agahi/p3.paid.features.dart';
@@ -77,7 +78,7 @@ class _MainRequestPageState extends State<MainRequestPage>
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: uiDesign.cRawMaterialButton(
-              fillColor: uiDesign.firstColor(),
+              fillColor: MyColors.red,
               text: 'ادامه...',
               onClick: () {
                 if (controller.title.trim().isEmpty) {
@@ -108,7 +109,7 @@ class _MainRequestPageState extends State<MainRequestPage>
               backBTN(),
               uiDesign.cRawMaterialButton(
                 text: 'ادامه',
-                fillColor: uiDesign.firstColor(),
+                fillColor: MyColors.red,
                 icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () {
                   switch (controller.switchEntekhabJensiyat.value) {
@@ -186,7 +187,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 text: 'بازگشت',
               ),
               uiDesign.cRawMaterialButton(
-                fillColor: uiDesign.firstColor(),
+                fillColor: MyColors.red,
                 icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () => controller.activeStep.value++,
                 text: 'ادامه',
@@ -350,12 +351,12 @@ class _MainRequestPageState extends State<MainRequestPage>
       enableStepTapping: false,
       stepReachedAnimationEffect: Curves.easeOutBack,
       stepRadius: 18,
-      activeStepColor: uiDesign.firstColor(),
+      activeStepColor: MyColors.red,
       stepColor: Colors.transparent,
       enableNextPreviousButtons: false,
       activeStepBorderPadding: 0,
-      lineColor: uiDesign.thirdColor(),
-      activeStepBorderColor: uiDesign.firstColor(),
+      lineColor: MyColors.blueGrey,
+      activeStepBorderColor: MyColors.red,
       activeStep: controller.activeStep.value,
       lineLength: 100,
       onStepReached: (index) {
@@ -395,7 +396,7 @@ class _MainRequestPageState extends State<MainRequestPage>
   Widget header() {
     return Container(
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(color: uiDesign.thirdColor()),
+      decoration: const BoxDecoration(color: MyColors.blueGrey),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
