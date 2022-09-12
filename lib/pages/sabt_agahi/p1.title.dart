@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/components/MyToggleSwitch.dart';
 import 'package:sarkargar/components/select.category.dart';
 import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/components/selectable.text.field.dart';
@@ -42,19 +43,14 @@ class _TitlePageState extends State<TitlePage> {
         const SizedBox(height: 5),
         Center(
           child: Obx(
-            () => ToggleSwitch(
-              activeBgColor: const [MyColors.green],
-              inactiveBgColor: Colors.grey[300],
-              minWidth: 200,
-              animate: true,
-              animationDuration: 200,
-              initialLabelIndex: controller.adType.value,
-              totalSwitches: 2,
-              labels: const ['استخدام نیرو', 'تبلیغ کسب و کار'],
-              onToggle: (index) {
-                controller.adType.value = index ?? 0;
-              },
-            ),
+            () {
+              return MyToggleSwitch(
+                initialLableIndex: controller.adType.value,
+                labels: const ['استخدام نیرو', 'تبلیغ کسب و کار'],
+                totalSwitch: 2,
+                onToggle: (index) => controller.adType.value = index ?? 0,
+              );
+            },
           ),
         ),
 

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
@@ -54,6 +55,7 @@ class _JobsListState extends State<JobsList> {
 
   AppBar appBar() {
     return AppBar(
+      backgroundColor: Colors.grey[50],
       actions: const [SizedBox(width: 15)],
       leading: IconButton(
           onPressed: () {
@@ -225,6 +227,7 @@ class _JobsListState extends State<JobsList> {
                   return ListTile(
                     onTap: () {
                       Get.to(
+                        transition: Transition.rightToLeft,
                         () {
                           // در صورتی که سرچ کرده باشی یا نه
                           if (controller.searchedList.isEmpty) {

@@ -14,11 +14,14 @@ class UiDesign {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)))),
       fontFamily: 'sans',
-      appBarTheme: const AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
+      appBarTheme: AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle(
+              systemNavigationBarColor: MyColors.red,
+              statusBarIconBrightness: Brightness.dark,
+              statusBarColor: Colors.grey[50]),
           titleSpacing: 0,
           centerTitle: true,
-          titleTextStyle: TextStyle(
+          titleTextStyle: const TextStyle(
             fontFamily: 'sans',
             color: Colors.black,
             fontSize: 20,
@@ -39,10 +42,12 @@ class UiDesign {
       required int currentIndex,
       required List<BottomNavigationBarItem> items}) {
     return BottomNavigationBar(
+      elevation: 10,
       selectedFontSize: 15,
       unselectedFontSize: 11,
+      backgroundColor: const Color(0xfff2f5fc),
       selectedItemColor: MyColors.red,
-      unselectedItemColor: const Color.fromARGB(255, 184, 184, 184),
+      unselectedItemColor: Colors.black87,
       selectedIconTheme: const IconThemeData(color: MyColors.red),
       onTap: onTap,
       currentIndex: currentIndex,

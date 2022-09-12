@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sarkargar/components/select.city.dart';
@@ -41,5 +42,14 @@ class _MyAppState extends State<MyApp> {
         return const MainPage();
       }
     }
+  }
+
+  @override
+  void initState() {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Color(0xfff2f5fc),
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+    super.initState();
   }
 }

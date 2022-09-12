@@ -88,7 +88,7 @@ class _JobDetailsState extends State<JobDetails> {
               )),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

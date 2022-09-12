@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sarkargar/components/button.dart';
 import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/components/text.field.dart';
@@ -13,6 +16,7 @@ import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/pages/generalPages/signup.dart';
 import 'package:sarkargar/services/database.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -149,16 +153,33 @@ class _LoginPageState extends State<LoginPage> {
               msg: 'لطفا شماره تلفن معتبر وارد کنید',
             );
           } else {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return Dialog(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  child: Lottie.asset('assets/lottie/loading.json',
+                      width: 80, height: 80),
+                );
+              },
+            );
             await checkUserConnection();
             if (isConnected == false) {
+              Navigator.of(context).pop();
               Fluttertoast.showToast(
                   msg: 'لطفا اتصال اینترنت خود را بررسی کنید.');
             } else {
-              startTimer();
-              number = msgController.text;
-              getUserId(number: msgController.text);
-              sendCode(msgController.text, sentcode);
-              msgController.clear();
+              if (await sendCode(msgController.text, sentcode)) {
+                startTimer();
+                getUserId(number: msgController.text);
+                number = msgController.text;
+                msgController.clear();
+                Navigator.of(context).pop();
+              } else {
+                Fluttertoast.showToast(msg: 'شماره تلفن صحیح نمی باشد');
+                Navigator.of(context).pop();
+              }
             }
           }
         },
@@ -212,15 +233,29 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// متد ارسال کد فعال سازی اپلیکیشن.
-  void sendCode(number, code) async {
+  Future<bool> sendCode(number, code) async {
     var dio = Dio();
-    await dio.post(
+    var response = await dio.post(
         'https://console.melipayamak.com/api/send/shared/b183b97e15e44d21a384a0d7baba1f14',
         data: {
           "bodyId": 90935,
           "to": number,
           "args": ['$code']
         });
+    // print(code);
+    print(response.data);
+    if (response.data.toString().contains('موفق')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  AlertDialog loading() {
+    return AlertDialog(
+        content: Center(
+            child: Lottie.asset('assets/lottie/loading.json',
+                width: 80, height: 80)));
   }
 
   /// متد گرفتن ای دی شخص لاگین شده.
@@ -230,14 +265,21 @@ class _LoginPageState extends State<LoginPage> {
       return Fluttertoast.showToast(msg: 'لطفا اتصال اینترنت خود را چک کنید.');
     } else {
       var response = await dataBase.getUserIdByNumber(number: number);
-      userId = int.parse(response[0]['id']);
+      try {
+        userId = int.parse(response[0]['id']);
+      } catch (e) {
+        print(e);
+      }
       setState(() {});
       return response;
     }
   }
 
   checkUserConnection() async {
-    isConnected = await dataBase.checkUserConnection();
+    // چک کردن کانکشن روی پلتفرم وب کار نمیکنه
+    if (!kIsWeb) {
+      isConnected = await dataBase.checkUserConnection();
+    }
   }
 
   setUserId() async {
@@ -252,6 +294,7 @@ class _LoginPageState extends State<LoginPage> {
   // ignore: must_call_super
   void initState() {
     setUserId();
+
     checkUserConnection();
   }
 
@@ -261,5 +304,3 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 }
-
-// 6063 7310 5951 3003

@@ -63,10 +63,13 @@ class AppDataBase {
 
   ///گرفتن ای دی شخص از روی شماره تلفن
   getUserIdByNumber({required String number}) async {
-    var url = Uri.parse('https://sarkargar.ir/phpfiles/userDB/userdetails.php');
-    var response = await http.post(url,
-        body: {'query': 'select id from users where number = $number'});
+    var url = Uri.https('sarkargar.ir', 'phpfiles/userDB/userdetails.php');
+    var response = await http.post(
+      url,
+      body: {'query': 'select id from users where number = $number'},
+    );
     var jsonresponse = await convert.jsonDecode(response.body);
+    print(jsonresponse);
     return jsonresponse;
   }
 

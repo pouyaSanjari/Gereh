@@ -2,11 +2,10 @@ import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/components/MyToggleSwitch.dart';
 import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:toggle_switch/toggle_switch.dart';
-
 import '../../constants/colors.dart';
 
 class WorkersCount extends StatefulWidget {
@@ -33,15 +32,10 @@ class _WorkersCountState extends State<WorkersCount> {
           Center(child: Text('جنسیت', style: uiDesign.titleTextStyle())),
           const SizedBox(height: 5),
           Center(
-            child: ToggleSwitch(
-              activeBgColor: [MyColors.green],
-              inactiveBgColor: Colors.grey[300],
-              minWidth: 200,
-              animate: true,
-              animationDuration: 200,
-              initialLabelIndex: controller.switchEntekhabJensiyat.value,
-              totalSwitches: 3,
+            child: MyToggleSwitch(
+              initialLableIndex: controller.switchEntekhabJensiyat.value,
               labels: const ['آقا', 'خانم', 'هر دو'],
+              totalSwitch: 3,
               onToggle: (index) {
                 switch (index) {
                   case 0:
@@ -75,19 +69,11 @@ class _WorkersCountState extends State<WorkersCount> {
           Center(child: Text('نوع استخدام', style: uiDesign.titleTextStyle())),
           const SizedBox(height: 5),
           Center(
-            child: ToggleSwitch(
-              minWidth: 200,
-              animationDuration: 200,
-              activeBgColor: const [MyColors.green],
-              inactiveBgColor: Colors.grey[300],
-              animate: true,
+            child: MyToggleSwitch(
+              initialLableIndex: controller.switchHiringType.value,
               labels: const ['روزمزد', 'ماهیانه'],
-              totalSwitches: 2,
-              initialLabelIndex: controller.switchHiringType.value,
-              onToggle: (index) {
-                print(index);
-                controller.switchHiringType.value = index!;
-              },
+              totalSwitch: 2,
+              onToggle: (index) => controller.switchHiringType.value = index!,
             ),
           ),
           const SizedBox(height: 40),
