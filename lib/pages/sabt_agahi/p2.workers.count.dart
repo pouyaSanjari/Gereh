@@ -2,7 +2,7 @@ import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/my.toggle.switch.dart';
+import 'package:sarkargar/components/toggle.switch.dart';
 import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
