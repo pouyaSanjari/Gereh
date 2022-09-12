@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/MyToggleSwitch.dart';
+import 'package:sarkargar/components/my.toggle.switch.dart';
 import 'package:sarkargar/components/select.category.dart';
 import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/components/selectable.text.field.dart';
