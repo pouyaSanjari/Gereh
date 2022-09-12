@@ -40,7 +40,7 @@ class _InsertToDataBaseState extends State<InsertToDataBase> {
         )),
         const Divider(
             height: 30, color: Colors.black, indent: 50, endIndent: 50),
-        redif(title: 'راه های ارتباطی:'),
+        Text('راه های ارتباطی', style: UiDesign().titleTextStyle()),
         Text(
           'سبز نشانگر فعال و قرمز نشانگر غیر فعال بودن است.',
           style: UiDesign().descriptionsTextStyle(),

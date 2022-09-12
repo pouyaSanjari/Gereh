@@ -32,7 +32,7 @@ class MyButton extends StatelessWidget {
           BoxConstraints(minWidth: width ?? 80, minHeight: height ?? 40),
       highlightElevation: 0,
       fillColor: fillColor ?? MyColors.red,
-      elevation: 2,
+      elevation: 0,
       shape: RoundedRectangleBorder(
           borderRadius: const BorderRadius.all(Radius.circular(50)),
           side: BorderSide(color: borderColor ?? Colors.transparent)),

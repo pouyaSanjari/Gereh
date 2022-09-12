@@ -13,7 +13,7 @@ class MySwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlutterSwitch(
         padding: 2,
-        activeColor: MyColors.green,
+        activeColor: MyColors.blue,
         height: 28,
         width: 55,
         value: val,

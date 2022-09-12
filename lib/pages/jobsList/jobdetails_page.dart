@@ -216,7 +216,7 @@ class _JobDetailsState extends State<JobDetails> {
                               borderRadius: BorderRadius.circular(10),
                               child: CachedNetworkImage(
                                   imageUrl:
-                                      'https://api.neshan.org/v2/static?key=service.3701bff2e5814681af87132d10abe63a&type=dreamy&zoom=14&center=${controller.locationlat.value},${controller.locationlon.value}&width=700&height=400&marker=red'),
+                                      'https://api.neshan.org/v2/static?key=service.3701bff2e5814681af87132d10abe63a&type=dreamy&zoom=15&center=${controller.locationlat.value},${controller.locationlon.value}&width=700&height=400&marker=red'),
                             ),
                           )
                         //در صورتی که نقشه نداشته باشه کانتینر خالی نشون میده

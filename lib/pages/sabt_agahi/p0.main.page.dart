@@ -38,33 +38,44 @@ class _MainRequestPageState extends State<MainRequestPage>
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: SafeArea(
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  //قسمت بالای صفحه مربوط به استپر
-                  Obx(() => buildIconStepper()),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          //قسمت وارد کردن اطلاعات
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Obx(() => body()),
+          body: Stack(
+            children: [
+              SafeArea(
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      //قسمت بالای صفحه مربوط به استپر
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Obx(() => buildIconStepper()),
+                              //قسمت وارد کردن اطلاعات
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: Obx(() => body()),
+                              ),
+                              const SizedBox(height: 50)
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-
-                  //دکمه های کنترل استپر
-                  Obx(() => buttons())
-                ],
+                ),
               ),
-            ),
+              //دکمه های کنترل استپر
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: Positioned(
+                    bottom: 0,
+                    width: MediaQuery.of(context).size.width,
+                    child: Obx(() => buttons())),
+              ),
+            ],
           )),
     );
   }
@@ -347,12 +358,12 @@ class _MainRequestPageState extends State<MainRequestPage>
   IconStepper buildIconStepper() {
     return IconStepper(
       enableStepTapping: false,
-      stepReachedAnimationEffect: Curves.easeOutBack,
-      stepRadius: 20,
+      enableNextPreviousButtons: false,
+      scrollingDisabled: true,
+      stepRadius: 18,
       lineDotRadius: 1.4,
       activeStepColor: Colors.transparent,
       stepColor: Colors.transparent,
-      enableNextPreviousButtons: false,
       lineColor: MyColors.blueGrey,
       activeStepBorderColor: Colors.transparent,
       activeStep: controller.activeStep.value,

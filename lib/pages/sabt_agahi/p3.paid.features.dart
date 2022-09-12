@@ -52,56 +52,93 @@ class _PaidFeaturesState extends State<PaidFeatures> {
               style: uiDesign.titleTextStyle()),
           const Divider(),
           Obx(
-            () => listTiles(
-                leading: Iconsax.call,
-                iconColor: Colors.green,
-                title: 'تماس',
-                switc: MySwitch(
-                    val: controller.phoneBool.value,
-                    onChange: (value) {
-                      controller.phoneBool.value = value;
-                      if (value == false &&
-                          controller.smsbool.value == false &&
-                          controller.chatBool.value == false) {
-                        controller.smsbool.value = true;
-                      }
-                    }),
-                sub: 'کاربران می توانند مستقیما با شما تماس بگیرند.'),
+            () => InkWell(
+              onTap: () {
+                controller.phoneBool.value == true
+                    ? controller.phoneBool.value = false
+                    : controller.phoneBool.value = true;
+                if (controller.phoneBool.value == false &&
+                    controller.smsbool.value == false &&
+                    controller.chatBool.value == false) {
+                  controller.smsbool.value = true;
+                }
+              },
+              child: listTiles(
+                  leading: Iconsax.call,
+                  iconColor: Colors.green,
+                  title: 'تماس',
+                  switc: MySwitch(
+                      val: controller.phoneBool.value,
+                      onChange: (value) {
+                        controller.phoneBool.value = value;
+                        if (value == false &&
+                            controller.smsbool.value == false &&
+                            controller.chatBool.value == false) {
+                          controller.smsbool.value = true;
+                        }
+                      }),
+                  sub: 'کاربران می توانند مستقیما با شما تماس بگیرند.'),
+            ),
           ),
           Obx(
-            () => listTiles(
-                leading: Iconsax.sms,
-                iconColor: MyColors.blue,
-                title: 'پیامک',
-                switc: MySwitch(
-                    val: controller.smsbool.value,
-                    onChange: (value) {
-                      controller.smsbool.value = value;
-                      if (value == false &&
-                          controller.phoneBool.value == false &&
-                          controller.chatBool.value == false) {
-                        controller.phoneBool.value = true;
-                      }
-                    }),
-                sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
+            () => InkWell(
+              onTap: () {
+                controller.smsbool.value == true
+                    ? controller.smsbool.value = false
+                    : controller.smsbool.value = true;
+                if (controller.phoneBool.value == false &&
+                    controller.phoneBool.value == false &&
+                    controller.chatBool.value == false) {
+                  controller.phoneBool.value = true;
+                }
+              },
+              child: listTiles(
+                  leading: Iconsax.sms,
+                  iconColor: MyColors.blue,
+                  title: 'پیامک',
+                  switc: MySwitch(
+                      val: controller.smsbool.value,
+                      onChange: (value) {
+                        controller.smsbool.value = value;
+                        if (value == false &&
+                            controller.phoneBool.value == false &&
+                            controller.chatBool.value == false) {
+                          controller.phoneBool.value = true;
+                        }
+                      }),
+                  sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
+            ),
           ),
           Obx(
-            () => listTiles(
-                leading: Iconsax.sms_tracking,
-                iconColor: Colors.orangeAccent,
-                title: 'چت',
-                switc: MySwitch(
-                    val: controller.chatBool.value,
-                    onChange: (value) {
-                      controller.chatBool.value = value;
-                      if (value == false &&
-                          controller.phoneBool.value == false &&
-                          controller.smsbool.value == false) {
-                        controller.phoneBool.value = true;
-                      }
-                    }),
-                sub:
-                    'کاربران می توانند از طریق چت درون برنامه ای با شما ارتباط برقرار کنند.'),
+            () => InkWell(
+              onTap: () {
+                controller.chatBool.value == true
+                    ? controller.chatBool.value = false
+                    : controller.chatBool.value = true;
+
+                if (controller.chatBool.value == false &&
+                    controller.phoneBool.value == false &&
+                    controller.smsbool.value == false) {
+                  controller.phoneBool.value = true;
+                }
+              },
+              child: listTiles(
+                  leading: Iconsax.sms_tracking,
+                  iconColor: Colors.orangeAccent,
+                  title: 'چت',
+                  switc: MySwitch(
+                      val: controller.chatBool.value,
+                      onChange: (value) {
+                        controller.chatBool.value = value;
+                        if (value == false &&
+                            controller.phoneBool.value == false &&
+                            controller.smsbool.value == false) {
+                          controller.phoneBool.value = true;
+                        }
+                      }),
+                  sub:
+                      'کاربران می توانند از طریق چت درون برنامه ای با شما ارتباط برقرار کنند.'),
+            ),
           ),
           const SizedBox(height: 50),
           Text('|  ویژگی های غیر رایگان  |', style: uiDesign.titleTextStyle()),
@@ -114,23 +151,31 @@ class _PaidFeaturesState extends State<PaidFeatures> {
           ),
           const Divider(),
           Obx(
-            () => listTiles(
-                leading: Iconsax.gallery,
-                iconColor: Colors.lightBlueAccent,
-                title: 'تصاویر نمونه کار',
-                switc: MySwitch(
-                    val: controller.imageSelectionBool.value,
-                    onChange: (value) {
-                      controller.imageSelectionBool.value = value;
-                      value == true
-                          ? controller.imageSelectionHeight.value = 210
-                          : controller.imageSelectionHeight.value = 0;
-                    }),
-                sub:
-                    'افزودن تصویر به آگهی موجب تعامل بیشتر کاربران با آگهی شما خواهد شد.'),
+            () => InkWell(
+              onTap: () {
+                controller.imageSelectionBool.value == true
+                    ? controller.imageSelectionBool.value = false
+                    : controller.imageSelectionBool.value = true;
+                controller.imageSelectionBool.value == true
+                    ? controller.imageSelectionHeight.value = 210
+                    : controller.imageSelectionHeight.value = 0;
+              },
+              child: listTiles(
+                  leading: Iconsax.gallery,
+                  iconColor: Colors.lightBlueAccent,
+                  title: 'تصاویر نمونه کار',
+                  switc: MySwitch(
+                      val: controller.imageSelectionBool.value,
+                      onChange: (value) {
+                        controller.imageSelectionBool.value = value;
+                        value == true
+                            ? controller.imageSelectionHeight.value = 210
+                            : controller.imageSelectionHeight.value = 0;
+                      }),
+                  sub:
+                      'افزودن تصویر به آگهی موجب تعامل بیشتر کاربران با آگهی شما خواهد شد.'),
+            ),
           ),
-          //###########################################################################################
-          //###########################################################################################
           //###########################################################################################
           Obx(
             () => AnimatedSize(
@@ -295,21 +340,28 @@ class _PaidFeaturesState extends State<PaidFeatures> {
             ),
           ),
           //###########################################################################################
-          //###########################################################################################
-          //###########################################################################################
           const SizedBox(height: 20),
           Obx(
-            () => listTiles(
-                leading: Iconsax.map_1,
-                iconColor: Colors.brown,
-                title: 'نمایش مکان روی نقشه',
-                switc: MySwitch(
-                    val: controller.locationSelectionBool.value,
-                    onChange: (value) {
-                      controller.locationSelectionState(value);
-                    }),
-                sub:
-                    'این قابلیت را اضافه می کند که کاربر با کلیک بر روی یک دکمه مکان دقیق موقعیت مورد نظر شما را مشاهده کند.'),
+            () => InkWell(
+              onTap: () {
+                controller.locationSelectionBool.value == false
+                    ? controller.locationSelectionBool.value = true
+                    : controller.locationSelectionBool.value = false;
+                controller.locationSelectionState(
+                    controller.locationSelectionBool.value);
+              },
+              child: listTiles(
+                  leading: Iconsax.map_1,
+                  iconColor: Colors.brown,
+                  title: 'نمایش مکان روی نقشه',
+                  switc: MySwitch(
+                      val: controller.locationSelectionBool.value,
+                      onChange: (value) {
+                        controller.locationSelectionState(value);
+                      }),
+                  sub:
+                      'این قابلیت را اضافه می کند که کاربر با کلیک بر روی یک دکمه مکان دقیق موقعیت مورد نظر شما را مشاهده کند.'),
+            ),
           ),
           Obx(
             () => AnimatedSize(
@@ -333,17 +385,26 @@ class _PaidFeaturesState extends State<PaidFeatures> {
           ),
           const SizedBox(height: 10),
           Obx(
-            () => listTiles(
-                leading: Iconsax.instagram,
-                iconColor: Colors.redAccent,
-                title: 'آیدی اینستاگرام',
-                switc: MySwitch(
-                    val: controller.instagramIdSelectionBool.value,
-                    onChange: (value) {
-                      controller.instagramIdSelectionState(value);
-                    }),
-                sub:
-                    'کابران به راحتی می توانند صفحه اینستاگرام شما را مشاهده کنند.'),
+            () => InkWell(
+              onTap: () {
+                controller.instagramIdSelectionBool.value == true
+                    ? controller.instagramIdSelectionBool.value = false
+                    : controller.instagramIdSelectionBool.value = true;
+                controller.instagramIdSelectionState(
+                    controller.instagramIdSelectionBool.value);
+              },
+              child: listTiles(
+                  leading: Iconsax.instagram,
+                  iconColor: Colors.redAccent,
+                  title: 'آیدی اینستاگرام',
+                  switc: MySwitch(
+                      val: controller.instagramIdSelectionBool.value,
+                      onChange: (value) {
+                        controller.instagramIdSelectionState(value);
+                      }),
+                  sub:
+                      'کابران به راحتی می توانند صفحه اینستاگرام شما را مشاهده کنند.'),
+            ),
           ),
           Obx(
             () => AnimatedOpacity(

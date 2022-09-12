@@ -100,15 +100,6 @@ class RequestController extends GetxController {
     }
   }
 
-  void imageSelectionState(bool boolean) {
-    imageSelectionBool.value = boolean;
-    if (boolean) {
-      imageSelectionHeight.value = 210.0;
-    } else {
-      imageSelectionHeight.value = 0.0;
-    }
-  }
-
   void instagramIdSelectionState(bool boolean) {
     instagramIdSelectionBool.value = boolean;
 
