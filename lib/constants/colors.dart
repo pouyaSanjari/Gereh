@@ -7,4 +7,5 @@ class MyColors {
   static const blueGrey = Color(0xff7eb0d5);
   static const orange = Color(0xffe9ad30);
   static const blue = Color(0xff0090ab);
+  static const bluewhite = Color.fromARGB(255, 236, 241, 252);
 }

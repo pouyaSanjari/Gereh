@@ -203,7 +203,17 @@ class _JobDetailsState extends State<JobDetails> {
                         child: const Divider(height: 30)),
                     Text('توضیحات', style: uiDesign.titleTextStyle()),
                     const SizedBox(height: 10),
-                    Text(controller.descs.value),
+                    Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: const BoxDecoration(
+                            color: MyColors.bluewhite,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          controller.descs.value,
+                          style: const TextStyle(fontSize: 15),
+                        )),
                     const SizedBox(height: 15),
                     controller.locationbool.value
                         ? InkWell(

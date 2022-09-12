@@ -20,7 +20,7 @@ class MyToggleSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return ToggleSwitch(
       activeBgColor: const [MyColors.blueGrey],
-      inactiveBgColor: const Color.fromARGB(255, 236, 241, 252),
+      inactiveBgColor: MyColors.bluewhite,
       minWidth: 200,
       animate: true,
       animationDuration: 200,
