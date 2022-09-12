@@ -33,49 +33,6 @@ class UiDesign {
     );
   }
 
-  //تکست فیلد انتخاب دسته بندی
-  TextField cCategorySelection({
-    required String labeltext,
-    required GestureTapCallback? onClick,
-    TextEditingController? control,
-    Icon? icon,
-    String? error,
-    String? hint,
-  }) {
-    return TextField(
-      readOnly: true,
-      controller: control,
-      textDirection: TextDirection.rtl,
-      textAlign: TextAlign.start,
-      onTap: onClick,
-      decoration: InputDecoration(
-        alignLabelWithHint: true,
-        errorText: error,
-        focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
-        errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
-        counterText: '',
-        focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
-        enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: MyColors.blue),
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        hintText: hint,
-        prefixIcon: icon,
-        labelText: labeltext,
-        labelStyle: const TextStyle(
-          color: Colors.black38,
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.never,
-      ),
-    );
-  }
-
   ///نویگیشن بار صفحه اصلی
   BottomNavigationBar buildBottomNavigationBar(
       {required ValueChanged<int?> onTap,

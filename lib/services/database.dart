@@ -44,6 +44,7 @@ class AppDataBase {
     getImages();
   }
 
+  /// حذف تصویر
   deleteImage(String imageId) async {
     Uri url =
         Uri.parse('http://sarkargar.ir/phpfiles/userimages/deletefile.php');
@@ -60,7 +61,7 @@ class AppDataBase {
     return jsonresponse;
   }
 
-//گرفتن ای دی شخص از روی شماره تلفن
+  ///گرفتن ای دی شخص از روی شماره تلفن
   getUserIdByNumber({required String number}) async {
     var url = Uri.parse('https://sarkargar.ir/phpfiles/userDB/userdetails.php');
     var response = await http.post(url,
@@ -95,28 +96,6 @@ class AppDataBase {
     var response = await http.get(url);
     var jsonResponse = convert.jsonDecode(response.body);
     return jsonResponse;
-  }
-
-  ///گرفتن لیست استانهای کشور
-  getProvinces() async {
-    var url = Uri.parse('https://sarkargar.ir/phpfiles/ostanha.php');
-    var response = await http.post(url);
-    var jsonResponse = convert.jsonDecode(response.body);
-    return jsonResponse;
-  }
-
-  ///گرفتن لیست شهرهای استان انتخابی
-  getCitis(String ostan) async {
-    var url1 = Uri.parse('https://sarkargar.ir/phpfiles/ostanNumber.php');
-    var response1 = await http.post(url1, body: {'ostan': ostan});
-    var jsonResponse1 = await convert.jsonDecode(response1.body);
-    var ostanNumber = jsonResponse1[0]['id'];
-
-    var url2 = Uri.parse('https://sarkargar.ir/phpfiles/cities.php');
-    var response2 = await http.post(url2, body: {'parent': ostanNumber});
-    var jsonResponse2 = convert.jsonDecode(response2.body);
-
-    return jsonResponse2;
   }
 
   getCitiesAndProvinces() async {
@@ -178,44 +157,6 @@ class AppDataBase {
     return response.statusCode;
   }
 
-  getUserGroups({required int userId}) async {
-    var url =
-        Uri.parse('https://sarkargar.ir/phpfiles/userDB/getusergroups.php');
-    var response = await http.post(url,
-        body: {'query': 'select * from groups where `userid` =$userId'});
-    var jsonResponse = convert.jsonDecode(response.body);
-    return jsonResponse;
-  }
-
-  createNewGroup({required int userId, required String groupName}) async {
-    var url =
-        Uri.parse('https://sarkargar.ir/phpfiles/userDB/getusergroups.php');
-    var response = await http.post(url, body: {
-      'query':
-          "INSERT INTO `groups` (`id`, `userid`, `groupname`) VALUES (NULL, '$userId', '$groupName')"
-    });
-    return response.statusCode;
-  }
-
-  deletGroup({required String id}) async {
-    var url =
-        Uri.parse('https://sarkargar.ir/phpfiles/userDB/getusergroups.php');
-    var response = await http
-        .post(url, body: {'query': "DELETE FROM `groups` WHERE `id` = $id"});
-
-    return response.statusCode;
-  }
-
-  updateGroupName({required String id, required String newName}) async {
-    var url =
-        Uri.parse('https://sarkargar.ir/phpfiles/userDB/getusergroups.php');
-    var response = await http.post(url, body: {
-      'query': "UPDATE `groups` SET `groupname` = '$newName' WHERE `id` = $id"
-    });
-
-    return response.statusCode;
-  }
-
   Future checkUserConnection() async {
     try {
       final result = await InternetAddress.lookup('google.com');
@@ -225,63 +166,5 @@ class AppDataBase {
     } on SocketException catch (_) {
       return false;
     }
-  }
-
-  getGroupsDetails({required String groupid}) async {
-    var url =
-        Uri.parse('https://sarkargar.ir/phpfiles/userDB/getusergroups.php');
-    var response = await http.post(url,
-        body: {'query': 'select * from groupitems where `groupid` =$groupid'});
-    var jsonResponse = convert.jsonDecode(response.body);
-    return jsonResponse;
-  }
-
-  insertIntoGroup(
-      {required String groupid,
-      required String gender,
-      required String name,
-      required String family,
-      required String number}) async {
-    var url =
-        Uri.parse('https://sarkargar.ir/phpfiles/userDB/getusergroups.php');
-    var response = await http.post(url, body: {
-      'query':
-          "INSERT INTO `groupitems` (`id`, `groupid`, `gender`, `name`, `family`, `number`) "
-              "VALUES (NULL, '$groupid', '$gender', '$name', '$family', '$number')"
-    });
-    return response.statusCode;
-  }
-
-// ignore: todo
-//TODO: تغییر متد GET به PSOT
-  adDetailsGet(String jobId) async {
-    var url = Uri.parse(
-        'https://sarkargar.ir/phpfiles/jobreqsDB/adDetails.php?id=${int.parse(jobId)}');
-    var response = await http.get(url);
-    var jsonresponse = convert.jsonDecode(response.body);
-
-    return jsonresponse;
-  }
-
-  getChats({required String id}) async {
-    var url = Uri.parse('https://sarkargar.ir/phpfiles/chats/getChats.php');
-    var response = await http.post(url, body: {'id': id});
-    var jsonResponse = convert.jsonDecode(response.body);
-    return jsonResponse;
-  }
-
-  getUnreadMessages({required String groupId}) async {
-    var url = Uri.parse('https://sarkargar.ir/phpfiles/chats/getMessages.php');
-    var response = await http.post(url, body: {'groupid': groupId});
-    var jsonResponse = convert.jsonDecode(response.body);
-    return jsonResponse;
-  }
-
-  setMessagesToReaded({required String messageId}) async {
-    var url = Uri.parse(
-        'https://sarkargar.ir/phpfiles/chats/set_read_messages_state.php');
-    var response = await http.post(url, body: {'messageId': messageId});
-
-    return response.body;
   }
 }

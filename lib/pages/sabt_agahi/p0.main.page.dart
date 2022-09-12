@@ -50,9 +50,6 @@ class _MainRequestPageState extends State<MainRequestPage>
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          //عنوان صفحه
-                          Obx(() => header()),
-
                           //قسمت وارد کردن اطلاعات
                           Padding(
                             padding: const EdgeInsets.all(10.0),
@@ -175,7 +172,7 @@ class _MainRequestPageState extends State<MainRequestPage>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               MyButton(
-                fillColor: Colors.transparent,
+                fillColor: Colors.grey[50],
                 borderColor: Colors.black,
                 icon: const Icon(Iconsax.arrow_right_4),
                 onClick: () {
@@ -351,82 +348,39 @@ class _MainRequestPageState extends State<MainRequestPage>
     return IconStepper(
       enableStepTapping: false,
       stepReachedAnimationEffect: Curves.easeOutBack,
-      stepRadius: 18,
-      activeStepColor: MyColors.red,
+      stepRadius: 20,
+      lineDotRadius: 1.4,
+      activeStepColor: Colors.transparent,
       stepColor: Colors.transparent,
       enableNextPreviousButtons: false,
-      activeStepBorderPadding: 0,
       lineColor: MyColors.blueGrey,
-      activeStepBorderColor: MyColors.red,
+      activeStepBorderColor: Colors.transparent,
       activeStep: controller.activeStep.value,
-      lineLength: 100,
+      // lineLength: 100,
       onStepReached: (index) {
         setState(() {
           controller.activeStep.value = index;
         });
       },
       icons: [
-        ///کارت چیه؟
         Icon(
           Iconsax.message_question,
-          color: controller.activeStep.value == 0 ? Colors.white : Colors.black,
+          color: controller.activeStep.value == 0 ? MyColors.red : Colors.grey,
         ),
-
-        ///چند نفر میخوای؟
         Icon(
           Iconsax.people,
-          color: controller.activeStep.value == 1 ? Colors.white : Colors.black,
+          color: controller.activeStep.value == 1 ? MyColors.red : Colors.grey,
         ),
-
-        ///چقد مایه داری؟
         Icon(
           Iconsax.dollar_circle,
-          color: controller.activeStep.value == 2 ? Colors.white : Colors.black,
+          color: controller.activeStep.value == 2 ? MyColors.red : Colors.grey,
         ),
-
-        ///ثبت درخواست
         Icon(
           Iconsax.tick_square,
-          color: controller.activeStep.value == 3 ? Colors.white : Colors.black,
+          color: controller.activeStep.value == 3 ? MyColors.red : Colors.grey,
         )
       ],
     );
-  }
-
-  //قسمت هدر استپر
-  Widget header() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(color: MyColors.blueGrey),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            headerText(),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // عنوان هر صفحه استپر
-  String headerText() {
-    switch (controller.activeStep.value) {
-      case 1:
-        return 'تعداد نفرات و مبلغ پیشنهادی';
-      case 2:
-        return 'ویژگی های آگهی';
-
-      case 3:
-        return 'ثبت نهایی';
-
-      default:
-        return 'عنوان و دسته بندی';
-    }
   }
 
   //بدنه هر استپر
@@ -436,8 +390,6 @@ class _MainRequestPageState extends State<MainRequestPage>
         return const WorkersCount();
       case 2:
         return const PaidFeatures();
-
-      //ثبت درخواست
       case 3:
         return const InsertToDataBase();
       default:

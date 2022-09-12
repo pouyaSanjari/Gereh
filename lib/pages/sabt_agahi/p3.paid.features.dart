@@ -71,7 +71,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
           Obx(
             () => listTiles(
                 leading: Iconsax.sms,
-                iconColor: MyColors.blueGrey,
+                iconColor: MyColors.blue,
                 title: 'پیامک',
                 switc: MySwitch(
                     val: controller.smsbool.value,

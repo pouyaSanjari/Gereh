@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/components/select.category.dart';
 import 'package:sarkargar/components/select.city.dart';
+import 'package:sarkargar/components/selectable.text.field.dart';
 import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/services/database.dart';
@@ -131,7 +132,7 @@ class _TitlePageState extends State<TitlePage> {
         const SizedBox(height: 5),
 
         Obx(
-          () => uiDesign.cCategorySelection(
+          () => MySelectableTextField(
               error: controller.categoryError.isEmpty
                   ? null
                   : controller.categoryError.value,
@@ -156,7 +157,7 @@ class _TitlePageState extends State<TitlePage> {
         const SizedBox(height: 5),
 
         Obx(
-          () => uiDesign.cCategorySelection(
+          () => MySelectableTextField(
               error: controller.cityError.isEmpty
                   ? null
                   : controller.cityError.value,
