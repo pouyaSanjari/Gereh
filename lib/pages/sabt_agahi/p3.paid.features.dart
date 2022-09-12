@@ -5,7 +5,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sarkargar/components/button.dart';
+import 'package:sarkargar/components/error.page.dart';
 import 'package:sarkargar/components/switch.dart';
+import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:http/http.dart' as http;
@@ -157,9 +160,8 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                                 snap = snapshot.data;
                               }
                               if (snapshot.data == null) {
-                                return uiDesign.errorWidget(
-                                  () => setState(() {}),
-                                );
+                                return MyErrorPage(
+                                    referesh: () => setState(() {}));
                               }
 
                               if (snapshot.data.isEmpty) {
@@ -172,7 +174,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                                         style: uiDesign.titleTextStyle(),
                                         textAlign: TextAlign.center,
                                       ),
-                                      uiDesign.cRawMaterialButton(
+                                      MyButton(
                                         fillColor: Colors.green,
                                         text: '     افزودن تصویر     ',
                                         onClick: () => database.uploadImage(),
@@ -317,7 +319,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 height: controller.locationSelectionHeight.value,
                 child: Column(
                   children: [
-                    uiDesign.cRawMaterialButton(
+                    MyButton(
                       fillColor: MyColors.red,
                       text: '   انتخاب موقعیت از روی نقشه   ',
                       onClick: () => Get.to(() => const MapPage())
@@ -352,7 +354,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 duration: const Duration(milliseconds: 500),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: uiDesign.cTextField(
+                  child: MyTextField(
                     length: 30,
                     hint: 'بدون @',
                     error: controller.selectedInstagramIdError.value == ''

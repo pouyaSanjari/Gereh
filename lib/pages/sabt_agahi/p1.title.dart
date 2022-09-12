@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/components/select.category.dart';
 import 'package:sarkargar/components/select.city.dart';
+import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -109,7 +110,7 @@ class _TitlePageState extends State<TitlePage> {
 
         //تکست فیلد وارد کردن عنوان آگهی
         Obx(
-          () => uiDesign.cTextField(
+          () => MyTextField(
             error: controller.titleError.value.isEmpty
                 ? null
                 : controller.titleError.value,
@@ -179,7 +180,7 @@ class _TitlePageState extends State<TitlePage> {
         ),
         const SizedBox(height: 5),
         Obx(
-          () => uiDesign.cTextField(
+          () => MyTextField(
               error: controller.descriptionsError.isEmpty
                   ? null
                   : controller.descriptionsError.value,

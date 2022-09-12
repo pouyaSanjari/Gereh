@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sarkargar/components/button.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/sabt_agahi/p1.title.dart';
@@ -77,7 +78,7 @@ class _MainRequestPageState extends State<MainRequestPage>
       case 0:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: uiDesign.cRawMaterialButton(
+          child: MyButton(
               fillColor: MyColors.red,
               text: 'ادامه...',
               onClick: () {
@@ -107,7 +108,7 @@ class _MainRequestPageState extends State<MainRequestPage>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               backBTN(),
-              uiDesign.cRawMaterialButton(
+              MyButton(
                 text: 'ادامه',
                 fillColor: MyColors.red,
                 icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
@@ -173,7 +174,7 @@ class _MainRequestPageState extends State<MainRequestPage>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              uiDesign.cRawMaterialButton(
+              MyButton(
                 fillColor: Colors.transparent,
                 borderColor: Colors.black,
                 icon: const Icon(Iconsax.arrow_right_4),
@@ -186,7 +187,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 },
                 text: 'بازگشت',
               ),
-              uiDesign.cRawMaterialButton(
+              MyButton(
                 fillColor: MyColors.red,
                 icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () => controller.activeStep.value++,
@@ -203,7 +204,7 @@ class _MainRequestPageState extends State<MainRequestPage>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               backBTN(),
-              uiDesign.cRawMaterialButton(
+              MyButton(
                   fillColor: Colors.green,
                   text: 'ثبت',
                   onClick: () {
@@ -220,7 +221,7 @@ class _MainRequestPageState extends State<MainRequestPage>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              uiDesign.cRawMaterialButton(
+              MyButton(
                 onClick: () {
                   setState(() {
                     if (controller.activeStep.value >= 1) {
@@ -230,7 +231,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 },
                 text: 'بازگشت',
               ),
-              uiDesign.cRawMaterialButton(
+              MyButton(
                 onClick: () => setState(() {
                   if (controller.activeStep.value <= 4) {
                     controller.activeStep.value++;
@@ -244,8 +245,8 @@ class _MainRequestPageState extends State<MainRequestPage>
     }
   }
 
-  RawMaterialButton backBTN() {
-    return uiDesign.cRawMaterialButton(
+  MyButton backBTN() {
+    return MyButton(
       fillColor: Colors.transparent,
       borderColor: Colors.black,
       icon: const Icon(Iconsax.arrow_right_4),

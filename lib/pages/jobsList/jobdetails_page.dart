@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:sarkargar/components/rounded.button.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/components/image.viewer.dart';
 import 'package:sarkargar/controllers/job_details_controller.dart';
@@ -393,7 +394,7 @@ class _JobDetailsState extends State<JobDetails> {
                 children: [
                   Visibility(
                     visible: controller.phonebool.value,
-                    child: uiDesign.roundedIconWithText(
+                    child: MyRoundedButton(
                       icon: const Icon(Iconsax.call, color: Colors.white),
                       backColor: MyColors.green,
                       text: 'تماس',
@@ -405,7 +406,7 @@ class _JobDetailsState extends State<JobDetails> {
                   ),
                   Visibility(
                     visible: controller.smsbool.value,
-                    child: uiDesign.roundedIconWithText(
+                    child: MyRoundedButton(
                       icon: const Icon(Iconsax.sms, color: Colors.white),
                       backColor: MyColors.blue,
                       text: 'پیامک',
@@ -416,7 +417,7 @@ class _JobDetailsState extends State<JobDetails> {
                   ),
                   Visibility(
                     visible: controller.instagrambool.value,
-                    child: uiDesign.roundedIconWithText(
+                    child: MyRoundedButton(
                       icon: const Icon(Iconsax.instagram, color: Colors.white),
                       backColor: MyColors.red,
                       text: 'اینستاگرام',
@@ -427,7 +428,7 @@ class _JobDetailsState extends State<JobDetails> {
                   ),
                   Visibility(
                     visible: controller.chatbool.value,
-                    child: uiDesign.roundedIconWithText(
+                    child: MyRoundedButton(
                       icon:
                           const Icon(Iconsax.sms_tracking, color: Colors.white),
                       backColor: MyColors.orange,

@@ -6,6 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:sarkargar/components/button.dart';
+import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/components/select.city.dart';
@@ -60,7 +62,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
-                        child: uiDesign.cTextField(
+                        child: MyTextField(
                             maxLine: 1,
                             control: nameController,
                             labeltext: 'نام',
@@ -72,7 +74,7 @@ class _SignUpState extends State<SignUp> {
                             }),
                       ),
                       const SizedBox(height: 15),
-                      uiDesign.cTextField(
+                      MyTextField(
                           maxLine: 1,
                           control: familyController,
                           labeltext: 'نام خانوادگی',
@@ -83,7 +85,7 @@ class _SignUpState extends State<SignUp> {
                             family = value;
                           }),
                       //دکمه ثبت نام
-                      uiDesign.cRawMaterialButton(
+                      MyButton(
                         text: 'ثبت نام',
                         onClick: () {
                           //اگه اسم رو وارد نکرده باشه

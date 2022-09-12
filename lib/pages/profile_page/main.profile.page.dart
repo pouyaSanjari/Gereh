@@ -3,10 +3,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/components/rounded.button.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/profile_page/offers.dart';
 import 'package:sarkargar/pages/profile_page/savabegh.dart';
 import 'package:sarkargar/services/database.dart';
+
+import 'settings.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -57,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
       theme: uiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: uiDesign.buildAppBar(
+        appBar: buildAppBar(
           context: context,
           title: 'وارد شده به عنوان: کارجو',
         ),
@@ -89,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    uiDesign.roundedIconWithText(
+                    MyRoundedButton(
                         icon: const FaIcon(
                           Iconsax.edit,
                           color: Colors.white,
@@ -99,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         onClick: () {
                           // TODO: رفتن به صفحه ویرایش مشخصات
                         }),
-                    uiDesign.roundedIconWithText(
+                    MyRoundedButton(
                         icon: const Icon(
                           Iconsax.headphone5,
                           color: Colors.white,
@@ -161,6 +164,38 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar buildAppBar({required BuildContext context, required String title}) {
+    return AppBar(
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 18),
+      ),
+      leading: IconButton(
+          onPressed: () {},
+          icon: const FaIcon(
+            Iconsax.alarm,
+            color: Colors.black,
+            size: 21,
+          )),
+      actions: [
+        IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Settings(),
+                  ));
+            },
+            icon: const Icon(
+              Iconsax.setting,
+              color: Colors.black,
+            ))
+      ],
+      automaticallyImplyLeading: true,
+      elevation: 0,
     );
   }
 

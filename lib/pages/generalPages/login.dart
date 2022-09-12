@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sarkargar/components/button.dart';
 import 'package:sarkargar/components/select.city.dart';
+import 'package:sarkargar/components/text.field.dart';
+import 'package:sarkargar/controllers/login.controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/pages/generalPages/signup.dart';
@@ -20,6 +23,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   AppDataBase dataBase = AppDataBase();
+  final controller = Get.put(LoginController());
   UiDesign uiDesign = UiDesign();
   final box = GetStorage();
 
@@ -46,47 +50,45 @@ class _LoginPageState extends State<LoginPage> {
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,
-            title: const Text('به اپلیکیشن سرکارگر خوش آمدید'),
+            title: const Text('شماره تلفن خود را وارد کنید'),
           ),
-          body: SingleChildScrollView(
-            physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: Image.asset(
-                            width: 300,
-                            height: 300,
-                            'images/sarkargar'
-                            '_icon.png'),
+                      // Center(
+                      //   child: Image.asset(
+                      //       width: 300,
+                      //       height: 300,
+                      //       'images/sarkargar'
+                      //       '_icon.png'),
+                      // ),
+                      const Text(
+                        ' شماره تلفن همراه خود را وارد کنید.',
+                        textAlign: TextAlign.center,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Text(
-                          ' شماره تلفن همراه خود را وارد کنید.',
-                          textAlign: TextAlign.center,
-                        ),
+
+                      const SizedBox(
+                        height: 10,
                       ),
 
                       /// فیلد شماره تلفن
                       buildCTextField(),
 
                       /// شمارنده معکوس
-                      Center(child: countdown()),
-
-                      /// دکمه دریافت کد
-                      Column(
-                        children: [
-                          buildCRawMaterialButton(),
-                        ],
-                      ),
+                      // Center(child: countdown()),
                     ],
                   ),
                 ),
+
+                /// دکمه دریافت کد
+                buildCRawMaterialButton(),
               ],
             ),
           ),
@@ -96,9 +98,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// متد تغییر محتوای تکست فیلد بر حسب شرایط
-  TextField buildCTextField() {
+  MyTextField buildCTextField() {
     if (seconds == 120) {
-      return uiDesign.cTextField(
+      return MyTextField(
           maxLine: 1,
           hint: 'با 09 شروع کنید',
           icon: const Icon(Icons.phone),
@@ -110,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
             phoneNumber = int.parse(value);
           });
     } else {
-      return uiDesign.cTextField(
+      return MyTextField(
           maxLine: 1,
           labeltext: 'کد پیامک شده را وارد کنید',
           icon: const Icon(Icons.sms),
@@ -136,17 +138,16 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// کلید دریافت و ثبت کد فعال سازی که تغییر وضعیت می دهد.
-  RawMaterialButton buildCRawMaterialButton() {
+  Widget buildCRawMaterialButton() {
     if (_isButtonDisabled == false) {
-      return uiDesign.cRawMaterialButton(
+      return MyButton(
         text: 'دریافت کد ',
         onClick: () async {
           getUserId(number: msgController.text);
           if (msgController.text.length != 11) {
             Fluttertoast.showToast(
-                msg: 'لطفا شماره تلفن معتبر وارد کنید',
-                webPosition: 'Center',
-                timeInSecForIosWeb: 3);
+              msg: 'لطفا شماره تلفن معتبر وارد کنید',
+            );
           } else {
             await checkUserConnection();
             if (isConnected == false) {
@@ -163,9 +164,9 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
     } else if (msgController.text == '') {
-      return uiDesign.cRawMaterialButton(text: '    لطفا منتظر بمانید...    ');
+      return MyButton(text: ' $seconds  لطفا منتظر بمانید . . .    ');
     } else {
-      return uiDesign.cRawMaterialButton(
+      return MyButton(
         text: 'ورود',
         onClick: () {
           ///در صورت صحیح بودن یا نبودن کد وارد شده
@@ -179,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   (route) => false);
             } else {
+              box.write('id', userId);
               Fluttertoast.showToast(msg: 'با موفقیت وارد شدید');
               if (box.read('city') == null || box.read('city') == '') {
                 Get.off(SelectCity(isFirstTime: true));
@@ -229,7 +231,6 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       var response = await dataBase.getUserIdByNumber(number: number);
       userId = int.parse(response[0]['id']);
-      box.write('id', userId);
       setState(() {});
       return response;
     }
@@ -260,6 +261,5 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 }
-
 
 // 6063 7310 5951 3003

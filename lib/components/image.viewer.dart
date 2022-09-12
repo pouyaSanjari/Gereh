@@ -7,7 +7,7 @@ import 'package:sarkargar/controllers/image_viewer_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 
 class ImageViewerPage extends StatelessWidget {
-  List images;
+  final List images;
   ImageViewerPage({Key? key, required this.images}) : super(key: key);
   final controller = Get.put(ViewerController());
 

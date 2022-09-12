@@ -57,80 +57,14 @@ class _FilterScreenState extends State<FilterScreen> {
                   const Text('انتخاب دسته بندی',
                       style: TextStyle(fontSize: 18)),
                   const SizedBox(height: 10),
-                  uiDesign.dropdownSearch(
-                    items: const [
-                      'ساخت و ساز',
-                      'کشاورزی',
-                      'تاسیسات',
-                      'خدماتی',
-                      'سایر'
-                    ],
-                    selectedItem: workGroup == ''
-                        ? 'یکی از گروه های شغلی را انتخاب کنید'
-                        : workGroup,
-                    onChange: (value) {
-                      if (value != null) {
-                        setState(() {
-                          box.write('workGroupfilter', value);
-                          workGroupDropDownEnabled = true;
-                          workGroup = value.toString();
-                          getJobGroups();
-                        });
-                      } else {
-                        setState(() {
-                          workGroupDropDownEnabled = false;
-                        });
-                      }
-                    },
-                  ),
                   const Padding(
                     padding: EdgeInsets.only(top: 8.0),
                     child: Text('شغل مورد نظر', style: TextStyle(fontSize: 18)),
                   ),
                   const SizedBox(height: 10),
-                  uiDesign.dropdownSearch(
-                    selectedItem:
-                        job == '' ? 'شغل مورد نظر خود را انتخاب کنید' : job,
-                    onChange: (value) {
-                      box.write('selectedJobFilter', value!);
-                      job = value.toString();
-                    },
-                    items: jobTitles,
-                    enabled: workGroupDropDownEnabled,
-                  ),
                   const SizedBox(
                     height: 50,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      FloatingActionButton(
-                        backgroundColor: Colors.redAccent,
-                        onPressed: () {
-                          setState(() {
-                            job = '';
-                            workGroup = '';
-                            box.write('workGroupfilter', '');
-                            box.write('selectedJobFilter', '');
-                            workGroupDropDownEnabled = false;
-                          });
-                        },
-                        child: const Icon(Iconsax.clipboard_close, size: 30),
-                      ),
-                      FloatingActionButton(
-                        heroTag: '',
-                        backgroundColor: Colors.green,
-                        onPressed: () {
-                          // printInfo(info: controller.jobsList.value.toString());
-
-                          job.isEmpty
-                              ? Get.back()
-                              : Get.back(result: box.read('selectedJobFilter'));
-                        },
-                        child: const Icon(Iconsax.clipboard_export, size: 30),
-                      )
-                    ],
-                  )
                 ],
               ),
             ),

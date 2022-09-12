@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
@@ -61,7 +62,7 @@ class _SelectCityState extends State<SelectCity> {
         ),
         appBar: AppBar(
           elevation: 0,
-          title: uiDesign.cTextField(
+          title: MyTextField(
             labeltext: 'جستجو',
             control: searchTEC,
             icon: const Icon(Iconsax.search_normal),

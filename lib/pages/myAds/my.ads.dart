@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sarkargar/components/error.page.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
@@ -78,12 +79,8 @@ class _MyRequestsState extends State<MyRequests> {
           }
           //زمانی که نتونسته اطلاعاتی دریافت کنه
         } else if (controller.jobsList.isEmpty) {
-          return uiDesign.errorWidget(
-            () => setState(() {
-              dataBase.getAds(
-                  query:
-                      "SELECT * FROM `requests` WHERE `advertizerid` = '${box.read('id')}'");
-            }),
+          return MyErrorPage(
+            referesh: () => setState(() {}),
           );
         }
 

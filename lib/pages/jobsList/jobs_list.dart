@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sarkargar/components/error.page.dart';
+import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
-import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
@@ -64,7 +65,7 @@ class _JobsListState extends State<JobsList> {
           )),
       elevation: 0,
       titleSpacing: 0,
-      title: uiDesign.cTextField(
+      title: MyTextField(
         onSubmit: (value) {
           controller.searches.add(value);
           controller.searchMethod();
@@ -118,15 +119,9 @@ class _JobsListState extends State<JobsList> {
             }
             //زمانی که نتونسته اطلاعاتی دریافت کنه
           } else if (controller.jobsList.isEmpty) {
-            return uiDesign.errorWidget(
-              () {
-                setState(() {
-                  dataBase.getAds(
-                      query:
-                          "SELECT * FROM `requests` WHERE `city` = '${controller.city.value}'");
-                });
-              },
-            );
+            return MyErrorPage(referesh: () {
+              setState(() {});
+            });
           }
 
           return Obx(

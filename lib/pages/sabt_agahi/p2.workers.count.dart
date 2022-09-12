@@ -2,6 +2,7 @@ import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -99,7 +100,7 @@ class _WorkersCountState extends State<WorkersCount> {
             duration: const Duration(milliseconds: 500),
             child: Visibility(
               visible: controller.maleVisibility.value,
-              child: uiDesign.cTextField(
+              child: MyTextField(
                   error: controller.tedadNafaratMardError.isEmpty
                       ? null
                       : controller.tedadNafaratMardError.value,
@@ -123,7 +124,7 @@ class _WorkersCountState extends State<WorkersCount> {
             child: Visibility(
               visible: controller.femaleVisibility.value,
               child: Obx(
-                () => uiDesign.cTextField(
+                () => MyTextField(
                     error: controller.tedadNafaratZanError.value == ''
                         ? null
                         : controller.tedadNafaratZanError.value,
@@ -150,7 +151,7 @@ class _WorkersCountState extends State<WorkersCount> {
             opacity: controller.maleVisibility.value ? 1.0 : 0.0,
             child: Visibility(
               visible: controller.maleVisibility.value,
-              child: uiDesign.cTextField(
+              child: MyTextField(
                   enabled: controller.ghimatTavafoghiMardBL.value == false
                       ? true
                       : false,
@@ -203,7 +204,7 @@ class _WorkersCountState extends State<WorkersCount> {
             opacity: controller.femaleVisibility.value ? 1.0 : 0.0,
             child: Visibility(
               visible: controller.femaleVisibility.value,
-              child: uiDesign.cTextField(
+              child: MyTextField(
                   error: controller.ghimatPishnahadiZanError.isEmpty
                       ? null
                       : controller.ghimatPishnahadiZanError.value,
