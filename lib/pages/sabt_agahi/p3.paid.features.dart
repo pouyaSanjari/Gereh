@@ -11,9 +11,6 @@ import 'package:sarkargar/components/switch.dart';
 import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
-
 import '../../constants/colors.dart';
 import '../../controllers/request_controller.dart';
 import 'map.dart';

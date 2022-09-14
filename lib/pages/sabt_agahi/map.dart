@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/constants/colors.dart';
 
 import 'package:sarkargar/services/uiDesign.dart';
@@ -55,6 +56,9 @@ class _MapPageState extends State<MapPage> {
         ),
 
         appBar: AppBar(
+          leading: InkWell(
+              onTap: () => Get.back(),
+              child: const Icon(Iconsax.arrow_right_3, color: Colors.black)),
           actions: [
             InkWell(
               onTap: () async {

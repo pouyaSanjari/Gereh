@@ -115,7 +115,8 @@ class _SignUpState extends State<SignUp> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              SelectCity(isFirstTime: true),
+                                              const SelectCity(
+                                                  isFirstTime: true),
                                         ),
                                         (route) => false);
                                   } else {

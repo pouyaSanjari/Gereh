@@ -43,7 +43,7 @@ class _MyRequestsState extends State<MyRequests> {
       home: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: Text('لیست آگهی های جاری شما'),
+          title: const Text('لیست آگهی های جاری شما'),
         ),
         body: buildFutureBuilder(),
       ),

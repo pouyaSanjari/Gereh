@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:http/http.dart' as http;

@@ -1,5 +1,4 @@
 import 'package:expandable_fab_menu/expandable_fab_menu.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class JobDetailsController extends GetxController {

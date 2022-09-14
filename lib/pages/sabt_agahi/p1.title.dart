@@ -10,8 +10,6 @@ import 'package:sarkargar/components/selectable.text.field.dart';
 import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:toggle_switch/toggle_switch.dart';
-import '../../constants/colors.dart';
 import '../../controllers/request_controller.dart';
 
 class TitlePage extends StatefulWidget {
@@ -138,7 +136,7 @@ class _TitlePageState extends State<TitlePage> {
               labeltext: 'یک دسته بندی انتخاب کنید',
               onClick: () {
                 focusNode.unfocus();
-                Get.to(() => SelectCategory())?.then((value) {
+                Get.to(() => const SelectCategory())?.then((value) {
                   controller.selectedCategory.value = value;
                   setState(() {
                     categoryTEC.text = value;
@@ -163,7 +161,7 @@ class _TitlePageState extends State<TitlePage> {
               labeltext: 'شهر خود را انتخاب کنید.',
               onClick: () {
                 focusNode.unfocus();
-                Get.to(() => SelectCity(isFirstTime: false))
+                Get.to(() => const SelectCity(isFirstTime: false))
                     ?.then((value) => setState(() {
                           cityTEC.text = controller.selectedCity.value;
                         }));

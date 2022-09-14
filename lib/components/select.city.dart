@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/components/text.field.dart';
 import 'package:sarkargar/constants/colors.dart';
@@ -14,8 +13,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class SelectCity extends StatefulWidget {
-  bool isFirstTime;
-  SelectCity({Key? key, required this.isFirstTime}) : super(key: key);
+  final bool isFirstTime;
+  const SelectCity({Key? key, required this.isFirstTime}) : super(key: key);
 
   @override
   State<SelectCity> createState() => _SelectCityState();

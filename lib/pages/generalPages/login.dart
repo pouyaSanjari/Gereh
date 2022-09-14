@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -16,7 +15,6 @@ import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/pages/generalPages/signup.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -166,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
             );
             await checkUserConnection();
             if (isConnected == false) {
-              Navigator.of(context).pop();
+              Get.back();
               Fluttertoast.showToast(
                   msg: 'لطفا اتصال اینترنت خود را بررسی کنید.');
             } else {
@@ -175,10 +173,10 @@ class _LoginPageState extends State<LoginPage> {
                 getUserId(number: msgController.text);
                 number = msgController.text;
                 msgController.clear();
-                Navigator.of(context).pop();
+                Get.back();
               } else {
                 Fluttertoast.showToast(msg: 'شماره تلفن صحیح نمی باشد');
-                Navigator.of(context).pop();
+                Get.back();
               }
             }
           }
@@ -204,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
               box.write('id', userId);
               Fluttertoast.showToast(msg: 'با موفقیت وارد شدید');
               if (box.read('city') == null || box.read('city') == '') {
-                Get.off(SelectCity(isFirstTime: true));
+                Get.off(const SelectCity(isFirstTime: true));
               } else {
                 Get.off(const MainPage());
               }
@@ -242,8 +240,6 @@ class _LoginPageState extends State<LoginPage> {
           "to": number,
           "args": ['$code']
         });
-    // print(code);
-    print(response.data);
     if (response.data.toString().contains('موفق')) {
       return true;
     } else {
@@ -268,7 +264,9 @@ class _LoginPageState extends State<LoginPage> {
       try {
         userId = int.parse(response[0]['id']);
       } catch (e) {
-        print(e);
+        if (kDebugMode) {
+          print(e);
+        }
       }
       setState(() {});
       return response;

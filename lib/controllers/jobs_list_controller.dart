@@ -31,7 +31,7 @@ class JobsListController extends GetxController {
     chips.addAll({
       'city': InkWell(
         onTap: () => Get.to(
-          () => SelectCity(
+          () => const SelectCity(
             isFirstTime: false,
           ),
         )?.then((value) {

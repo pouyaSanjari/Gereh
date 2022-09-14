@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       return const LoginPage();
     } else {
       if (box.read('city') == null || box.read('city') == '') {
-        return SelectCity(isFirstTime: true);
+        return const SelectCity(isFirstTime: true);
       } else {
         return const MainPage();
       }

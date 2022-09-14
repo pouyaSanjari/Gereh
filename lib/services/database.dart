@@ -85,7 +85,6 @@ class AppDataBase {
       body: {'query': 'select id from users where number = $number'},
     );
     var jsonresponse = await convert.jsonDecode(response.body);
-    print(jsonresponse);
     return jsonresponse;
   }
 
@@ -172,7 +171,6 @@ class AppDataBase {
       'descs': descs,
       'time': DateTime.now().toString(),
     });
-    print(response.body);
     return response.statusCode;
   }
 
