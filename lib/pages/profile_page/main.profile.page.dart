@@ -9,7 +9,6 @@ import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/profile_page/offers.dart';
 import 'package:sarkargar/pages/profile_page/savabegh.dart';
 import 'package:sarkargar/services/database.dart';
-
 import 'settings.dart';
 
 class ProfilePage extends StatefulWidget {
