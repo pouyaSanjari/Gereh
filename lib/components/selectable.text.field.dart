@@ -35,15 +35,15 @@ class MySelectableTextField extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(30))),
         errorBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+            borderRadius: BorderRadius.all(Radius.circular(30))),
         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
         counterText: '',
         focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
             borderRadius: BorderRadius.all(Radius.circular(30))),
         enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: MyColors.blue),
-            borderRadius: BorderRadius.all(Radius.circular(20))),
+            borderSide: BorderSide(color: MyColors.blueGrey),
+            borderRadius: BorderRadius.all(Radius.circular(30))),
         hintText: hint,
         prefixIcon: icon,
         labelText: labeltext,

@@ -67,11 +67,12 @@ class _TitlePageState extends State<TitlePage> {
                       width: 85,
                       height: 85,
                       decoration: BoxDecoration(
-                          border: Border.all(),
+                          border: Border.all(color: Colors.black54),
                           borderRadius: BorderRadius.circular(10)),
                       child: const Icon(
                         Iconsax.gallery_add,
                         size: 35,
+                        color: Colors.black87,
                       )),
                 )
               else
@@ -201,7 +202,7 @@ class _TitlePageState extends State<TitlePage> {
   @override
   // ignore: must_call_super
   void initState() {
-    dataBase.getImages();
+    dataBase.uploadedImages();
     focusNode = FocusNode();
     titleTEC.text = controller.title.value;
     categoryTEC.text = controller.selectedCategory.value;

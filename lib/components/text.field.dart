@@ -60,23 +60,38 @@ class MyTextField extends StatelessWidget {
       decoration: InputDecoration(
         errorText: error,
         focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
+          borderSide: BorderSide(color: Colors.redAccent),
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),
         errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderSide: BorderSide(color: Colors.redAccent),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
         suffixIcon: control.text.isEmpty ? null : suffix,
         counterText: '',
         focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: MyColors.red),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
+          borderSide: BorderSide(color: MyColors.red),
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),
         enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: MyColors.blue),
-            borderRadius: BorderRadius.all(Radius.circular(20))),
+          borderSide: BorderSide(color: MyColors.blueGrey),
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),
         disabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderSide: BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
         hintText: hint,
         prefixIcon: icon,
         labelText: labeltext,

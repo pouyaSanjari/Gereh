@@ -13,7 +13,7 @@ final ImagePicker picker = ImagePicker();
 
 class AppDataBase {
 // گرفتن تصاویر آپلود شده کاربر
-  getImages() async {
+  uploadedImages() async {
     requestController.images.clear();
     Uri url =
         Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
@@ -23,6 +23,22 @@ class AppDataBase {
     for (var i = 0; i < result.length; i++) {
       requestController.images.add(result[i]['image']);
     }
+  }
+
+  paidFeautersImages(List uploadedImages) async {
+    requestController.images.clear();
+    Uri url =
+        Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
+    var jsonresponse =
+        await http.post(url, body: {'userid': box.read('id').toString()});
+    List result = convert.jsonDecode(jsonresponse.body);
+    for (int i = 0; i < result.length; i++) {
+      uploadedImages.add(result[i]['image']);
+    }
+    requestController.images.isEmpty
+        ? requestController.images.value = uploadedImages
+        : null;
+    return result;
   }
 
 // آپلود تصویر
@@ -41,7 +57,7 @@ class AppDataBase {
     request.fields.addAll(other);
     Fluttertoast.showToast(msg: 'درحال آپلود...');
     await request.send();
-    getImages();
+    uploadedImages();
   }
 
   /// حذف تصویر
@@ -49,7 +65,7 @@ class AppDataBase {
     Uri url =
         Uri.parse('http://sarkargar.ir/phpfiles/userimages/deletefile.php');
     await http.post(url, body: {'imageid': imageId});
-    getImages();
+    uploadedImages();
   }
 
   ///گرفتن اطلاعات کاربر از طریق ایدی

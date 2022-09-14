@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/components/rounded.button.dart';
@@ -183,11 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
       actions: [
         IconButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Settings(),
-                  ));
+              Get.to(() => const Settings());
             },
             icon: const Icon(
               Iconsax.setting,

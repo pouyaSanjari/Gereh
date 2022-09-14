@@ -189,7 +189,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FutureBuilder(
-                            future: getImages(),
+                            future: database.paidFeautersImages(uploadedImages),
                             builder: (BuildContext context,
                                 AsyncSnapshot<dynamic> snapshot) {
                               if (snapshot.connectionState ==
@@ -461,20 +461,6 @@ class _PaidFeaturesState extends State<PaidFeatures> {
       subtitle: Text(sub, style: uiDesign.descriptionsTextStyle()),
       contentPadding: EdgeInsets.zero,
     );
-  }
-
-  getImages() async {
-    controller.images.clear();
-    Uri url =
-        Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
-    var jsonresponse =
-        await http.post(url, body: {'userid': box.read('id').toString()});
-    List result = convert.jsonDecode(jsonresponse.body);
-    for (int i = 0; i < result.length; i++) {
-      uploadedImages.add(result[i]['image']);
-    }
-    controller.images.isEmpty ? controller.images.value = uploadedImages : null;
-    return result;
   }
 
   @override

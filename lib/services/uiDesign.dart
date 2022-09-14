@@ -26,7 +26,7 @@ class UiDesign {
             color: Colors.black,
             fontSize: 20,
           ),
-          backgroundColor: Color.fromARGB(255, 250, 250, 250)),
+          backgroundColor: Colors.grey[50]),
       colorScheme: ThemeData().colorScheme.copyWith(
             primary: MyColors.red,
             secondary: MyColors.red,
@@ -43,12 +43,12 @@ class UiDesign {
       required List<BottomNavigationBarItem> items}) {
     return BottomNavigationBar(
       elevation: 10,
-      selectedFontSize: 15,
+      selectedFontSize: 14,
       unselectedFontSize: 11,
       backgroundColor: const Color(0xfff2f5fc),
       selectedItemColor: MyColors.red,
       unselectedItemColor: Colors.black87,
-      selectedIconTheme: const IconThemeData(color: MyColors.red),
+      selectedIconTheme: const IconThemeData(color: MyColors.red, size: 30),
       onTap: onTap,
       currentIndex: currentIndex,
       type: BottomNavigationBarType.fixed,

@@ -44,12 +44,13 @@ class _MapPageState extends State<MapPage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () => Get.back(result: [controller.address.value]),
-          backgroundColor: MyColors.green,
+          backgroundColor: MyColors.blueGrey,
           child: const Icon(
             FontAwesomeIcons.check,
-            size: 30,
+            size: 25,
           ),
         ),
 
@@ -62,14 +63,17 @@ class _MapPageState extends State<MapPage> {
                     currentLocatin.latitude, currentLocatin.longitude);
               },
               child: const Padding(
-                padding: EdgeInsets.only(left: 8.0),
-                child: Icon(Icons.location_searching_rounded),
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Icon(
+                  Icons.location_searching_rounded,
+                  color: Colors.black87,
+                ),
               ),
             )
           ],
           title: const Text(
             'انتخاب موقعیت مکانی',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black87),
           ),
         ),
         // To obtain the maps local point, we have added a gesture

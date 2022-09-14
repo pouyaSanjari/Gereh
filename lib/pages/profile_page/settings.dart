@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 
@@ -38,17 +38,13 @@ class _SettingsState extends State<Settings> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: AppBar(
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Iconsax.arrow_left,
-                  color: Colors.black87,
-                ),
-              )
-            ],
+            leading: InkWell(
+              onTap: () => Get.back(),
+              child: const Icon(
+                Iconsax.arrow_right_3,
+                color: Colors.black87,
+              ),
+            ),
             elevation: 0,
             automaticallyImplyLeading: true,
             title: const Text('تنظیمات'),

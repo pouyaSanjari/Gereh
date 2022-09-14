@@ -22,6 +22,7 @@ class MyToggleSwitch extends StatelessWidget {
       activeBgColor: const [MyColors.blueGrey],
       inactiveBgColor: MyColors.bluewhite,
       minWidth: 200,
+      cornerRadius: 20,
       animate: true,
       animationDuration: 200,
       initialLabelIndex: initialLableIndex,
