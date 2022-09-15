@@ -10,6 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:sarkargar/components/button.dart';
 import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/components/text.field.dart';
+import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/login.controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
@@ -52,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,
-            title: const Text('شماره تلفن خود را وارد کنید'),
+            title: const Text('ورود به گـــــرـه'),
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
@@ -64,24 +65,50 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Center(
-                      //   child: Image.asset(
-                      //       width: 300,
-                      //       height: 300,
-                      //       'images/sarkargar'
-                      //       '_icon.png'),
-                      // ),
-                      const Text(
-                        ' شماره تلفن همراه خود را وارد کنید.',
-                        textAlign: TextAlign.center,
+                      Center(
+                        child: Image.asset(
+                          'images/logo.png',
+                          width: 200,
+                          height: 200,
+                          cacheHeight: 550,
+                          cacheWidth: 550,
+                        ),
                       ),
-
-                      const SizedBox(
-                        height: 10,
+                      Text(
+                        'ورود | ثبت نام',
+                        style: uiDesign.titleTextStyle(),
                       ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'جهت ورود و استفاده از امکانات اپلیکیشن گــــرـه، لطفا شماره تفن همراه خود را وارد کنید.',
+                        style: uiDesign.descriptionsTextStyle(),
+                      ),
+                      const SizedBox(height: 10),
 
                       /// فیلد شماره تلفن
                       buildCTextField(),
+
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          InkWell(
+                            child: const Text('شرایط استفاده',
+                                style: TextStyle(
+                                    color: MyColors.red,
+                                    fontWeight: FontWeight.bold)),
+                            onTap: () {},
+                          ),
+                          const Text(' و '),
+                          InkWell(
+                            child: const Text('حریم خصوصی',
+                                style: TextStyle(
+                                    color: MyColors.red,
+                                    fontWeight: FontWeight.bold)),
+                            onTap: () {},
+                          ),
+                          const Text(' اپلیکیشن گـــرـه را می پذیرم.'),
+                        ],
+                      )
 
                       /// شمارنده معکوس
                       // Center(child: countdown()),

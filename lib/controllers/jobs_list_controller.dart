@@ -124,6 +124,7 @@ class JobsListController extends GetxController {
 // به ازای هرکدام از مقادیر لیست جستجو یک جستجو در لیست مشاغل انجام میده
   void searchMethod() async {
     if (searches.isNotEmpty) {
+      searchedList.clear();
       for (var element in searches) {
         searchedList.value = jobsList.where((p0) {
           var elementAsString = p0.toString();

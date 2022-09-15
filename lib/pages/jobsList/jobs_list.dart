@@ -241,163 +241,156 @@ class _JobsListState extends State<JobsList> {
                         },
                       );
                     },
-                    title: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 110,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                      child: Text(title,
-                                          style:
-                                              const TextStyle(fontSize: 20))),
-                                  Row(children: [
-                                    const Icon(Iconsax.category_2, size: 14),
-                                    const SizedBox(width: 6),
-                                    Text(category,
-                                        style: const TextStyle(fontSize: 12))
-                                  ]),
-                                  const SizedBox(height: 2),
-                                  Row(
-                                    children: [
-                                      const Icon(Iconsax.location, size: 15),
-                                      const SizedBox(width: 5),
-                                      Expanded(
-                                        child: Text(
-                                          address,
-                                          style: const TextStyle(fontSize: 12),
-                                        ),
+                    title: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 110,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                    child: Text(title,
+                                        style: const TextStyle(fontSize: 20))),
+                                Row(children: [
+                                  const Icon(Iconsax.category_2, size: 14),
+                                  const SizedBox(width: 6),
+                                  Text(category,
+                                      style: const TextStyle(fontSize: 12))
+                                ]),
+                                const SizedBox(height: 2),
+                                Row(
+                                  children: [
+                                    const Icon(Iconsax.location, size: 15),
+                                    const SizedBox(width: 5),
+                                    Expanded(
+                                      child: Text(
+                                        address,
+                                        style: const TextStyle(fontSize: 12),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                          //ستون آیکون ها و نوع آگهی
-                          Padding(
-                            padding: const EdgeInsets.only(left: 2.0),
-                            child: SizedBox(
-                              height: 110,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 47,
-                                    decoration: BoxDecoration(
-                                        color: adTypeBgColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Center(
-                                      child: RotatedBox(
-                                          quarterTurns: 1,
-                                          child: Text(
-                                            adtype,
-                                            textScaleFactor: 0.6,
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          )),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Visibility(
-                                            visible: phonebool,
-                                            child: const Icon(Iconsax.call,
-                                                size: 15)),
-                                        Visibility(
-                                            visible: chatbool,
-                                            child: const Icon(Iconsax.sms,
-                                                size: 15)),
-                                        Visibility(
-                                            visible: instagrambool,
-                                            child: const Icon(Iconsax.instagram,
-                                                size: 15)),
-                                        Visibility(
-                                            visible: locationbool,
-                                            child: const Icon(Iconsax.location,
-                                                size: 15)),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //ستون تصویر آگهی
-                          if (itemImage.isEmpty)
-                            Stack(
-                              alignment: Alignment.bottomCenter,
+                        ),
+                        //ستون آیکون ها و نوع آگهی
+                        Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: SizedBox(
+                            height: 110,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
+                                  height: 47,
                                   decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(5)),
+                                      color: adTypeBgColor,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                    child: RotatedBox(
+                                        quarterTurns: 1,
+                                        child: Text(
+                                          adtype,
+                                          textScaleFactor: 0.6,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        )),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Visibility(
+                                          visible: phonebool,
+                                          child: const Icon(Iconsax.call,
+                                              size: 15)),
+                                      Visibility(
+                                          visible: chatbool,
+                                          child: const Icon(Iconsax.sms,
+                                              size: 15)),
+                                      Visibility(
+                                          visible: instagrambool,
+                                          child: const Icon(Iconsax.instagram,
+                                              size: 15)),
+                                      Visibility(
+                                          visible: locationbool,
+                                          child: const Icon(Iconsax.location,
+                                              size: 15)),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        //ستون تصویر آگهی
+                        if (itemImage.isEmpty)
+                          Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(5)),
+                                height: 110,
+                                width: 110,
+                                child: const Icon(
+                                  Iconsax.gallery_slash,
+                                  size: 55,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Text(
+                                  uiDesign.timeFunction(
+                                      controller.jobsList[index]['time']),
+                                  style: const TextStyle(
+                                      color: Color.fromARGB(255, 109, 109, 109),
+                                      fontSize: 12)),
+                            ],
+                          )
+                        else
+                          ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                            child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                CachedNetworkImage(
+                                  imageUrl: itemImage[0]['image'],
                                   height: 110,
                                   width: 110,
-                                  child: const Icon(
-                                    Iconsax.gallery_slash,
-                                    size: 55,
-                                    color: Colors.grey,
+                                  filterQuality: FilterQuality.low,
+                                  maxWidthDiskCache: 302,
+                                  maxHeightDiskCache: 302,
+                                  fit: BoxFit.cover,
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 110,
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                      colors: [
+                                        Colors.black,
+                                        Colors.transparent
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Text(
                                     uiDesign.timeFunction(
                                         controller.jobsList[index]['time']),
                                     style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 109, 109, 109),
-                                        fontSize: 12)),
+                                        color: Colors.white, fontSize: 12)),
                               ],
-                            )
-                          else
-                            ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
-                              child: Stack(
-                                alignment: Alignment.bottomCenter,
-                                children: [
-                                  CachedNetworkImage(
-                                    imageUrl: itemImage[0]['image'],
-                                    height: 110,
-                                    width: 110,
-                                    filterQuality: FilterQuality.low,
-                                    maxWidthDiskCache: 302,
-                                    maxHeightDiskCache: 302,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  Container(
-                                    height: 30,
-                                    width: 110,
-                                    decoration: const BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter,
-                                        colors: [
-                                          Colors.black,
-                                          Colors.transparent
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                      uiDesign.timeFunction(
-                                          controller.jobsList[index]['time']),
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 12)),
-                                ],
-                              ),
-                            )
-                        ],
-                      ),
+                            ),
+                          )
+                      ],
                     ),
                   );
                 },
