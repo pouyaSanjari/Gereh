@@ -7,13 +7,15 @@ class MyToggleSwitch extends StatelessWidget {
   final void Function(int?)? onToggle;
   final int initialLableIndex;
   final int totalSwitch;
+  final double? minWidth;
   final List<String> labels;
   const MyToggleSwitch(
       {Key? key,
       this.onToggle,
       required this.initialLableIndex,
       required this.labels,
-      required this.totalSwitch})
+      required this.totalSwitch,
+      this.minWidth})
       : super(key: key);
 
   @override
@@ -21,7 +23,7 @@ class MyToggleSwitch extends StatelessWidget {
     return ToggleSwitch(
       activeBgColor: const [MyColors.blueGrey],
       inactiveBgColor: MyColors.bluewhite,
-      minWidth: 200,
+      minWidth: minWidth ?? 150,
       cornerRadius: 20,
       animate: true,
       animationDuration: 200,

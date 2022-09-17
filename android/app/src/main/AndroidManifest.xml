@@ -7,7 +7,7 @@
 
 
    <application
-        android:label="sarkargar"
+        android:label="گـِــرِه"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

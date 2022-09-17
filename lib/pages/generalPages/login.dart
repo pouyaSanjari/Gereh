@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,
-            title: const Text('ورود به گـــــرـه'),
+            title: const Text('ورود به گـِــــرِـه'),
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'جهت ورود و استفاده از امکانات اپلیکیشن گــــرـه، لطفا شماره تفن همراه خود را وارد کنید.',
+                        'جهت ورود و استفاده از امکانات اپلیکیشن گـِـــرِـه، لطفا شماره تفن همراه خود را وارد کنید.',
                         style: uiDesign.descriptionsTextStyle(),
                       ),
                       const SizedBox(height: 10),
@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                                     fontWeight: FontWeight.bold)),
                             onTap: () {},
                           ),
-                          const Text(' اپلیکیشن گـــرـه را می پذیرم.'),
+                          const Text(' اپلیکیشن گـِــرِـه را می پذیرم.'),
                         ],
                       )
 

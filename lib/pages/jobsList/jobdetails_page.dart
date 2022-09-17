@@ -33,6 +33,7 @@ class _JobDetailsState extends State<JobDetails> {
   Widget build(BuildContext context) {
     var images = widget.images;
     var ad = widget.adDetails;
+    // printInfo(info: ad.toString());
 
     controller.advertizer.value = ad['advertizerid'];
     controller.adType.value = ad['adtype'];
@@ -51,7 +52,7 @@ class _JobDetailsState extends State<JobDetails> {
     controller.time.value = ad['time'];
     controller.instagramid.value = ad['instagramid'];
 
-    bool isHiring = controller.adType.value == '1' ? false : true;
+    bool isHiring = controller.adType.value == '0' ? true : false;
     bool isHiringDayli = controller.hiringtype.value == '0' ? true : false;
     bool menVisibility = controller.men.value == '0' ? false : true;
     bool womenVisibility = controller.women.value == '0' ? false : true;
@@ -77,7 +78,7 @@ class _JobDetailsState extends State<JobDetails> {
                 if (entry == null) {
                   showContactInfo();
                 } else {
-                  hideOverlay();
+                  hideOverlay(false);
                 }
               },
               label: Row(
@@ -390,10 +391,10 @@ class _JobDetailsState extends State<JobDetails> {
     entry = OverlayEntry(
       builder: (context) => Obx(
         () => AnimatedPositioned(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
           bottom: 20,
           left: controller.contactInfoPosition.value ? 10 : -100,
-          curve: Curves.easeInOutExpo,
+          curve: Curves.linear,
           child: Container(
             decoration: BoxDecoration(
                 color: Colors.black26, borderRadius: BorderRadius.circular(50)),
@@ -463,14 +464,37 @@ class _JobDetailsState extends State<JobDetails> {
     );
   }
 
-  void hideOverlay() async {
-    controller.contactInfoPosition.value = false;
+  void hideOverlay(bool onDispose) async {
     await Future.delayed(
-      const Duration(milliseconds: 300),
+      const Duration(milliseconds: 1),
+      () {
+        controller.contactInfoPosition.value = false;
+      },
+    );
+    await Future.delayed(
+      // اگه زمان دیسپوز باشه سریعتر بسته میشه
+      Duration(milliseconds: onDispose ? 100 : 300),
       () {
         entry?.remove();
         entry = null;
       },
     );
+  }
+
+  @override
+  void dispose() async {
+    hideOverlay(true);
+    // Overlay.of(context)?.deactivate();
+
+    // entry?.remove();
+    // entry = null;
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
   }
 }

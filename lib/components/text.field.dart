@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../constants/colors.dart';
 
 class MyTextField extends StatelessWidget {
   final String labeltext;
-  final Icon? icon;
+  final Widget? icon;
   final TextEditingController control;
   final String? hint;
   final int? minLine;
@@ -72,7 +73,9 @@ class MyTextField extends StatelessWidget {
           ),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-        suffixIcon: control.text.isEmpty ? null : suffix,
+        suffixIcon: suffix,
+
+        //  control.text.isEmpty ? null : suffix,
         counterText: '',
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: MyColors.red),

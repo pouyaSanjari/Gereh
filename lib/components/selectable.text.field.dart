@@ -50,6 +50,10 @@ class MySelectableTextField extends StatelessWidget {
         labelStyle: const TextStyle(
           color: Colors.black38,
         ),
+        suffixIcon: const Icon(
+          Icons.arrow_drop_down_rounded,
+          size: 35,
+        ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
     );

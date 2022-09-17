@@ -51,6 +51,8 @@ dependencies:
   get_storage: ^2.0.3
   expandable_fab_menu: ^0.0.1
   maps_launcher: ^2.0.1
+  flutter_multi_slider: ^1.1.0
+  animations: ^2.0.4
 
 dev_dependencies:
   flutter_test:
