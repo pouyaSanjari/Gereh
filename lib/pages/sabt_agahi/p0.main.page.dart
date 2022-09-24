@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/components/button.dart';
+import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/sabt_agahi/p1.title.dart';
@@ -270,6 +270,7 @@ class _MainRequestPageState extends State<MainRequestPage>
       advertizer: box.read('id').toString(),
       adtype: controller.adType.value.toString(),
       hiringtype: controller.switchHiringType.value.toString(),
+      gender: controller.switchEntekhabJensiyat.value.toString(),
       title: controller.title.value.trim(),
       category: controller.selectedCategory.value,
       city: controller.selectedCity.value,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/colors.dart';
+import '../../constants/colors.dart';
 
 class MySelectableTextField extends StatelessWidget {
   final String labeltext;
@@ -32,18 +32,18 @@ class MySelectableTextField extends StatelessWidget {
         errorText: error,
         focusedErrorBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
+            borderRadius: BorderRadius.all(Radius.circular(8))),
         errorBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
+            borderRadius: BorderRadius.all(Radius.circular(8))),
         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
         counterText: '',
         focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
+            borderRadius: BorderRadius.all(Radius.circular(8))),
         enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: MyColors.blueGrey),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
+            borderSide: BorderSide(color: Colors.blueGrey),
+            borderRadius: BorderRadius.all(Radius.circular(8))),
         hintText: hint,
         prefixIcon: icon,
         labelText: labeltext,

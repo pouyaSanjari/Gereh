@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/text.field.dart';
+import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
@@ -60,16 +60,25 @@ class _SelectCityState extends State<SelectCity> {
           ),
         ),
         appBar: AppBar(
+          leading: IconButton(
+              onPressed: () => Get.back(),
+              icon: const Icon(
+                Iconsax.arrow_right_3,
+                color: Colors.black,
+              )),
           elevation: 0,
-          title: MyTextField(
-            labeltext: 'جستجو',
-            control: searchTEC,
-            icon: const Icon(Iconsax.search_normal),
-            onChange: (value) {
-              setState(() {
-                search(value);
-              });
-            },
+          title: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: MyTextField(
+              labeltext: 'جستجو',
+              control: searchTEC,
+              icon: const Icon(Iconsax.search_normal),
+              onChange: (value) {
+                setState(() {
+                  search(value);
+                });
+              },
+            ),
           ),
         ),
         body: Column(

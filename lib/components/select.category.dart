@@ -66,14 +66,13 @@ class _SelectCategoryState extends State<SelectCategory> {
 
     List<Widget> items = [];
     for (var i = 0; i < selected.length; i++) {
-      items.add(ListTile(
-        title: InkWell(
-          onTap: () {
-            // controller.selectedCategory.value = selected[i]['title'];
-            controller.categoryError.value = '';
-            Get.back(result: selected[i]['title']);
-          },
-          child: Padding(
+      items.add(InkWell(
+        onTap: () {
+          controller.categoryError.value = '';
+          Get.back(result: selected[i]['title']);
+        },
+        child: ListTile(
+          title: Padding(
             padding: const EdgeInsets.only(right: 30.0),
             child: Text(selected[i]['title']),
           ),

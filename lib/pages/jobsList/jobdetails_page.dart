@@ -1,23 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:sarkargar/components/rounded.button.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:sarkargar/components/buttons/rounded.button.dart';
 import 'package:sarkargar/components/image.viewer.dart';
 import 'package:sarkargar/controllers/job_details_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/colors.dart';
 
 class JobDetails extends StatefulWidget {
   final Map adDetails;
   final List images;
-  // ignore: use_key_in_widget_constructors
-  const JobDetails({required this.adDetails, required this.images});
+  const JobDetails({super.key, required this.adDetails, required this.images});
 
   @override
   State<JobDetails> createState() => _JobDetailsState();
@@ -25,44 +21,21 @@ class JobDetails extends StatefulWidget {
 
 class _JobDetailsState extends State<JobDetails> {
   UiDesign uiDesign = UiDesign();
-  final controller = Get.put(JobDetailsController());
-  final database = AppDataBase();
+  final controller = Get.put(JobDetailsController(), permanent: true);
   OverlayEntry? entry;
 
   @override
   Widget build(BuildContext context) {
     var images = widget.images;
-    var ad = widget.adDetails;
     // printInfo(info: ad.toString());
-
-    controller.advertizer.value = ad['advertizerid'];
-    controller.adType.value = ad['adtype'];
-    controller.hiringtype.value = ad['hiringtype'];
-    controller.title.value = ad['title'];
-    controller.category.value = ad['category'];
-    controller.city.value = ad['city'];
-    controller.address.value = ad['address'];
-    controller.locationlat.value = ad['locationlat'];
-    controller.locationlon.value = ad['locationlon'];
-    controller.men.value = ad['men'];
-    controller.women.value = ad['women'];
-    controller.mprice.value = ad['mprice'];
-    controller.wprice.value = ad['wprice'];
-    controller.descs.value = ad['descs'];
-    controller.time.value = ad['time'];
-    controller.instagramid.value = ad['instagramid'];
+    controller.initialData(ad: widget.adDetails);
 
     bool isHiring = controller.adType.value == '0' ? true : false;
     bool isHiringDayli = controller.hiringtype.value == '0' ? true : false;
     bool menVisibility = controller.men.value == '0' ? false : true;
     bool womenVisibility = controller.women.value == '0' ? false : true;
-    controller.phonebool.value = ad['phonebool'] == '0' ? false : true;
-    controller.smsbool.value = ad['smsbool'] == '0' ? false : true;
-    controller.chatbool.value = ad['chatbool'] == '0' ? false : true;
-    controller.photobool.value = ad['photobool'] == '0' ? false : true;
-    controller.locationbool.value = ad['locationbool'] == '0' ? false : true;
-    controller.instagrambool.value = ad['instagrambool'] == '0' ? false : true;
-    getAdvertizer();
+
+    controller.getAdvertizer();
 
     return MaterialApp(
       theme: uiDesign.cTheme(),
@@ -171,7 +144,7 @@ class _JobDetailsState extends State<JobDetails> {
                       visible: menVisibility,
                       child: row(
                         icon: Iconsax.dollar_circle,
-                        title: 'مبلغ پیشنهادی',
+                        title: 'حقوق (${isHiringDayli ? 'روزانه' : 'ماهیانه'})',
                         value: controller.mprice.value == ''
                             ? 'توافقی'
                             : uiDesign.digi(controller.mprice.value),
@@ -194,7 +167,8 @@ class _JobDetailsState extends State<JobDetails> {
                       visible: womenVisibility,
                       child: row(
                           icon: Iconsax.dollar_circle,
-                          title: 'مبلغ پیشنهادی',
+                          title:
+                              'حقوق (${isHiringDayli ? 'روزانه' : 'ماهیانه'})',
                           value: controller.wprice.value == ''
                               ? 'توافقی'
                               : uiDesign.digi(controller.wprice.value)),
@@ -300,7 +274,8 @@ class _JobDetailsState extends State<JobDetails> {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: InkWell(
                 onTap: () => Get.to(
-                  ImageViewerPage(images: widget.images),
+                  transition: Transition.rightToLeft,
+                  () => ImageViewerPage(images: widget.images),
                 ),
                 child: CachedNetworkImage(
                     width: MediaQuery.of(context).size.width,
@@ -356,37 +331,6 @@ class _JobDetailsState extends State<JobDetails> {
     );
   }
 
-  Future<void> _makePhoneCall(String phoneNumber) async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: phoneNumber,
-    );
-    await launchUrl(launchUri);
-  }
-
-  Future<void> _launchInstagram(String instagramID) async {
-    // ignore: deprecated_member_use
-    await launch("https://www.instagram.com/$instagramID/",
-        universalLinksOnly: true);
-  }
-
-  _textMe(String phone) async {
-    // Android
-    var uri = 'sms:$phone';
-    await launchUrl(Uri.parse(uri));
-  }
-
-  getAdvertizer() async {
-    var user = await database.getUserDetailsById(
-        userId: int.parse(controller.advertizer.value));
-    controller.advertizerNumber.value = user[0]['number'];
-  }
-
-  String digi(String number) {
-    String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
-    return digit;
-  }
-
   void showContactInfo() {
     entry = OverlayEntry(
       builder: (context) => Obx(
@@ -410,8 +354,7 @@ class _JobDetailsState extends State<JobDetails> {
                       backColor: MyColors.green,
                       text: 'تماس',
                       onClick: () {
-                        _makePhoneCall(
-                            controller.advertizerNumber.value.toString());
+                        controller.makePhoneCall();
                       },
                     ),
                   ),
@@ -422,7 +365,7 @@ class _JobDetailsState extends State<JobDetails> {
                       backColor: MyColors.blue,
                       text: 'پیامک',
                       onClick: () {
-                        _textMe(controller.advertizerNumber.value);
+                        controller.textMe();
                       },
                     ),
                   ),
@@ -433,7 +376,7 @@ class _JobDetailsState extends State<JobDetails> {
                       backColor: MyColors.red,
                       text: 'اینستاگرام',
                       onClick: () {
-                        _launchInstagram(controller.instagramid.value);
+                        controller.launchInstagram();
                       },
                     ),
                   ),
@@ -484,17 +427,6 @@ class _JobDetailsState extends State<JobDetails> {
   @override
   void dispose() async {
     hideOverlay(true);
-    // Overlay.of(context)?.deactivate();
-
-    // entry?.remove();
-    // entry = null;
-    // TODO: implement dispose
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
   }
 }

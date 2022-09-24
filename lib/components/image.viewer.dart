@@ -9,11 +9,12 @@ import 'package:sarkargar/services/uiDesign.dart';
 class ImageViewerPage extends StatelessWidget {
   final List images;
   ImageViewerPage({Key? key, required this.images}) : super(key: key);
-  final controller = Get.put(ViewerController());
+  final controller = Get.put(ViewerController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
     controller.total.value = images.length;
+    controller.current.value = 1;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: UiDesign().cTheme(),
@@ -33,30 +34,29 @@ class ImageViewerPage extends StatelessWidget {
           body: Column(
             children: [
               Expanded(
-                child: GestureDetector(
-                  child: PhotoViewGallery.builder(
-                    onPageChanged: (index) {
-                      controller.current.value = index + 1;
-                    },
-                    backgroundDecoration: BoxDecoration(color: Colors.grey[50]),
-                    wantKeepAlive: true,
-                    itemCount: images.length,
-                    builder: (context, index) {
-                      return PhotoViewGalleryPageOptions(
-                          minScale: 0.13,
-                          maxScale: 0.5,
-                          imageProvider: CachedNetworkImageProvider(
-                              images[index]['image']));
-                    },
-                    loadingBuilder: (context, event) => Center(
-                      child: SizedBox(
-                        width: 20.0,
-                        height: 20.0,
-                        child: CircularProgressIndicator(
-                          value: event == null
-                              ? 0
-                              : event.cumulativeBytesLoaded.toDouble(),
-                        ),
+                child: PhotoViewGallery.builder(
+                  onPageChanged: (index) {
+                    controller.current.value = index + 1;
+                  },
+                  backgroundDecoration: BoxDecoration(color: Colors.grey[50]),
+                  wantKeepAlive: true,
+                  itemCount: images.length,
+                  builder: (context, index) {
+                    return PhotoViewGalleryPageOptions(
+                        minScale: Get.mediaQuery.size.aspectRatio / 3.5,
+                        maxScale: Get.mediaQuery.size.aspectRatio * 3,
+                        imageProvider: CachedNetworkImageProvider(
+                            images[index]['image'],
+                            scale: Get.mediaQuery.size.aspectRatio));
+                  },
+                  loadingBuilder: (context, event) => Center(
+                    child: SizedBox(
+                      width: 20.0,
+                      height: 20.0,
+                      child: CircularProgressIndicator(
+                        value: event == null
+                            ? 0
+                            : event.cumulativeBytesLoaded.toDouble(),
                       ),
                     ),
                   ),

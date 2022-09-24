@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/rounded.button.dart';
+import 'package:sarkargar/components/buttons/rounded.button.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/profile_page/offers.dart';
 import 'package:sarkargar/pages/profile_page/savabegh.dart';
@@ -190,7 +190,6 @@ class _ProfilePageState extends State<ProfilePage> {
               color: Colors.black,
             ))
       ],
-      automaticallyImplyLeading: true,
       elevation: 0,
     );
   }

@@ -47,9 +47,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemNavigationBarColor: Color(0xfff2f5fc),
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
+        systemNavigationBarColor: Color(0xfff2f5fc),
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark));
     super.initState();
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/components/toggle.switch.dart';
-import 'package:sarkargar/components/text.field.dart';
+import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import '../../constants/colors.dart';
@@ -37,6 +37,7 @@ class _WorkersCountState extends State<WorkersCount> {
               labels: const ['آقا', 'خانم', 'هر دو'],
               totalSwitch: 3,
               onToggle: (index) {
+                print(index);
                 switch (index) {
                   case 0:
                     tedadNafaratZanTEC.clear();

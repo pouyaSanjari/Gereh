@@ -7,18 +7,8 @@ class UiDesign {
   ///تم نرمافزار
   ThemeData cTheme() {
     return ThemeData(
-      cardTheme: const CardTheme(
-          clipBehavior: Clip.antiAlias,
-          margin: EdgeInsets.all(0),
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)))),
       fontFamily: 'sans',
       appBarTheme: AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle(
-              systemNavigationBarColor: MyColors.red,
-              statusBarIconBrightness: Brightness.dark,
-              statusBarColor: Colors.grey[50]),
           titleSpacing: 0,
           centerTitle: true,
           titleTextStyle: const TextStyle(
@@ -29,9 +19,8 @@ class UiDesign {
           backgroundColor: Colors.grey[50]),
       colorScheme: ThemeData().colorScheme.copyWith(
             primary: MyColors.red,
-            secondary: MyColors.red,
+            secondary: MyColors.black,
             error: MyColors.red,
-            brightness: Brightness.light,
           ),
     );
   }
@@ -61,16 +50,17 @@ class UiDesign {
     var adTime = DateTime.parse(time);
     var now = DateTime.now();
     var difference = now.difference(adTime);
+
     var mins = difference.inMinutes;
     var hours = difference.inHours;
     var days = difference.inDays;
     if (days > 30) {
       return 'خیلی وقت پیش';
-    } else if (days > 14 && days < 30) {
+    } else if (days > 14 && days <= 30) {
       return 'بیش از دو هفته پیش';
-    } else if (days > 7 && days < 14) {
+    } else if (days > 7 && days <= 14) {
       return 'هفته پیش';
-    } else if (days > 3 && days < 7) {
+    } else if (days > 3 && days <= 7) {
       return 'همین هفته';
     } else if (days == 3) {
       return 'سه روز پیش';
@@ -78,7 +68,7 @@ class UiDesign {
       return 'دو روز پیش';
     } else if (days == 1) {
       return 'دیروز';
-    } else if (hours > 4) {
+    } else if (hours >= 5) {
       return '$hours ساعت پیش';
     } else if (hours == 4) {
       return 'چهار ساعت پیش';

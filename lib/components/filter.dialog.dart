@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_slider/flutter_multi_slider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/components/select.category.dart';
-import 'package:sarkargar/components/selectable.text.field.dart';
+import 'package:sarkargar/components/textFields/selectable.text.field.dart';
 import 'package:sarkargar/components/toggle.switch.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/filter.controller.dart';
@@ -17,45 +18,43 @@ class FilterDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(permanent: true, FilterController());
     final jobsListController = Get.find<JobsListController>();
+
     return WillPopScope(
-      onWillPop: () async => true,
+      onWillPop: () async => false,
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: AlertDialog(
-          backgroundColor: Colors.grey[50],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           insetPadding: const EdgeInsets.all(20),
           contentPadding: const EdgeInsets.all(5),
           titlePadding: const EdgeInsets.symmetric(vertical: 10),
           actionsAlignment: MainAxisAlignment.spaceAround,
           actions: [
-            buttons(
-              text: 'اعمال فیلتر',
-              color: MyColors.blueGrey,
-              onPressed: () {
-                jobsListController.search.clear();
-                // عدد 3 به معنای غیر فعال بودن است
-                if (controller.adType.value != 3) {
-                  jobsListController.search
-                      .addAll({'adtype': controller.adType.value.toString()});
-                }
-                if (controller.hiringType.value != 3) {
-                  jobsListController.search.addAll(
-                      {'hiringtype': controller.hiringType.value.toString()});
-                }
-                // if (controller.gender.value != 3) {
-                //   jobsListController.search
-                //       .addAll({'gender': controller.gender.value.toString()});
-                // }
-                if (controller.categoryController.value.text != '') {
-                  jobsListController.search.addAll(
-                      {'category': controller.categoryController.value.text});
-                }
-                // jobsListController.searchMap();
-                // Get.back();
-                print(jobsListController.search.values);
-              },
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buttons(
+                  text: 'اعمال فیلتر',
+                  color: MyColors.blueGrey,
+                  onPressed: () async {
+                    controller.setFilter();
+                  },
+                ),
+                const SizedBox(width: 5),
+                Obx(
+                  () => buttons(
+                    text: jobsListController.searchedList.isNotEmpty
+                        ? 'حذف فیلتر ها'
+                        : 'بازگشت',
+                    onPressed: () {
+                      controller.deleteFilter();
+                    },
+                  ),
+                )
+              ],
             ),
-            buttons(text: 'حذف فیلتر ها')
           ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -113,6 +112,8 @@ class FilterDialog extends StatelessWidget {
                   ),
                   Obx(
                     () => Visibility(
+                      maintainAnimation: true,
+                      maintainState: true,
                       visible: controller.adType.value == 0 ? true : false,
                       child: Center(
                         child: Obx(
@@ -121,7 +122,7 @@ class FilterDialog extends StatelessWidget {
                             labels: const ['روزمزد', 'ماهیانه'],
                             totalSwitch: 2,
                             onToggle: (value) {
-                              controller.hiringType.value = value!;
+                              controller.resetMultiSliderWidget(value: value!);
                             },
                           ),
                         ),
@@ -148,7 +149,7 @@ class FilterDialog extends StatelessWidget {
                         child: MyToggleSwitch(
                           minWidth: 98,
                           initialLableIndex: controller.gender.value,
-                          labels: const ['خانم', 'آقا', 'هردو'],
+                          labels: const ['آقا', 'خانم', 'هر دو'],
                           totalSwitch: 3,
                           onToggle: (value) => controller.gender.value = value!,
                         ),
@@ -160,23 +161,23 @@ class FilterDialog extends StatelessWidget {
                   Obx(
                     () => row(
                       title: 'دسته بندی',
-                      onPress: controller.categoryController.value.text.isEmpty
-                          ? null
-                          : () {
-                              controller.categoryController.value.clear();
-                            },
+                      onPress:
+                          controller.categoryTEController.value.text.isEmpty
+                              ? null
+                              : () {
+                                  controller.categoryTEController.value.clear();
+                                },
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: MySelectableTextField(
                       icon: const Icon(Iconsax.category_2),
-                      control: controller.categoryController.value,
+                      control: controller.categoryTEController.value,
                       labeltext: 'انتخاب دسته بندی',
                       onClick: () async {
                         await Get.to(const SelectCategory())?.then((value) {
-                          print(value);
-                          controller.categoryController.value.text = value;
+                          controller.categoryTEController.value.text = value;
                         });
                       },
                     ),
@@ -205,22 +206,7 @@ class FilterDialog extends StatelessWidget {
                         values: controller.ghimat,
                         divisions: 100,
                         onChanged: (value) {
-                          // مقداری بین 0 تا 1 بر میگردونه پس ضربش می کنیم تا به عدد دلخواه برسیم
-                          controller.ghimat.value = value;
-                          if (controller.hiringType.value == 0) {
-                            controller.minPrice.value =
-                                (value[0] * 30000000).round();
-                          } else {
-                            controller.minPrice.value =
-                                (value[0] * 1000000).round();
-                          }
-                          if (controller.hiringType.value == 0) {
-                            controller.maxPrice.value =
-                                (value[1] * 30000000).round();
-                          } else {
-                            controller.maxPrice.value =
-                                (value[1] * 1000000).round();
-                          }
+                          controller.convertNumber(value: value);
                         },
                       ),
                     ),
@@ -235,12 +221,12 @@ class FilterDialog extends StatelessWidget {
                           children: [
                             // درصورتی که نوع استخدام ماهیانه باشه مقدار اسلایدر رو در عدد بزرگتری ضرب می کنیم
                             Obx(() => Text(
-                                  'تا: ${UiDesign().digi((controller.ghimat[1] * (controller.hiringType.value == 0 ? 30000000 : 1000000)).round().toString())}',
+                                  'تا: ${UiDesign().digi(controller.maxPrice.value.toString())}',
                                   style: const TextStyle(fontSize: 12),
                                 )),
                             Obx(
                               () => Text(
-                                'از: ${UiDesign().digi((controller.ghimat[0] * (controller.hiringType.value == 0 ? 30000000 : 1000000)).round().toString())}',
+                                'از: ${UiDesign().digi(controller.minPrice.value.toString())}',
                                 style: const TextStyle(fontSize: 12),
                               ),
                             ),
@@ -262,7 +248,7 @@ class FilterDialog extends StatelessWidget {
       {Color? color, void Function()? onPressed, required String text}) {
     return TextButton(
         style: ButtonStyle(
-            minimumSize: const MaterialStatePropertyAll<Size>(Size(150, 40)),
+            minimumSize: const MaterialStatePropertyAll<Size>(Size(110, 40)),
             backgroundColor:
                 MaterialStatePropertyAll<Color>(color ?? MyColors.red)),
         onPressed: onPressed,
@@ -281,6 +267,7 @@ class FilterDialog extends StatelessWidget {
           ),
           IconButton(
               padding: EdgeInsets.zero,
+              color: MyColors.red,
               onPressed: onPress,
               icon: const Icon(Iconsax.trash))
         ],

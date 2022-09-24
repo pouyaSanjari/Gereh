@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../constants/colors.dart';
+import '../../constants/colors.dart';
 
 class MyTextField extends StatelessWidget {
   final String labeltext;
@@ -63,13 +63,13 @@ class MyTextField extends StatelessWidget {
         focusedErrorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.redAccent),
           borderRadius: BorderRadius.all(
-            Radius.circular(30),
+            Radius.circular(8),
           ),
         ),
         errorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.redAccent),
           borderRadius: BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(8),
           ),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
@@ -78,21 +78,21 @@ class MyTextField extends StatelessWidget {
         //  control.text.isEmpty ? null : suffix,
         counterText: '',
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: MyColors.red),
+          borderSide: BorderSide(color: MyColors.blue),
           borderRadius: BorderRadius.all(
-            Radius.circular(30),
+            Radius.circular(8),
           ),
         ),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: MyColors.blueGrey),
+          borderSide: BorderSide(color: Colors.blueGrey),
           borderRadius: BorderRadius.all(
-            Radius.circular(30),
+            Radius.circular(8),
           ),
         ),
         disabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
           borderRadius: BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(8),
           ),
         ),
         hintText: hint,
