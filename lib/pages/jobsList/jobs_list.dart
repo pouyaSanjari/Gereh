@@ -9,6 +9,7 @@ import 'package:sarkargar/components/error.page.dart';
 import 'package:sarkargar/components/filter.dialog.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
+import 'package:sarkargar/pages/test/job.details.page.test.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
@@ -16,7 +17,7 @@ import 'package:sarkargar/services/database.dart';
 import '../../components/select.city.dart';
 import '../../constants/colors.dart';
 
-final bucketGlobal = PageStorageBucket();
+final bucket = PageStorageBucket();
 
 class JobsList extends StatefulWidget {
   const JobsList({Key? key}) : super(key: key);
@@ -41,16 +42,11 @@ class _JobsListState extends State<JobsList> {
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          appBar: appBar(),
           resizeToAvoidBottomInset: false,
-          body: SafeArea(
-            child: NestedScrollView(
-              floatHeaderSlivers: true,
-              body: buildFutureBuilder(),
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [appBar()];
-              },
-            ),
+          body: PageStorage(
+            bucket: bucket,
+            child: buildFutureBuilder(),
           ),
         ),
       ),
@@ -59,10 +55,11 @@ class _JobsListState extends State<JobsList> {
 
 //0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
-  SliverAppBar appBar() {
-    return SliverAppBar(
+  AppBar appBar() {
+    return AppBar(
+      scrolledUnderElevation: 0,
+
       // snap: true,
-      floating: true,
       actions: const [SizedBox(width: 15)],
       leadingWidth: 40,
       leading: IconButton(
@@ -191,243 +188,229 @@ class _JobsListState extends State<JobsList> {
                     controller.jobsImages.value = snap[1].reversed.toList();
                   }
                 },
-                child: PageStorage(
-                  bucket: bucketGlobal,
-                  child: ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    key: const PageStorageKey('scroll'),
-                    itemCount: controller.searchedList.isEmpty
-                        ? controller.jobsList.length
-                        : controller.searchedList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var item = [];
-                      item.clear();
-                      controller.searchedList.isEmpty
-                          ? item = controller.jobsList
-                          : item = controller.searchedList;
-                      var category = item[index]['category'];
-                      var adtype =
-                          item[index]['adtype'] == '0' ? 'استخدام' : 'تبلیغ';
-                      Color adTypeBgColor = item[index]['adtype'] == '0'
-                          ? MyColors.orange
-                          : MyColors.qqq;
-                      bool instagrambool =
-                          item[index]['instagrambool'] == '0' ? false : true;
-                      bool phonebool =
-                          item[index]['phonebool'] == '0' ? false : true;
-                      bool chatbool =
-                          item[index]['chatbool'] == '0' ? false : true;
-                      bool locationbool =
-                          item[index]['locationbool'] == '0' ? false : true;
-                      List itemImage = controller.jobsImages
-                          .where(
-                              (element) => element['adId'] == item[index]['id'])
-                          .toList();
-                      var address = item[index]['address'] == ''
-                          ? item[index]['city']
-                          : item[index]['address'];
-                      var title = item[index]['title'];
+                child: ListView.separated(
+                  key: const PageStorageKey('value'),
+                  itemCount: controller.searchedList.isEmpty
+                      ? controller.jobsList.length
+                      : controller.searchedList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var item = [];
+                    item.clear();
+                    controller.searchedList.isEmpty
+                        ? item = controller.jobsList
+                        : item = controller.searchedList;
+                    var category = item[index]['category'];
+                    var adtype =
+                        item[index]['adtype'] == '0' ? 'استخدام' : 'تبلیغ';
+                    Color adTypeBgColor = item[index]['adtype'] == '0'
+                        ? MyColors.orange
+                        : MyColors.red;
 
-                      return OpenContainer(
-                        transitionType: ContainerTransitionType.fadeThrough,
-                        closedElevation: 0,
-                        closedColor: Colors.grey[50]!,
-                        transitionDuration: const Duration(milliseconds: 300),
-                        openBuilder: (BuildContext context,
-                            void Function({Object? returnValue}) action) {
-                          if (controller.searchedList.isEmpty) {
-                            return JobDetails(
-                                adDetails: controller.jobsList[index],
-                                images: itemImage);
-                          } else {
-                            return JobDetails(
-                                adDetails: controller.searchedList[index],
-                                images: itemImage);
-                          }
-                        },
-                        closedBuilder: (context, action) => Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Obx(
-                            () => ListTile(
-                              onTap: action,
-                              title: Row(
-                                children: [
-                                  Expanded(
-                                    child: SizedBox(
-                                      height: 110,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                    bool instagrambool =
+                        item[index]['instagrambool'] == '0' ? false : true;
+                    bool phonebool =
+                        item[index]['phonebool'] == '0' ? false : true;
+                    bool chatbool =
+                        item[index]['chatbool'] == '0' ? false : true;
+                    bool locationbool =
+                        item[index]['locationbool'] == '0' ? false : true;
+                    List itemImage = controller.jobsImages
+                        .where(
+                            (element) => element['adId'] == item[index]['id'])
+                        .toList();
+                    var address = item[index]['address'] == ''
+                        ? item[index]['city']
+                        : item[index]['address'];
+                    var title = item[index]['title'];
+
+                    return Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Obx(
+                        () => ListTile(
+                          onTap: () {
+                            if (controller.searchedList.isEmpty) {
+                              Get.to(JobDetailsPageTest(
+                                  adDetails: controller.jobsList[index],
+                                  images: itemImage));
+                            } else {
+                              Get.to(JobDetails(
+                                  adDetails: controller.searchedList[index],
+                                  images: itemImage));
+                            }
+                          },
+                          title: Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 110,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                          child: Text(title,
+                                              style: const TextStyle(
+                                                  fontSize: 20))),
+                                      Row(children: [
+                                        const Icon(Iconsax.category_2,
+                                            size: 14),
+                                        const SizedBox(width: 6),
+                                        Text(category,
+                                            style:
+                                                const TextStyle(fontSize: 12))
+                                      ]),
+                                      const SizedBox(height: 2),
+                                      Row(
                                         children: [
+                                          const Icon(Iconsax.location,
+                                              size: 15),
+                                          const SizedBox(width: 5),
                                           Expanded(
-                                              child: Text(title,
-                                                  style: const TextStyle(
-                                                      fontSize: 20))),
-                                          Row(children: [
-                                            const Icon(Iconsax.category_2,
-                                                size: 14),
-                                            const SizedBox(width: 6),
-                                            Text(category,
+                                            child: Text(
+                                              address,
+                                              style:
+                                                  const TextStyle(fontSize: 12),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              //ستون آیکون ها و نوع آگهی
+                              Padding(
+                                padding: const EdgeInsets.only(left: 2.0),
+                                child: SizedBox(
+                                  height: 110,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 47,
+                                        decoration: BoxDecoration(
+                                            color: adTypeBgColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Center(
+                                          child: RotatedBox(
+                                              quarterTurns: 1,
+                                              child: Text(
+                                                adtype,
+                                                textScaleFactor: 0.6,
                                                 style: const TextStyle(
-                                                    fontSize: 12))
-                                          ]),
-                                          const SizedBox(height: 2),
-                                          Row(
-                                            children: [
-                                              const Icon(Iconsax.location,
-                                                  size: 15),
-                                              const SizedBox(width: 5),
-                                              Expanded(
-                                                child: Text(
-                                                  address,
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                ),
-                                              ),
+                                                    color: Colors.white),
+                                              )),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Visibility(
+                                                visible: phonebool,
+                                                child: const Icon(Iconsax.call,
+                                                    size: 15)),
+                                            Visibility(
+                                                visible: chatbool,
+                                                child: const Icon(Iconsax.sms,
+                                                    size: 15)),
+                                            Visibility(
+                                                visible: instagrambool,
+                                                child: const Icon(
+                                                    Iconsax.instagram,
+                                                    size: 15)),
+                                            Visibility(
+                                                visible: locationbool,
+                                                child: const Icon(
+                                                    Iconsax.location,
+                                                    size: 15)),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              //ستون تصویر آگهی
+                              if (itemImage.isEmpty)
+                                Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.grey),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      height: 110,
+                                      width: 110,
+                                      child: const Icon(
+                                        Iconsax.gallery_slash,
+                                        size: 55,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Text(
+                                        uiDesign.timeFunction(
+                                            controller.jobsList[index]['time']),
+                                        style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 109, 109, 109),
+                                            fontSize: 12)),
+                                  ],
+                                )
+                              else
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
+                                  child: Stack(
+                                    alignment: Alignment.bottomCenter,
+                                    children: [
+                                      CachedNetworkImage(
+                                        imageUrl: itemImage[0]['image'],
+                                        height: 110,
+                                        width: 110,
+                                        filterQuality: FilterQuality.low,
+                                        maxWidthDiskCache: 302,
+                                        maxHeightDiskCache: 302,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        width: 110,
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.bottomCenter,
+                                            end: Alignment.topCenter,
+                                            colors: [
+                                              Colors.black,
+                                              Colors.transparent
                                             ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  //ستون آیکون ها و نوع آگهی
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 2.0),
-                                    child: SizedBox(
-                                      height: 110,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 47,
-                                            decoration: BoxDecoration(
-                                                color: adTypeBgColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Center(
-                                              child: RotatedBox(
-                                                  quarterTurns: 1,
-                                                  child: Text(
-                                                    adtype,
-                                                    textScaleFactor: 0.6,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  )),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Visibility(
-                                                    visible: phonebool,
-                                                    child: const Icon(
-                                                        Iconsax.call,
-                                                        size: 15)),
-                                                Visibility(
-                                                    visible: chatbool,
-                                                    child: const Icon(
-                                                        Iconsax.sms,
-                                                        size: 15)),
-                                                Visibility(
-                                                    visible: instagrambool,
-                                                    child: const Icon(
-                                                        Iconsax.instagram,
-                                                        size: 15)),
-                                                Visibility(
-                                                    visible: locationbool,
-                                                    child: const Icon(
-                                                        Iconsax.location,
-                                                        size: 15)),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-
-                                  //ستون تصویر آگهی
-                                  if (itemImage.isEmpty)
-                                    Stack(
-                                      alignment: Alignment.bottomCenter,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.grey),
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          height: 110,
-                                          width: 110,
-                                          child: const Icon(
-                                            Iconsax.gallery_slash,
-                                            size: 55,
-                                            color: Colors.grey,
-                                          ),
                                         ),
-                                        Text(
-                                            uiDesign.timeFunction(controller
-                                                .jobsList[index]['time']),
-                                            style: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 109, 109, 109),
-                                                fontSize: 12)),
-                                      ],
-                                    )
-                                  else
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
-                                      child: Stack(
-                                        alignment: Alignment.bottomCenter,
-                                        children: [
-                                          CachedNetworkImage(
-                                            imageUrl: itemImage[0]['image'],
-                                            height: 110,
-                                            width: 110,
-                                            filterQuality: FilterQuality.low,
-                                            maxWidthDiskCache: 302,
-                                            maxHeightDiskCache: 302,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          Container(
-                                            height: 30,
-                                            width: 110,
-                                            decoration: const BoxDecoration(
-                                              gradient: LinearGradient(
-                                                begin: Alignment.bottomCenter,
-                                                end: Alignment.topCenter,
-                                                colors: [
-                                                  Colors.black,
-                                                  Colors.transparent
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                              uiDesign.timeFunction(controller
-                                                  .jobsList[index]['time']),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12)),
-                                        ],
                                       ),
-                                    )
-                                ],
-                              ),
-                            ),
+                                      Text(
+                                          uiDesign.timeFunction(controller
+                                              .jobsList[index]['time']),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12)),
+                                    ],
+                                  ),
+                                )
+                            ],
                           ),
                         ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const Divider(
-                          endIndent: 15, indent: 15, height: 5, thickness: 1);
-                    },
-                  ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Divider(
+                        endIndent: 15, indent: 15, height: 5, thickness: 1);
+                  },
                 ),
               ),
             );
@@ -435,10 +418,5 @@ class _JobsListState extends State<JobsList> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 }

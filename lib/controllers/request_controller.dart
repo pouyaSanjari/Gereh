@@ -11,7 +11,7 @@ class RequestController extends GetxController {
 
   RxString titleimage = ''.obs;
 
-  RxInt adType = 1.obs;
+  RxInt adType = 2.obs;
   RxString title = ''.obs;
   RxString selectedCategory = ''.obs;
   RxString selectedCity = ''.obs;
@@ -30,6 +30,8 @@ class RequestController extends GetxController {
 //workers count page
 //###################################################
   RxInt switchEntekhabJensiyat = 0.obs;
+  RxInt switchNoeHamkari = 0.obs;
+  RxInt switchSaatKari = 0.obs;
   RxInt switchHiringType = 0.obs;
   RxBool maleVisibility = true.obs;
   RxBool femaleVisibility = false.obs;

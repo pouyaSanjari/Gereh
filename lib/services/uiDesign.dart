@@ -1,12 +1,12 @@
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sarkargar/constants/colors.dart';
 
 class UiDesign {
   ///تم نرمافزار
   ThemeData cTheme() {
     return ThemeData(
+      useMaterial3: true,
       fontFamily: 'sans',
       appBarTheme: AppBarTheme(
           titleSpacing: 0,

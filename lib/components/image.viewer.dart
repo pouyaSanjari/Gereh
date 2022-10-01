@@ -35,6 +35,8 @@ class ImageViewerPage extends StatelessWidget {
             children: [
               Expanded(
                 child: PhotoViewGallery.builder(
+                  customSize: Size(
+                      MediaQuery.of(context).size.width - 1, double.infinity),
                   onPageChanged: (index) {
                     controller.current.value = index + 1;
                   },
@@ -43,7 +45,6 @@ class ImageViewerPage extends StatelessWidget {
                   itemCount: images.length,
                   builder: (context, index) {
                     return PhotoViewGalleryPageOptions(
-                        minScale: Get.mediaQuery.size.aspectRatio / 3.5,
                         maxScale: Get.mediaQuery.size.aspectRatio * 3,
                         imageProvider: CachedNetworkImageProvider(
                             images[index]['image'],

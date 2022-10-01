@@ -90,7 +90,34 @@ class _MainRequestPageState extends State<MainRequestPage>
               fillColor: MyColors.red,
               text: 'ادامه...',
               onClick: () {
-                if (controller.title.trim().isEmpty) {
+                if (controller.adType.value == 2) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: MyColors.notWhite,
+                    content: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Row(
+                        children: const [
+                          Expanded(
+                            child: Text(
+                              'لطفا نوع آگهی خود را انتخاب کنید',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'sans',
+                                color: MyColors.red,
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Iconsax.danger,
+                            color: MyColors.red,
+                            size: 30,
+                          ),
+                        ],
+                      ),
+                    ),
+                    duration: const Duration(seconds: 3),
+                  ));
+                } else if (controller.title.trim().isEmpty) {
                   controller.titleError.value = 'وارد کردن عنوان الزامی است.';
                 } else if (controller.title.trim().length < 5) {
                   controller.titleError.value = 'حداقل 5 کاراکتر وارد کنید.';

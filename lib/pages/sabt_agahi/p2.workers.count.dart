@@ -29,44 +29,56 @@ class _WorkersCountState extends State<WorkersCount> {
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(child: Text('جنسیت', style: uiDesign.titleTextStyle())),
+          Row(
+            children: [
+              Expanded(child: Text('جنسیت:', style: uiDesign.titleTextStyle())),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.5,
+                child: MyToggleSwitch(
+                  minWidth: MediaQuery.of(context).size.width / 4.54,
+                  initialLableIndex: controller.switchEntekhabJensiyat.value,
+                  labels: const ['آقا', 'خانم', 'مهم نیست'],
+                  totalSwitch: 3,
+                  onToggle: (index) {
+                    controller.switchEntekhabJensiyat.value = index!;
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 5),
+          Row(
+            children: [
+              Expanded(
+                  child: Text('نوع همکاری:', style: uiDesign.titleTextStyle())),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.5,
+                child: MyToggleSwitch(
+                  initialLableIndex: controller.switchNoeHamkari.value,
+                  minWidth: MediaQuery.of(context).size.width / 3.012,
+                  labels: const ['حضوری', 'دور کاری'],
+                  totalSwitch: 2,
+                  onToggle: (index) {
+                    controller.switchNoeHamkari.value = index!;
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Center(child: Text('ساعات کاری', style: uiDesign.titleTextStyle())),
           const SizedBox(height: 5),
           Center(
             child: MyToggleSwitch(
-              initialLableIndex: controller.switchEntekhabJensiyat.value,
-              labels: const ['آقا', 'خانم', 'هر دو'],
-              totalSwitch: 3,
+              initialLableIndex: controller.switchSaatKari.value,
+              labels: const ['نیمه وقت', 'تمام وقت'],
+              totalSwitch: 2,
               onToggle: (index) {
-                print(index);
-                switch (index) {
-                  case 0:
-                    tedadNafaratZanTEC.clear();
-                    ghimatPishnahadiZanTEC.clear();
-                    controller.ghimatPishnahadiZan.value = '';
-                    controller.tedadNafaratZan.value = '';
-                    controller.maleVisibility.value = true;
-                    controller.femaleVisibility.value = false;
-                    controller.switchEntekhabJensiyat.value = 0;
-                    return;
-                  case 1:
-                    controller.maleVisibility.value = false;
-                    ghimatPishnahadiMardTEC.clear();
-                    tedadNafaratMardTEC.clear();
-                    controller.ghimatPishnahadiMard.value = '';
-                    controller.tedadNafaratMard.value = '';
-                    controller.femaleVisibility.value = true;
-                    controller.switchEntekhabJensiyat.value = 1;
-                    return;
-                  case 2:
-                    controller.maleVisibility.value = true;
-                    controller.femaleVisibility.value = true;
-                    controller.switchEntekhabJensiyat.value = 2;
-                    return;
-                }
+                controller.switchSaatKari.value = index!;
               },
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 10),
           Center(child: Text('نوع استخدام', style: uiDesign.titleTextStyle())),
           const SizedBox(height: 5),
           Center(
@@ -79,169 +91,69 @@ class _WorkersCountState extends State<WorkersCount> {
           ),
           const SizedBox(height: 40),
           Text('|تعداد نفرات مورد نیاز', style: uiDesign.titleTextStyle()),
-          Visibility(
-              visible: controller.maleVisibility.value,
-              child: const SizedBox(height: 5)),
-          AnimatedOpacity(
-            opacity: controller.maleVisibility.value ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 500),
-            child: Visibility(
-              visible: controller.maleVisibility.value,
-              child: MyTextField(
-                  error: controller.tedadNafaratMardError.isEmpty
-                      ? null
-                      : controller.tedadNafaratMardError.value,
-                  labeltext: 'تعداد نفرات آقا مورد نیاز',
-                  icon: const Icon(Iconsax.man4),
-                  control: tedadNafaratMardTEC,
-                  length: 2,
-                  textInputType: const TextInputType.numberWithOptions(),
-                  onChange: (value) {
-                    controller.tedadNafaratMardError.value = '';
-                    controller.tedadNafaratMard.value = value;
-                  }),
-            ),
-          ),
-          Visibility(
-              visible: controller.femaleVisibility.value,
-              child: const SizedBox(height: 5)),
-          AnimatedOpacity(
-            opacity: controller.femaleVisibility.value ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 500),
-            child: Visibility(
-              visible: controller.femaleVisibility.value,
-              child: Obx(
-                () => MyTextField(
-                    error: controller.tedadNafaratZanError.value == ''
-                        ? null
-                        : controller.tedadNafaratZanError.value,
-                    labeltext: 'تعداد نفرات خانم مورد نیاز',
-                    icon: const Icon(Iconsax.woman4),
-                    control: tedadNafaratZanTEC,
-                    length: 2,
-                    textInputType: const TextInputType.numberWithOptions(),
-                    onChange: (value) {
-                      controller.tedadNafaratZanError.value = '';
-                      controller.tedadNafaratZan.value = value;
-                    }),
-              ),
-            ),
-          ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 5),
+          MyTextField(
+              error: controller.tedadNafaratMardError.isEmpty
+                  ? null
+                  : controller.tedadNafaratMardError.value,
+              labeltext: 'تعداد نفرات ',
+              icon: const Icon(Iconsax.man4),
+              control: tedadNafaratMardTEC,
+              length: 2,
+              textInputType: const TextInputType.numberWithOptions(),
+              onChange: (value) {
+                controller.tedadNafaratMardError.value = '';
+                controller.tedadNafaratMard.value = value;
+              }),
+          const SizedBox(height: 5),
           Text('|مبلغ پیشنهادی شما', style: uiDesign.titleTextStyle()),
           Text(
               'سعی کنید مبلغی که پیشنهاد می دهید منصفانه باشد. مبلغ پیشنهادی شما پایین عنوان آگهی درج و تاثیر مستقیم بر شانس کلیک بر روی آگهی دارد.',
               style: uiDesign.descriptionsTextStyle()),
           const SizedBox(height: 5),
-          AnimatedOpacity(
-            duration: const Duration(milliseconds: 500),
-            opacity: controller.maleVisibility.value ? 1.0 : 0.0,
-            child: Visibility(
-              visible: controller.maleVisibility.value,
-              child: MyTextField(
-                  enabled: controller.ghimatTavafoghiMardBL.value == false
-                      ? true
-                      : false,
-                  labeltext: 'مبلغ پیشنهادی برای آقا',
-                  icon: const Icon(Iconsax.dollar_circle),
-                  error: controller.ghimatPishnahadiMardError.isEmpty
-                      ? null
-                      : controller.ghimatPishnahadiMardError.value,
-                  control: ghimatPishnahadiMardTEC,
-                  hint: 'به تومان وارد کنید',
-                  length: 8,
-                  textInputType: const TextInputType.numberWithOptions(),
-                  maxLine: 1,
-                  onChange: (value) {
-                    controller.ghimatPishnahadiMardError.value = '';
-                    controller.ghimatPishnahadiMard.value = value;
-                  }),
-            ),
-          ),
-          Visibility(
-            visible: controller.maleVisibility.value,
-            child: Row(
-              children: [
-                const Text('   قیمت توافقی'),
-                Transform.scale(
-                  scale: 1.2,
-                  child: Checkbox(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      activeColor: MyColors.red,
-                      value: controller.ghimatTavafoghiMardBL.value,
-                      onChanged: (value) {
-                        controller.ghimatPishnahadiMardError.value = '';
-                        if (value == false) {
-                          ghimatPishnahadiMardTEC.clear();
-                        } else {
-                          ghimatPishnahadiMardTEC.text = 'توافقی';
-                          controller.ghimatPishnahadiMard.value = '';
-                        }
+          MyTextField(
+              enabled: controller.ghimatTavafoghiMardBL.value == false
+                  ? true
+                  : false,
+              labeltext: 'مبلغ پیشنهادی برای آقا',
+              icon: const Icon(Iconsax.dollar_circle),
+              error: controller.ghimatPishnahadiMardError.isEmpty
+                  ? null
+                  : controller.ghimatPishnahadiMardError.value,
+              control: ghimatPishnahadiMardTEC,
+              hint: 'به تومان وارد کنید',
+              length: 8,
+              textInputType: const TextInputType.numberWithOptions(),
+              maxLine: 1,
+              onChange: (value) {
+                controller.ghimatPishnahadiMardError.value = '';
+                controller.ghimatPishnahadiMard.value = value;
+              }),
+          Row(
+            children: [
+              const Text('   قیمت توافقی'),
+              Transform.scale(
+                scale: 1.2,
+                child: Checkbox(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    activeColor: MyColors.red,
+                    value: controller.ghimatTavafoghiMardBL.value,
+                    onChanged: (value) {
+                      controller.ghimatPishnahadiMardError.value = '';
+                      if (value == false) {
+                        ghimatPishnahadiMardTEC.clear();
+                      } else {
+                        ghimatPishnahadiMardTEC.text = 'توافقی';
                         controller.ghimatPishnahadiMard.value = '';
-                        controller.ghimatTavafoghiMardBL.value = value ?? false;
-                      }),
-                ),
-                Text(digi(controller.ghimatPishnahadiMard.value)),
-              ],
-            ),
+                      }
+                      controller.ghimatPishnahadiMard.value = '';
+                      controller.ghimatTavafoghiMardBL.value = value ?? false;
+                    }),
+              ),
+              Text(digi(controller.ghimatPishnahadiMard.value)),
+            ],
           ),
-          AnimatedOpacity(
-            duration: const Duration(milliseconds: 500),
-            opacity: controller.femaleVisibility.value ? 1.0 : 0.0,
-            child: Visibility(
-              visible: controller.femaleVisibility.value,
-              child: MyTextField(
-                  error: controller.ghimatPishnahadiZanError.isEmpty
-                      ? null
-                      : controller.ghimatPishnahadiZanError.value,
-                  enabled: controller.ghimatTavafoghiZanBL.value == false
-                      ? true
-                      : false,
-                  labeltext: 'مبلغ پیشنهادی برای خانم',
-                  icon: const Icon(Iconsax.dollar_circle),
-                  control: ghimatPishnahadiZanTEC,
-                  hint: 'به تومان وارد کنید',
-                  length: 8,
-                  textInputType: const TextInputType.numberWithOptions(),
-                  maxLine: 1,
-                  onChange: (value) {
-                    controller.ghimatPishnahadiZanError.value = '';
-                    controller.ghimatPishnahadiZan.value = value;
-                  }),
-            ),
-          ),
-          Visibility(
-            visible: controller.femaleVisibility.value,
-            child: Row(
-              children: [
-                const Text('   قیمت توافقی'),
-                Transform.scale(
-                  scale: 1.2,
-                  child: Checkbox(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      activeColor: MyColors.red,
-                      value: controller.ghimatTavafoghiZanBL.value,
-                      onChanged: (value) {
-                        controller.ghimatPishnahadiZanError.value = '';
-                        if (value == false) {
-                          ghimatPishnahadiZanTEC.clear();
-                        } else {
-                          ghimatPishnahadiZanTEC.text = 'توافقی';
-                          controller.ghimatPishnahadiZan.value = '';
-                        }
-
-                        controller.ghimatPishnahadiZan.value = '';
-                        controller.ghimatTavafoghiZanBL.value = value!;
-                      }),
-                ),
-                Text(
-                  digi(controller.ghimatPishnahadiZan.value),
-                ),
-              ],
-            ),
-          )
         ],
       ),
     );

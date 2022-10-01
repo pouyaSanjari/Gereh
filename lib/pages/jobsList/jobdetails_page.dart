@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sarkargar/components/buttons/rounded.button.dart';
 import 'package:sarkargar/components/image.viewer.dart';
+import 'package:sarkargar/components/my.container.dart';
 import 'package:sarkargar/controllers/job_details_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 
@@ -61,13 +62,16 @@ class _JobDetailsState extends State<JobDetails> {
                 ],
               )),
           body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: SingleChildScrollView(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    imagesView(context, images),
+                    MyContainer(
+                        contentPadding: 0,
+                        color: MyColors.black,
+                        widgets: [imagesView(context, images)]),
                     const SizedBox(height: 5),
                     Text(controller.title.value,
                         style: uiDesign.titleTextStyle()),
@@ -82,42 +86,66 @@ class _JobDetailsState extends State<JobDetails> {
                             style: uiDesign.descriptionsTextStyle(),
                           ),
                         ),
-                        Container(
-                          height: 20,
-                          width: 55,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color:
-                                  isHiring ? MyColors.orange : MyColors.blue),
-                          child: Center(
-                            child: Text(
-                              isHiring ? 'استخدام' : 'تبلیغ',
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 5),
                         Visibility(
                           visible: isHiring,
-                          child: Container(
-                            height: 20,
-                            width: 55,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: isHiringDayli
-                                    ? MyColors.red
-                                    : MyColors.blueGrey),
-                            child: Center(
-                              child: Text(
-                                isHiringDayli ? 'روزمزد' : 'ماهیانه',
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
+                          child: MyContainer(
+                            height: 35,
+                            width: 80,
+                            contentPadding: 0,
+                            color: isHiring ? MyColors.orange : MyColors.blue,
+                            widgets: [
+                              Center(
+                                child: Text(
+                                  isHiring ? 'استخدام' : 'تبلیغ',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 13),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Visibility(
+                          visible: isHiring,
+                          child: MyContainer(
+                            height: 35,
+                            width: 80,
+                            contentPadding: 0,
+                            color: isHiringDayli
+                                ? MyColors.red
+                                : MyColors.blueGrey,
+                            widgets: [
+                              Center(
+                                child: Text(
+                                  isHiringDayli ? 'روزمزد' : 'ماهیانه',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 13),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        cardWidget(
+                          isMen: true,
+                          visible: menVisibility,
+                          isHiringDayli: isHiringDayli,
+                          price: controller.mprice.value,
+                          count: controller.men.value,
+                        ),
+                        cardWidget(
+                          isMen: false,
+                          visible: womenVisibility,
+                          isHiringDayli: isHiringDayli,
+                          count: controller.women.value,
+                          price: controller.wprice.value,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
                     row(
                         icon: Iconsax.category_2,
                         title: 'دسته بندی',
@@ -129,66 +157,14 @@ class _JobDetailsState extends State<JobDetails> {
                         value: controller.address.value == ''
                             ? controller.city.value
                             : controller.address.value),
-                    const Divider(height: 30),
-                    Visibility(
-                      visible: menVisibility,
-                      child: row(
-                          icon: Iconsax.man,
-                          title: 'تعداد نفرات آقا',
-                          value: '${controller.men.value} نفر'),
-                    ),
-                    Visibility(
-                        visible: menVisibility,
-                        child: const Divider(height: 30)),
-                    Visibility(
-                      visible: menVisibility,
-                      child: row(
-                        icon: Iconsax.dollar_circle,
-                        title: 'حقوق (${isHiringDayli ? 'روزانه' : 'ماهیانه'})',
-                        value: controller.mprice.value == ''
-                            ? 'توافقی'
-                            : uiDesign.digi(controller.mprice.value),
+                    const SizedBox(height: 20),
+                    Text(
+                      textAlign: TextAlign.justify,
+                      controller.descs.value,
+                      style: const TextStyle(
+                        fontSize: 15,
                       ),
                     ),
-                    Visibility(
-                        visible: menVisibility,
-                        child: const Divider(height: 30)),
-                    Visibility(
-                      visible: womenVisibility,
-                      child: row(
-                          icon: Iconsax.woman,
-                          title: 'تعداد نفرات خانم',
-                          value: '${controller.women.value} نفر'),
-                    ),
-                    Visibility(
-                        visible: womenVisibility,
-                        child: const Divider(height: 30)),
-                    Visibility(
-                      visible: womenVisibility,
-                      child: row(
-                          icon: Iconsax.dollar_circle,
-                          title:
-                              'حقوق (${isHiringDayli ? 'روزانه' : 'ماهیانه'})',
-                          value: controller.wprice.value == ''
-                              ? 'توافقی'
-                              : uiDesign.digi(controller.wprice.value)),
-                    ),
-                    Visibility(
-                        visible: womenVisibility,
-                        child: const Divider(height: 30)),
-                    Text('توضیحات', style: uiDesign.titleTextStyle()),
-                    const SizedBox(height: 10),
-                    Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
-                            color: MyColors.bluewhite,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          controller.descs.value,
-                          style: const TextStyle(fontSize: 15),
-                        )),
                     const SizedBox(height: 15),
                     controller.locationbool.value
                         ? InkWell(
@@ -204,6 +180,7 @@ class _JobDetailsState extends State<JobDetails> {
                                       'https://api.neshan.org/v2/static?key=service.3701bff2e5814681af87132d10abe63a&type=dreamy&zoom=15&center=${controller.locationlat.value},${controller.locationlon.value}&width=700&height=400&marker=red'),
                             ),
                           )
+
                         //در صورتی که نقشه نداشته باشه کانتینر خالی نشون میده
                         : Container(),
                     Visibility(
@@ -213,34 +190,113 @@ class _JobDetailsState extends State<JobDetails> {
                               'با کلیک بر بروی نقشه می توانید محل آگهی را مشاهده کنید.',
                               style: uiDesign.descriptionsTextStyle()),
                         )),
-                    const Divider(height: 50),
-                    Container(
-                      width: 400,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[350],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(children: const [
-                          Text(
-                            'تذکر مهم!',
-                            style: TextStyle(color: MyColors.red, fontSize: 18),
+                    const SizedBox(height: 20),
+                    MyContainer(color: MyColors.red, widgets: [
+                      Row(
+                        children: const [
+                          Icon(
+                            Iconsax.warning_2,
+                            color: Colors.white,
                           ),
-                          Text(
-                            'کاربر گرامی لطفا توجه فرمائید که سایت و اپلیکیشن سرکارگر هیچگونه مسئولیتی در قبال صحت اطلاعات درج شده در آگهی ندارد. لذا خواهشمند است قبل از مراجعه حضوری از صحت اطلاعات آگهی اطمینان حاصل فرمائید. همچنین از پرداخت مبلغ قبل از مراجعه حضوری و بدون اطمینان از صحت موارد مندرج در آگهی بپرهیزید.',
-                            textAlign: TextAlign.justify,
-                          )
-                        ]),
+                          Expanded(
+                              child: Center(
+                                  child: Text(
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                      'تذکر مهم!'))),
+                          Icon(Iconsax.warning_2, color: Colors.white)
+                        ],
                       ),
-                    ),
-                    const SizedBox(height: 70)
+                      const Text(
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.justify,
+                        'کاربر گرامی لطفا توجه فرمائید که سایت و اپلیکیشن سرکارگر هیچگونه مسئولیتی در قبال صحت اطلاعات درج شده در آگهی ندارد. لذا خواهشمند است قبل از مراجعه حضوری از صحت اطلاعات آگهی اطمینان حاصل فرمائید. همچنین از پرداخت مبلغ قبل از مراجعه حضوری و بدون اطمینان از صحت موارد مندرج در آگهی بپرهیزید.',
+                      )
+                    ]),
+                    const SizedBox(height: 70),
                   ],
                 ),
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Visibility cardWidget(
+      {required bool visible,
+      required bool isHiringDayli,
+      required String count,
+      required String price,
+      required bool isMen}) {
+    return Visibility(
+      visible: visible,
+      child: MyContainer(
+        color: isMen
+            ? const Color.fromARGB(255, 100, 181, 246)
+            : const Color.fromARGB(255, 127, 78, 180),
+        width: 150,
+        height: 150,
+        widgets: [
+          Icon(
+            isMen ? Iconsax.man : Iconsax.woman,
+            size: 30,
+            color: Colors.white,
+          ),
+          Row(
+            children: [
+              const Icon(
+                Iconsax.people5,
+                size: 18,
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    '$count نفر ${isMen ? 'آقا' : 'خانم'}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Icon(
+                Iconsax.dollar_circle4,
+                size: 18,
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    price == ''
+                        ? 'توافقی'
+                        : uiDesign.digi(
+                            price,
+                          ),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Icon(
+                Iconsax.clock5,
+                size: 18,
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    isHiringDayli ? '(روزانه)' : '(ماهیانه)',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -425,7 +481,7 @@ class _JobDetailsState extends State<JobDetails> {
   }
 
   @override
-  void dispose() async {
+  void dispose() {
     hideOverlay(true);
     super.dispose();
   }
