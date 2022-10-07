@@ -2,9 +2,8 @@ import 'package:get/get.dart';
 import 'package:sarkargar/services/database.dart';
 
 class JobDetailsTestController extends GetxController {
-  RxString phoneNumber = ''.obs;
-
   final database = AppDataBase();
+  RxString phoneNumber = ''.obs;
 
   void getAdvertizer({required String advertizer}) async {
     try {

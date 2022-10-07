@@ -86,7 +86,7 @@ class _SignUpState extends State<SignUp> {
                           }),
                       //دکمه ثبت نام
                       MyButton(
-                        text: 'ثبت نام',
+                        child: Text('ثبت نام'),
                         onClick: () {
                           //اگه اسم رو وارد نکرده باشه
                           if (nameController.text.isEmpty) {

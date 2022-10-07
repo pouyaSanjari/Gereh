@@ -88,7 +88,10 @@ class _MainRequestPageState extends State<MainRequestPage>
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: MyButton(
               fillColor: MyColors.red,
-              text: 'ادامه...',
+              child: const Text(
+                'ادامه...',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
               onClick: () {
                 if (controller.adType.value == 2) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -121,12 +124,12 @@ class _MainRequestPageState extends State<MainRequestPage>
                   controller.titleError.value = 'وارد کردن عنوان الزامی است.';
                 } else if (controller.title.trim().length < 5) {
                   controller.titleError.value = 'حداقل 5 کاراکتر وارد کنید.';
-                } else if (controller.selectedCategory.trim().isEmpty) {
+                } else if (controller.category.trim().isEmpty) {
                   controller.categoryError.value = 'یک دسته بندی انتخاب کنید.';
-                } else if (controller.descriptions.trim().isEmpty) {
+                } else if (controller.desc.trim().isEmpty) {
                   controller.descriptionsError.value =
                       'واردکردن توضیحات آگهی الزامی است.';
-                } else if (controller.descriptions.trim().length < 10) {
+                } else if (controller.desc.trim().length < 10) {
                   controller.descriptionsError.value =
                       'حداقل 10 کاراکتر وارد کنید.';
                 } else {
@@ -142,63 +145,24 @@ class _MainRequestPageState extends State<MainRequestPage>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              backBTN(),
               MyButton(
-                text: 'ادامه',
-                fillColor: MyColors.red,
-                icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
+                elevation: 0,
+                fillColor: Colors.grey.withOpacity(0.4),
+                child: const Icon(Iconsax.arrow_right_4),
                 onClick: () {
-                  switch (controller.switchEntekhabJensiyat.value) {
-                    //جنسیت آقا انتخال شده
-
-                    case 0:
-                      if (controller.tedadNafaratMard.value == '') {
-                        controller.tedadNafaratMardError.value =
-                            'تعداد نفرات درخواستی را وارد کنید.';
-                      } else if (controller.ghimatPishnahadiMard.isEmpty &&
-                          controller.ghimatTavafoghiMardBL.value == false) {
-                        controller.ghimatPishnahadiMardError.value =
-                            'یا یک قیمت پیشنهاد دهید یا قیمت توافقی را انتخاب کنید.';
-                      } else {
-                        controller.activeStep.value++;
-                      }
-                      break;
-                    //جنسیت خانم انتخاب شده
-                    case 1:
-                      if (controller.tedadNafaratZan.value == '') {
-                        controller.tedadNafaratZanError.value =
-                            'تعداد نفرات درخواستی را وارد کنید.';
-                      } else if (controller.ghimatPishnahadiZan.isEmpty &&
-                          controller.ghimatTavafoghiZanBL.value == false) {
-                        controller.ghimatPishnahadiZanError.value =
-                            'یا یک قیمت پیشنهاد دهید یا قیمت توافقی را انتخاب کنید.';
-                      } else {
-                        controller.activeStep.value++;
-                      }
-                      break;
-                    //هردو جنسیت انتخاب شده
-                    case 2:
-                      if (controller.tedadNafaratMard.value == '') {
-                        controller.tedadNafaratMardError.value =
-                            'تعداد نفرات درخواستی را وارد کنید.';
-                      } else if (controller.tedadNafaratZan.value == '') {
-                        controller.tedadNafaratZanError.value =
-                            'تعداد نفرات درخواستی را وارد کنید.';
-                      } else if (controller.ghimatPishnahadiMard.isEmpty &&
-                          controller.ghimatTavafoghiMardBL.value == false) {
-                        controller.ghimatPishnahadiMardError.value =
-                            'یا یک قیمت پیشنهاد دهید یا قیمت توافقی را انتخاب کنید.';
-                      } else if (controller.ghimatPishnahadiZan.isEmpty &&
-                          controller.ghimatTavafoghiZanBL.value == false) {
-                        controller.ghimatPishnahadiZanError.value =
-                            'یا یک قیمت پیشنهاد دهید یا قیمت توافقی را انتخاب کنید.';
-                      } else {
-                        controller.activeStep.value++;
-                      }
-                      break;
-                    default:
-                  }
+                  controller.activeStep.value--;
                 },
+              ),
+              MyButton(
+                fillColor: MyColors.red,
+                onClick: () {
+                  if (controller.selectGenderTEC.value.text == '') {}
+                  controller.activeStep.value++;
+                },
+                child: const Text(
+                  'ادامه',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
               )
             ],
           ),
@@ -210,9 +174,10 @@ class _MainRequestPageState extends State<MainRequestPage>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               MyButton(
-                fillColor: Colors.grey[50],
-                borderColor: Colors.black,
-                icon: const Icon(Iconsax.arrow_right_4),
+                fillColor: Colors.grey.withOpacity(0.4),
+                // borderColor: Colors.black,
+                elevation: 0,
+                child: const Icon(Iconsax.arrow_right_4),
                 onClick: () {
                   setState(() {
                     controller.adType.value == 0
@@ -220,13 +185,11 @@ class _MainRequestPageState extends State<MainRequestPage>
                         : controller.activeStep.value = 0;
                   });
                 },
-                text: 'بازگشت',
               ),
               MyButton(
                 fillColor: MyColors.red,
-                icon: const Icon(Iconsax.arrow_left_1, color: Colors.white),
+                child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () => controller.activeStep.value++,
-                text: 'ادامه',
               )
             ],
           ),
@@ -241,7 +204,7 @@ class _MainRequestPageState extends State<MainRequestPage>
               backBTN(),
               MyButton(
                   fillColor: Colors.green,
-                  text: 'ثبت',
+                  child: const Text('ثبت'),
                   onClick: () {
                     setState(() {
                       insertAdToDb();
@@ -264,7 +227,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                     }
                   });
                 },
-                text: 'بازگشت',
+                child: const Text('بازگشت'),
               ),
               MyButton(
                 onClick: () => setState(() {
@@ -272,7 +235,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                     controller.activeStep.value++;
                   }
                 }),
-                text: 'ادامه',
+                child: const Text('ادامه'),
               )
             ],
           ),
@@ -282,9 +245,9 @@ class _MainRequestPageState extends State<MainRequestPage>
 
   MyButton backBTN() {
     return MyButton(
-      fillColor: Colors.transparent,
-      borderColor: Colors.black,
-      icon: const Icon(Iconsax.arrow_right_4),
+      elevation: 0,
+      fillColor: Colors.grey.withOpacity(0.4),
+      child: const Icon(Iconsax.arrow_right_4),
       onClick: () {
         controller.activeStep.value--;
       },
@@ -294,37 +257,38 @@ class _MainRequestPageState extends State<MainRequestPage>
 //ذخیره تبلیغ در دیتابیس
   insertAdToDb() async {
     var response = await dataBase.addNewAD(
-      advertizer: box.read('id').toString(),
-      adtype: controller.adType.value.toString(),
-      hiringtype: controller.switchHiringType.value.toString(),
-      gender: controller.switchEntekhabJensiyat.value.toString(),
-      title: controller.title.value.trim(),
-      category: controller.selectedCategory.value,
-      city: controller.selectedCity.value,
-      address: controller.locationSelectionBool.value
-          ? controller.address.value
-          : '',
-      instagramid: controller.instagramIdSelectionBool.value
-          ? controller.selectedInstagramId.value
-          : '',
-      locationlat: controller.locationSelectionBool.value
-          ? controller.selectedLat.value.toString()
-          : '',
-      locationlon: controller.locationSelectionBool.value
-          ? controller.selectedLon.value.toString()
-          : '',
-      phonebool: controller.phoneBool.value ? '1' : '0',
-      smsbool: controller.smsbool.value ? '1' : '0',
-      chatbool: controller.chatBool.value ? '1' : '0',
-      photobool: controller.imageSelectionBool.value ? '1' : '0',
-      locationbool: controller.locationSelectionBool.value ? '1' : '0',
-      instagrambool: controller.instagramIdSelectionBool.value ? '1' : '0',
-      men: mardVisibility() ? controller.tedadNafaratMard.value : '',
-      women: zanVisibility() ? controller.tedadNafaratZan.value : '',
-      mprice: mardVisibility() ? controller.ghimatPishnahadiMard.value : '',
-      wprice: zanVisibility() ? controller.ghimatPishnahadiZan.value : '',
-      descs: controller.descriptions.value,
-    );
+        advertizer: box.read('id').toString(),
+        adtype: controller.adType.value.toString(),
+        title: controller.title.value.trim(),
+        category: controller.category.value,
+        city: controller.city.value,
+        descs: controller.desc.value.trim(),
+        gender: controller.selectGenderTEC.value.text,
+        workType: controller.selectCollaborationTypeTEC.value.text,
+        workTime: controller.selectWorkTimeTEC.value.text,
+        payMethod: controller.selectPayMethodTEC.value.text,
+        profession: controller.skillTEC.value.text,
+        price: controller.priceTEC.value.text,
+        resumeBool: '',
+        callBool: controller.phoneBool.value.toString(),
+        callNumber: '',
+        smsBool: controller.smsBool.value.toString(),
+        smsNumber: '',
+        chatBool: controller.chatBool.value.toString(),
+        emailBool: '',
+        emailAddress: '',
+        websiteBool: '',
+        websiteAddress: '',
+        instagramBool: controller.instagramIdSelectionBool.value ? '1' : '0',
+        instagramId: controller.instagramIdTEC.value.text,
+        whatsappBool: '',
+        whatsappNumber: '',
+        photobool: controller.phoneBool.value.toString(),
+        locationbool: controller.locationSelectionBool.value.toString(),
+        locationlat: controller.selectedLat.value.toString(),
+        locationlon: controller.selectedLon.value.toString(),
+        address: controller.address.value.trim().toString());
+
     setState(() {
       if (response.toString() == '200') {
         showDialog<void>(
@@ -441,13 +405,4 @@ class _MainRequestPageState extends State<MainRequestPage>
     String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
     return digit;
   }
-
-  bool zanVisibility() =>
-      controller.tedadNafaratZan.isEmpty || controller.adType.value == 1
-          ? false
-          : true;
-  bool mardVisibility() =>
-      controller.tedadNafaratMard.isEmpty || controller.adType.value == 1
-          ? false
-          : true;
 }

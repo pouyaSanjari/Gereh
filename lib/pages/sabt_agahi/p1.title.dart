@@ -8,6 +8,7 @@ import 'package:sarkargar/components/select.category.dart';
 import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/components/textFields/selectable.text.field.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
+import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/services/database.dart';
 import '../../controllers/request_controller.dart';
@@ -111,7 +112,10 @@ class _TitlePageState extends State<TitlePage> {
                 ? null
                 : controller.titleError.value,
             labeltext: 'عنوان',
-            icon: const Icon(Iconsax.subtitle),
+            icon: const Icon(
+              Iconsax.subtitle,
+              color: MyColors.black,
+            ),
             control: titleTEC,
             hint: 'عنوان درخواست خود را وارد کنید',
             onChange: (value) {
@@ -120,7 +124,7 @@ class _TitlePageState extends State<TitlePage> {
             },
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 20),
         Text('|دسته بندی ', style: uiDesign.titleTextStyle()),
         Text('   انتخاب دسته بندی صحیح بازدید آگهی شما را افزایش خواهد داد.',
             style: uiDesign.descriptionsTextStyle()),
@@ -128,24 +132,25 @@ class _TitlePageState extends State<TitlePage> {
 
         Obx(
           () => MySelectableTextField(
-              error: controller.categoryError.isEmpty
-                  ? null
-                  : controller.categoryError.value,
-              control: categoryTEC,
-              icon: const Icon(Iconsax.category_2),
-              labeltext: 'یک دسته بندی انتخاب کنید',
-              onClick: () {
-                focusNode.unfocus();
-                Get.to(() => const SelectCategory())?.then((value) {
-                  controller.selectedCategory.value = value;
-                  setState(() {
-                    categoryTEC.text = value;
-                  });
+            error: controller.categoryError.isEmpty
+                ? null
+                : controller.categoryError.value,
+            control: categoryTEC,
+            icon: const Icon(Iconsax.category_2, color: MyColors.black),
+            labeltext: 'یک دسته بندی انتخاب کنید',
+            onClick: () {
+              focusNode.unfocus();
+              Get.to(() => const SelectCategory())?.then((value) {
+                controller.category.value = value;
+                setState(() {
+                  categoryTEC.text = value;
                 });
-              }),
+              });
+            },
+          ),
         ),
 
-        const SizedBox(height: 15),
+        const SizedBox(height: 20),
         Text('|شهر محل آگهی ', style: uiDesign.titleTextStyle()),
         Text('   آگهی شما در لیست آگهی های کدام شهر نمایش داده شود؟',
             style: uiDesign.descriptionsTextStyle()),
@@ -157,18 +162,18 @@ class _TitlePageState extends State<TitlePage> {
                   ? null
                   : controller.cityError.value,
               control: cityTEC,
-              icon: const Icon(Iconsax.building_3),
+              icon: const Icon(Iconsax.building_3, color: MyColors.black),
               labeltext: 'شهر خود را انتخاب کنید.',
               onClick: () {
                 focusNode.unfocus();
                 Get.to(() => const SelectCity(isFirstTime: false))
                     ?.then((value) => setState(() {
-                          cityTEC.text = controller.selectedCity.value;
+                          cityTEC.text = controller.city.value;
                         }));
               }),
         ),
 
-        const SizedBox(height: 15),
+        const SizedBox(height: 20),
         Text('|توضیحات', style: uiDesign.titleTextStyle()),
         Text(
           '   سعی کنید شرح کاملی از درخواست خود را وارد کنید تا هیچ ابهامی باقی نماند، این مورد می تواند شانس استخدام نیرو و جذب مشتری را افزایش دهد.',
@@ -182,13 +187,14 @@ class _TitlePageState extends State<TitlePage> {
                   : controller.descriptionsError.value,
               textInputType: TextInputType.multiline,
               control: descriptionsTEC,
-              minLine: 5,
-              maxLine: 10,
-              icon: const Icon(Iconsax.textalign_justifyright),
-              length: 400,
+              minLine: 1,
+              maxLine: 20,
+              icon: const Icon(Iconsax.textalign_justifyright5,
+                  color: MyColors.black),
+              length: 1000,
               hint: 'توضیحات کامل آگهی خود را اینجا وارد کنید',
               onChange: (value) {
-                controller.descriptions.value = value;
+                controller.desc.value = value;
                 controller.descriptionsError.value = '';
               },
               labeltext: 'توضیحات آگهی '),
@@ -200,18 +206,17 @@ class _TitlePageState extends State<TitlePage> {
   @override
   // ignore: must_call_super
   void initState() {
-    dataBase.uploadedImages();
+    // dataBase.uploadedImages();
     focusNode = FocusNode();
     titleTEC.text = controller.title.value;
-    categoryTEC.text = controller.selectedCategory.value;
-    descriptionsTEC.text = controller.descriptions.value;
-    cityTEC.text = controller.selectedCity.value;
+    categoryTEC.text = controller.category.value;
+    descriptionsTEC.text = controller.desc.value;
+    cityTEC.text = controller.city.value;
   }
 
   @override
   void dispose() {
     focusNode.dispose();
-
     super.dispose();
   }
 }

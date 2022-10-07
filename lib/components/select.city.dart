@@ -39,16 +39,16 @@ class _SelectCityState extends State<SelectCity> {
         resizeToAvoidBottomInset: false,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if (controller.selectedCity.isEmpty ||
-                controller.selectedCity.value == 'یک شهر انتخاب کنید.' ||
-                controller.selectedCity.value == 'لطفا صبر کنید...') {
+            if (controller.city.isEmpty ||
+                controller.city.value == 'یک شهر انتخاب کنید.' ||
+                controller.city.value == 'لطفا صبر کنید...') {
               Fluttertoast.showToast(msg: 'یک شهر انتخاب کنید.');
             } else {
               if (widget.isFirstTime) {
-                box.write('city', controller.selectedCity.value);
+                box.write('city', controller.city.value);
                 Get.off(const MainPage());
               } else {
-                Get.back(result: controller.selectedCity.value);
+                Get.back(result: controller.city.value);
               }
             }
           },
@@ -92,7 +92,7 @@ class _SelectCityState extends State<SelectCity> {
                 const SizedBox(width: 10),
                 Obx(
                   () => Text(
-                    controller.selectedCity.value,
+                    controller.city.value,
                     style: const TextStyle(fontSize: 18),
                   ),
                 ),
@@ -126,14 +126,13 @@ class _SelectCityState extends State<SelectCity> {
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: () {
-                              controller.selectedCity.value = searched[index];
+                              controller.city.value = searched[index];
                               controller.categoryError.value = '';
                               if (widget.isFirstTime) {
-                                box.write(
-                                    'city', controller.selectedCity.value);
+                                box.write('city', controller.city.value);
                                 Get.off(const MainPage());
                               } else {
-                                Get.back(result: controller.selectedCity.value);
+                                Get.back(result: controller.city.value);
                               }
                             },
                             child: ListTile(
@@ -151,7 +150,7 @@ class _SelectCityState extends State<SelectCity> {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(MyColors.red)),
                 onPressed: () {
-                  controller.selectedCity.value = 'لطفا صبر کنید...';
+                  controller.city.value = 'لطفا صبر کنید...';
                   getCityNameByLocation();
                 },
                 icon: const Icon(
@@ -187,7 +186,7 @@ class _SelectCityState extends State<SelectCity> {
       if (controller.cities[i]['parent'] == parent) {
         items.add(InkWell(
           onTap: () {
-            controller.selectedCity.value = controller.cities[i]['title'];
+            controller.city.value = controller.cities[i]['title'];
             controller.categoryError.value = '';
           },
           child: ListTile(
@@ -226,13 +225,13 @@ class _SelectCityState extends State<SelectCity> {
     String state = json['province'].toString().trim();
 
     if (city.trim().isNotEmpty) {
-      controller.selectedCity.value = city.trim();
+      controller.city.value = city.trim();
       box.write('city', city.trim());
     } else if (county.trim().isNotEmpty) {
-      controller.selectedCity.value = county.trim();
+      controller.city.value = county.trim();
       box.write('city', county.trim());
     } else {
-      controller.selectedCity.value = state.trim();
+      controller.city.value = state.trim();
       box.write('city', state.trim());
     }
   }
@@ -276,7 +275,7 @@ class _SelectCityState extends State<SelectCity> {
 
   @override
   void initState() {
-    controller.selectedCity.value = 'یک شهر انتخاب کنید.';
+    controller.city.value = 'یک شهر انتخاب کنید.';
     getCitiesList();
     super.initState();
   }

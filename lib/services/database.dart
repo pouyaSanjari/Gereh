@@ -29,16 +29,20 @@ class AppDataBase {
     requestController.images.clear();
     Uri url =
         Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
-    var jsonresponse =
-        await http.post(url, body: {'userid': box.read('id').toString()});
-    List result = convert.jsonDecode(jsonresponse.body);
-    for (int i = 0; i < result.length; i++) {
-      uploadedImages.add(result[i]['image']);
+    try {
+      var jsonresponse =
+          await http.post(url, body: {'userid': box.read('id').toString()});
+      List result = convert.jsonDecode(jsonresponse.body);
+      for (int i = 0; i < result.length; i++) {
+        uploadedImages.add(result[i]['image']);
+      }
+      requestController.images.isEmpty
+          ? requestController.images.value = uploadedImages
+          : null;
+      return result;
+    } catch (e) {
+      print(e);
     }
-    requestController.images.isEmpty
-        ? requestController.images.value = uploadedImages
-        : null;
-    return result;
   }
 
 // آپلود تصویر
@@ -126,51 +130,69 @@ class AppDataBase {
   addNewAD({
     required String advertizer,
     required String adtype,
-    required String hiringtype,
-    required String gender,
     required String title,
     required String category,
     required String city,
-    required String address,
-    required String instagramid,
-    required String locationlat,
-    required String locationlon,
-    required String phonebool,
-    required String smsbool,
-    required String chatbool,
+    required String descs,
+    required String gender,
+    required String workType,
+    required String workTime,
+    required String payMethod,
+    required String profession,
+    required String price,
+    required String resumeBool,
+    required String callBool,
+    required String callNumber,
+    required String smsBool,
+    required String smsNumber,
+    required String chatBool,
+    required String emailBool,
+    required String emailAddress,
+    required String websiteBool,
+    required String websiteAddress,
+    required String instagramBool,
+    required String instagramId,
+    required String whatsappBool,
+    required String whatsappNumber,
     required String photobool,
     required String locationbool,
-    required String instagrambool,
-    required String men,
-    required String women,
-    required String mprice,
-    required String wprice,
-    required String descs,
+    required String locationlat,
+    required String locationlon,
+    required String address,
   }) async {
     var url = Uri.parse('https://sarkargar.ir/phpfiles/jobreqsDB/request.php');
     var response = await http.post(url, body: {
       'advertizerid': advertizer,
       'adtype': adtype,
-      'hiringtype': hiringtype,
-      'gender': gender,
       'title': title,
       'category': category,
       'city': city,
-      'address': address,
-      'instagramid': instagramid,
-      'locationlat': locationlat,
-      'locationlon': locationlon,
-      'phonebool': phonebool,
-      'smsbool': smsbool,
-      'chatbool': chatbool,
+      'descs': descs,
+      'gender': gender,
+      'workType': workType,
+      'workTime': workTime,
+      'payMethod': payMethod,
+      'profession': profession,
+      'wprice': price,
+      'resumeBool': resumeBool,
+      'phonebool': callBool,
+      'callNumber': callNumber,
+      'smsbool': smsBool,
+      'smsNumber': smsNumber,
+      'chatbool': chatBool,
+      'emailBool': emailBool,
+      'emailAddress': emailAddress,
+      'websiteBool': websiteBool,
+      'websiteAddress': websiteAddress,
+      'instagrambool': instagramBool,
+      'instagramid': instagramId,
+      'whatsappBool': whatsappBool,
+      'whatsappNumber': whatsappNumber,
       'photobool': photobool,
       'locationbool': locationbool,
-      'instagrambool': instagrambool,
-      'men': men,
-      'women': women,
-      'mprice': mprice,
-      'wprice': wprice,
-      'descs': descs,
+      'locationlat': locationlat,
+      'locationlon': locationlon,
+      'address': address,
       'time': DateTime.now().toString(),
     });
     return response.statusCode;

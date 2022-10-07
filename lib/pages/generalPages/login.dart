@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildCRawMaterialButton() {
     if (_isButtonDisabled == false) {
       return MyButton(
-        text: 'دریافت کد ',
+        child: Text('دریافت کد '),
         onClick: () async {
           getUserId(number: msgController.text);
           if (msgController.text.length != 11) {
@@ -210,10 +210,10 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
     } else if (msgController.text == '') {
-      return MyButton(text: ' $seconds  لطفا منتظر بمانید . . .    ');
+      return MyButton(child: Text(' $seconds  لطفا منتظر بمانید . . .    '));
     } else {
       return MyButton(
-        text: 'ورود',
+        child: Text('ورود'),
         onClick: () {
           ///در صورت صحیح بودن یا نبودن کد وارد شده
           if (msgController.text == sentcode.toString()) {

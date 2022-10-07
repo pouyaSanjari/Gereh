@@ -28,7 +28,6 @@ class _JobDetailsState extends State<JobDetails> {
   @override
   Widget build(BuildContext context) {
     var images = widget.images;
-    // printInfo(info: ad.toString());
     controller.initialData(ad: widget.adDetails);
 
     bool isHiring = controller.adType.value == '0' ? true : false;

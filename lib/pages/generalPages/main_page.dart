@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/pages/chat/main.chat.page.dart';
 import 'package:sarkargar/pages/profile_page/main.profile.page.dart';
@@ -7,8 +8,6 @@ import 'package:sarkargar/pages/test/test.map.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import 'package:sarkargar/pages/jobsList/jobs_list.dart';
 import 'package:sarkargar/pages/sabt_agahi/p0.main.page.dart';
-
-final PageStorageBucket _bucket = PageStorageBucket();
 
 class MainPage extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
@@ -31,7 +30,7 @@ class _MainPageState extends State<MainPage> {
         theme: uiDesign.cTheme(),
         home: Scaffold(
           bottomNavigationBar: buildBottomNavigationBar(),
-          body: PageStorage(bucket: _bucket, child: buildBody()),
+          body: buildBody(),
         ),
       ),
     );
@@ -44,9 +43,7 @@ class _MainPageState extends State<MainPage> {
       case 2:
         return const MainRequestPage();
       case 3:
-        return const JobsList(
-          key: PageStorageKey('jobsList'),
-        );
+        return const JobsList();
       case 4:
         return const TestMap();
       default:
@@ -57,19 +54,26 @@ class _MainPageState extends State<MainPage> {
   BottomNavigationBar buildBottomNavigationBar() {
     return uiDesign.buildBottomNavigationBar(
       currentIndex: currIndex,
-      items: const [
+      items: [
         BottomNavigationBarItem(
-            icon: Icon(Iconsax.profile_circle), label: 'پروفایل'),
+            icon: Icon(currIndex == 0
+                ? Iconsax.profile_circle5
+                : Iconsax.profile_circle),
+            label: 'پروفایل'),
         BottomNavigationBarItem(
             icon: Icon(
-              Iconsax.sms,
+              currIndex == 1 ? Iconsax.sms5 : Iconsax.sms,
             ),
             label: 'گفتگو'),
         BottomNavigationBarItem(
-            icon: Icon(Iconsax.add_circle), label: 'ثبت آگهی'),
-        BottomNavigationBarItem(icon: Icon(Iconsax.category), label: 'آگهی ها'),
+            icon:
+                Icon(currIndex == 2 ? Iconsax.add_circle5 : Iconsax.add_circle),
+            label: 'ثبت آگهی'),
         BottomNavigationBarItem(
-            icon: Icon(Iconsax.wallet), label: 'آگهی های من')
+            icon: Icon(currIndex == 3 ? Iconsax.category_25 : Iconsax.category),
+            label: 'آگهی ها'),
+        const BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.earthAmericas), label: 'نقشه')
       ],
       onTap: (value) {
         setState(() {

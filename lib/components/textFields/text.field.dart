@@ -15,10 +15,11 @@ class MyTextField extends StatelessWidget {
   final int? maxLine;
   final bool? enabled;
   final Widget? suffix;
+  TextAlign? textAlign;
   final ValueChanged<String>? onSubmit;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onChange;
-  const MyTextField(
+  MyTextField(
       {Key? key,
       required this.labeltext,
       this.icon,
@@ -32,20 +33,21 @@ class MyTextField extends StatelessWidget {
       this.enabled,
       this.suffix,
       this.onSubmit,
+      this.textAlign,
       this.textInputAction,
       this.onChange})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double radius = 12;
     return TextField(
       textInputAction: textInputAction,
       onSubmitted: onSubmit,
       onChanged: onChange,
       enabled: enabled,
       controller: control,
-      textDirection: TextDirection.rtl,
-      textAlign: TextAlign.right,
+      textAlign: textAlign ?? TextAlign.start,
       onTap: () {
         if (control.selection ==
             TextSelection.fromPosition(
@@ -59,17 +61,19 @@ class MyTextField extends StatelessWidget {
       minLines: minLine,
       maxLines: maxLine ?? 1,
       decoration: InputDecoration(
+        fillColor: Colors.brown.withOpacity(0.1),
+        filled: true,
         errorText: error,
-        focusedErrorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: MyColors.red),
           borderRadius: BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(radius),
           ),
         ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: MyColors.red),
           borderRadius: BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(radius),
           ),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
@@ -77,22 +81,22 @@ class MyTextField extends StatelessWidget {
 
         //  control.text.isEmpty ? null : suffix,
         counterText: '',
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: MyColors.blue),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(radius),
           ),
         ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blueGrey),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(radius),
           ),
         ),
-        disabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+        disabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey),
           borderRadius: BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(radius),
           ),
         ),
         hintText: hint,

@@ -1,134 +1,214 @@
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/components/buttons/button.dart';
+import 'package:sarkargar/components/textFields/selectable.text.field.dart';
 import 'package:sarkargar/components/toggle.switch.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/services/uiDesign.dart';
 import '../../constants/colors.dart';
 
-class WorkersCount extends StatefulWidget {
+class WorkersCount extends StatelessWidget {
   const WorkersCount({Key? key}) : super(key: key);
 
   @override
-  State<WorkersCount> createState() => _WorkersCountState();
-}
-
-class _WorkersCountState extends State<WorkersCount> {
-  final controller = Get.put(RequestController());
-  UiDesign uiDesign = UiDesign();
-  TextEditingController tedadNafaratMardTEC = TextEditingController();
-  TextEditingController tedadNafaratZanTEC = TextEditingController();
-  TextEditingController ghimatPishnahadiMardTEC = TextEditingController();
-  TextEditingController ghimatPishnahadiZanTEC = TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
+    UiDesign uiDesign = UiDesign();
+    final controller = Get.put(RequestController());
+    double dividerSize = 20;
+
     return Obx(
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              Expanded(child: Text('جنسیت:', style: uiDesign.titleTextStyle())),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: MyToggleSwitch(
-                  minWidth: MediaQuery.of(context).size.width / 4.54,
-                  initialLableIndex: controller.switchEntekhabJensiyat.value,
-                  labels: const ['آقا', 'خانم', 'مهم نیست'],
-                  totalSwitch: 3,
-                  onToggle: (index) {
-                    controller.switchEntekhabJensiyat.value = index!;
-                  },
-                ),
-              ),
-            ],
+          const Text(
+            'مشخصات نیرو مورد نیاز',
+            style: TextStyle(
+                fontFamily: 'titr', fontSize: 30, color: Colors.black87),
           ),
-          const SizedBox(height: 5),
-          Row(
-            children: [
-              Expanded(
-                  child: Text('نوع همکاری:', style: uiDesign.titleTextStyle())),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: MyToggleSwitch(
-                  initialLableIndex: controller.switchNoeHamkari.value,
-                  minWidth: MediaQuery.of(context).size.width / 3.012,
-                  labels: const ['حضوری', 'دور کاری'],
-                  totalSwitch: 2,
-                  onToggle: (index) {
-                    controller.switchNoeHamkari.value = index!;
-                  },
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Center(child: Text('ساعات کاری', style: uiDesign.titleTextStyle())),
-          const SizedBox(height: 5),
-          Center(
-            child: MyToggleSwitch(
-              initialLableIndex: controller.switchSaatKari.value,
-              labels: const ['نیمه وقت', 'تمام وقت'],
-              totalSwitch: 2,
-              onToggle: (index) {
-                controller.switchSaatKari.value = index!;
-              },
+          const SizedBox(height: 20),
+          Text('|جنسیت', style: uiDesign.titleTextStyle()),
+          MySelectableTextField(
+            labeltext: 'آقا، خانم، مهم نیست',
+            control: controller.selectGenderTEC.value,
+            icon: const Icon(
+              Iconsax.woman5,
+              color: MyColors.black,
             ),
+            onClick: () async {
+              String result = await showDialog(
+                context: context,
+                useSafeArea: true,
+                builder: (context) {
+                  return WillPopScope(
+                    onWillPop: () async => false,
+                    child: selectGenderDialogue(),
+                  );
+                },
+              );
+              controller.selectGenderTEC.value.text = result;
+            },
           ),
-          const SizedBox(height: 10),
-          Center(child: Text('نوع استخدام', style: uiDesign.titleTextStyle())),
-          const SizedBox(height: 5),
-          Center(
-            child: MyToggleSwitch(
-              initialLableIndex: controller.switchHiringType.value,
-              labels: const ['روزمزد', 'ماهیانه'],
-              totalSwitch: 2,
-              onToggle: (index) => controller.switchHiringType.value = index!,
+          SizedBox(height: dividerSize),
+          Text('|نوع همکاری', style: uiDesign.titleTextStyle()),
+          MySelectableTextField(
+            labeltext: 'حضوری، دورکاری',
+            control: controller.selectCollaborationTypeTEC.value,
+            icon: const Icon(
+              FontAwesomeIcons.personWalkingLuggage,
+              color: MyColors.black,
             ),
+            onClick: () async {
+              String result = await showDialog(
+                context: context,
+                builder: (context) {
+                  return WillPopScope(
+                    onWillPop: () async => false,
+                    child: AlertDialog(
+                      title: const Center(child: Text('نوع همکاری')),
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          customIconButton(
+                            result: 'حضوری',
+                            icon: FontAwesomeIcons.personDigging,
+                            iconColor: MyColors.red,
+                          ),
+                          const SizedBox(width: 5),
+                          customIconButton(
+                            result: 'دورکاری',
+                            icon: FontAwesomeIcons.houseLaptop,
+                            iconColor: MyColors.blue,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+              controller.selectCollaborationTypeTEC.value.text = result;
+            },
           ),
-          const SizedBox(height: 40),
-          Text('|تعداد نفرات مورد نیاز', style: uiDesign.titleTextStyle()),
-          const SizedBox(height: 5),
+          SizedBox(height: dividerSize),
+          Text('|ساعات کاری', style: uiDesign.titleTextStyle()),
+          MySelectableTextField(
+            labeltext: 'تمام وقت، پاره وقت',
+            control: controller.selectWorkTimeTEC.value,
+            icon: const Icon(
+              FontAwesomeIcons.solidClock,
+              color: MyColors.black,
+            ),
+            onClick: () async {
+              String result = await showDialog(
+                context: context,
+                builder: (context) {
+                  return WillPopScope(
+                    onWillPop: () async => false,
+                    child: AlertDialog(
+                      title: const Center(child: Text('ساعات کاری:')),
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          customIconButton(
+                            result: 'نیمه وقت',
+                            icon: Iconsax.timer_pause,
+                            iconColor: MyColors.red,
+                          ),
+                          const SizedBox(width: 5),
+                          customIconButton(
+                            result: 'تمام وقت',
+                            icon: Iconsax.brifecase_timer,
+                            iconColor: MyColors.blue,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+              controller.selectWorkTimeTEC.value.text = result;
+            },
+          ),
+          SizedBox(height: dividerSize),
+          Text('|شیوه پرداخت', style: uiDesign.titleTextStyle()),
+          MySelectableTextField(
+            labeltext: 'روزمزد، ماهیانه',
+            control: controller.selectPayMethodTEC.value,
+            icon: const Icon(
+              FontAwesomeIcons.wallet,
+              color: MyColors.black,
+            ),
+            onClick: () async {
+              String result = await showDialog(
+                context: context,
+                builder: (context) {
+                  return WillPopScope(
+                    onWillPop: () async => false,
+                    child: AlertDialog(
+                      title: const Center(child: Text('شیوه پرداخت')),
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          customIconButton(
+                            result: 'روزمزد',
+                            icon: FontAwesomeIcons.handHoldingDollar,
+                            iconColor: MyColors.red,
+                          ),
+                          const SizedBox(width: 5),
+                          customIconButton(
+                            result: 'ماهیانه',
+                            icon: FontAwesomeIcons.sackDollar,
+                            iconColor: MyColors.blue,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+              controller.selectPayMethodTEC.value.text = result;
+            },
+          ),
+          SizedBox(height: dividerSize),
+          Text('|تخصص', style: uiDesign.titleTextStyle()),
           MyTextField(
-              error: controller.tedadNafaratMardError.isEmpty
-                  ? null
-                  : controller.tedadNafaratMardError.value,
-              labeltext: 'تعداد نفرات ',
-              icon: const Icon(Iconsax.man4),
-              control: tedadNafaratMardTEC,
-              length: 2,
-              textInputType: const TextInputType.numberWithOptions(),
-              onChange: (value) {
-                controller.tedadNafaratMardError.value = '';
-                controller.tedadNafaratMard.value = value;
-              }),
-          const SizedBox(height: 5),
+            labeltext: 'عنوان تخصص مورد نظر',
+            control: controller.skillTEC.value,
+            icon: const Icon(
+              FontAwesomeIcons.briefcase,
+              color: MyColors.black,
+            ),
+          ),
+          SizedBox(height: dividerSize),
           Text('|مبلغ پیشنهادی شما', style: uiDesign.titleTextStyle()),
-          Text(
-              'سعی کنید مبلغی که پیشنهاد می دهید منصفانه باشد. مبلغ پیشنهادی شما پایین عنوان آگهی درج و تاثیر مستقیم بر شانس کلیک بر روی آگهی دارد.',
-              style: uiDesign.descriptionsTextStyle()),
           const SizedBox(height: 5),
           MyTextField(
-              enabled: controller.ghimatTavafoghiMardBL.value == false
-                  ? true
-                  : false,
-              labeltext: 'مبلغ پیشنهادی برای آقا',
-              icon: const Icon(Iconsax.dollar_circle),
-              error: controller.ghimatPishnahadiMardError.isEmpty
-                  ? null
-                  : controller.ghimatPishnahadiMardError.value,
-              control: ghimatPishnahadiMardTEC,
-              hint: 'به تومان وارد کنید',
-              length: 8,
-              textInputType: const TextInputType.numberWithOptions(),
-              maxLine: 1,
-              onChange: (value) {
-                controller.ghimatPishnahadiMardError.value = '';
-                controller.ghimatPishnahadiMard.value = value;
-              }),
+            labeltext: 'به تومان وارد کنید',
+            icon: const Icon(
+              FontAwesomeIcons.sackDollar,
+              color: MyColors.black,
+            ),
+            error: controller.ghimatPishnahadiError.isEmpty
+                ? null
+                : controller.ghimatPishnahadiError.value,
+            control: controller.priceTEC.value,
+            hint: 'به تومان وارد کنید',
+            length: 8,
+            textInputType: const TextInputType.numberWithOptions(),
+            maxLine: 1,
+            onChange: (value) {
+              controller.ghimatPishnahadiError.value = '';
+              controller.ghimatPishnahadi.value = value;
+            },
+          ),
           Row(
             children: [
               const Text('   قیمت توافقی'),
@@ -138,20 +218,20 @@ class _WorkersCountState extends State<WorkersCount> {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     activeColor: MyColors.red,
-                    value: controller.ghimatTavafoghiMardBL.value,
+                    value: controller.ghimatTavafoghiBL.value,
                     onChanged: (value) {
-                      controller.ghimatPishnahadiMardError.value = '';
+                      controller.ghimatPishnahadiError.value = '';
                       if (value == false) {
-                        ghimatPishnahadiMardTEC.clear();
+                        controller.priceTEC.value.clear();
                       } else {
-                        ghimatPishnahadiMardTEC.text = 'توافقی';
-                        controller.ghimatPishnahadiMard.value = '';
+                        controller.priceTEC.value.text = 'توافقی';
+                        controller.ghimatPishnahadi.value = '';
                       }
-                      controller.ghimatPishnahadiMard.value = '';
-                      controller.ghimatTavafoghiMardBL.value = value ?? false;
+                      controller.ghimatPishnahadi.value = '';
+                      controller.ghimatTavafoghiBL.value = value ?? false;
                     }),
               ),
-              Text(digi(controller.ghimatPishnahadiMard.value)),
+              Text(digi(controller.ghimatPishnahadi.value)),
             ],
           ),
         ],
@@ -159,18 +239,65 @@ class _WorkersCountState extends State<WorkersCount> {
     );
   }
 
+  MyButton customIconButton(
+      {required String result,
+      required IconData icon,
+      required Color iconColor}) {
+    return MyButton(
+      onClick: () {
+        Get.back(result: result);
+      },
+      fillColor: Colors.white,
+      borderColor: Colors.grey,
+      radius: 10,
+      width: 100,
+      height: 100,
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Icon(
+          icon,
+          color: iconColor,
+          size: 55,
+        ),
+        const SizedBox(height: 5),
+        Text(
+          result,
+          style: const TextStyle(fontSize: 18),
+        )
+      ]),
+    );
+  }
+
+  AlertDialog selectGenderDialogue() {
+    return AlertDialog(
+      insetPadding: const EdgeInsets.all(0),
+      title: const Center(child: Text('انتخاب جنسیت')),
+      content: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            customIconButton(
+                result: 'مهم نیست',
+                icon: FontAwesomeIcons.peopleArrowsLeftRight,
+                iconColor: MyColors.blue),
+            const SizedBox(width: 5),
+            customIconButton(
+                result: 'خانم',
+                icon: FontAwesomeIcons.personDress,
+                iconColor: MyColors.orange),
+            const SizedBox(width: 5),
+            customIconButton(
+                result: 'آقا',
+                icon: FontAwesomeIcons.person,
+                iconColor: MyColors.red),
+          ],
+        ),
+      ),
+    );
+  }
+
   String digi(String number) {
     String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
     return digit;
-  }
-
-  @override
-  void initState() {
-    tedadNafaratMardTEC.text = controller.tedadNafaratMard.value;
-    ghimatPishnahadiMardTEC.text = controller.ghimatPishnahadiMard.value;
-
-    tedadNafaratZanTEC.text = controller.tedadNafaratZan.value;
-    ghimatPishnahadiZanTEC.text = controller.ghimatPishnahadiZan.value;
-    super.initState();
   }
 }

@@ -21,6 +21,7 @@ class MySelectableTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double radius = 12;
     return TextField(
       readOnly: true,
       controller: control,
@@ -30,20 +31,22 @@ class MySelectableTextField extends StatelessWidget {
       decoration: InputDecoration(
         alignLabelWithHint: true,
         errorText: error,
-        focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-        errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.redAccent),
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+        fillColor: Colors.brown.withOpacity(0.1),
+        filled: true,
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: MyColors.red),
+            borderRadius: BorderRadius.all(Radius.circular(radius))),
+        errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: MyColors.red),
+            borderRadius: BorderRadius.all(Radius.circular(radius))),
         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
         counterText: '',
-        focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-        enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blueGrey),
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.transparent),
+            borderRadius: BorderRadius.all(Radius.circular(radius))),
+        enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.transparent),
+            borderRadius: BorderRadius.all(Radius.circular(radius))),
         hintText: hint,
         prefixIcon: icon,
         labelText: labeltext,
@@ -53,6 +56,7 @@ class MySelectableTextField extends StatelessWidget {
         suffixIcon: const Icon(
           Icons.arrow_drop_down_rounded,
           size: 35,
+          color: Colors.grey,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),

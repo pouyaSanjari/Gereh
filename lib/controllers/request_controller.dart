@@ -1,11 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class RequestController extends GetxController {
+  @override
+  // TODO: implement initialized
+  bool get initialized {
+    AppDataBase().uploadedImages();
+    return super.initialized;
+  }
+
   //main request page
   RxInt activeStep = 0.obs;
+
   //title page
 //###################################################
 
@@ -13,10 +22,9 @@ class RequestController extends GetxController {
 
   RxInt adType = 2.obs;
   RxString title = ''.obs;
-  RxString selectedCategory = ''.obs;
-  RxString selectedCity = ''.obs;
-  RxString descriptions = ''.obs;
+  RxString category = ''.obs;
   RxString city = ''.obs;
+  RxString desc = ''.obs;
 
   RxList cities = [].obs;
   RxList jobGroups = [].obs;
@@ -27,24 +35,20 @@ class RequestController extends GetxController {
   RxString categoryError = ''.obs;
   RxString cityError = ''.obs;
   RxString descriptionsError = ''.obs;
+
 //workers count page
 //###################################################
-  RxInt switchEntekhabJensiyat = 0.obs;
-  RxInt switchNoeHamkari = 0.obs;
-  RxInt switchSaatKari = 0.obs;
-  RxInt switchHiringType = 0.obs;
-  RxBool maleVisibility = true.obs;
-  RxBool femaleVisibility = false.obs;
-  RxBool ghimatTavafoghiMardBL = false.obs;
-  RxBool ghimatTavafoghiZanBL = false.obs;
-  RxString ghimatPishnahadiMard = ''.obs;
-  RxString ghimatPishnahadiMardError = ''.obs;
-  RxString ghimatPishnahadiZan = ''.obs;
-  RxString ghimatPishnahadiZanError = ''.obs;
-  RxString tedadNafaratMard = ''.obs;
-  RxString tedadNafaratMardError = ''.obs;
-  RxString tedadNafaratZan = ''.obs;
-  RxString tedadNafaratZanError = ''.obs;
+  Rx<TextEditingController> selectGenderTEC = TextEditingController().obs;
+  Rx<TextEditingController> selectWorkTimeTEC = TextEditingController().obs;
+  Rx<TextEditingController> selectPayMethodTEC = TextEditingController().obs;
+  Rx<TextEditingController> skillTEC = TextEditingController().obs;
+  Rx<TextEditingController> priceTEC = TextEditingController().obs;
+  Rx<TextEditingController> selectCollaborationTypeTEC =
+      TextEditingController().obs;
+  RxBool ghimatTavafoghiBL = false.obs;
+  RxString ghimatPishnahadi = ''.obs;
+  RxString ghimatPishnahadiError = ''.obs;
+
 //paid features page
 //###################################################
 
@@ -52,26 +56,32 @@ class RequestController extends GetxController {
       'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImYwYjNkZmEzYmU0MTEyOGEzZGNlNDVkOWQ1OTU0MmU5NmVmYjZhMjMwZWM5MjUzNzRiZGZiNGY1MWIzNmM4ZTI2NTBkZWQ5ZWUxMmU3MjM0In0.eyJhdWQiOiIxODc5NSIsImp0aSI6ImYwYjNkZmEzYmU0MTEyOGEzZGNlNDVkOWQ1OTU0MmU5NmVmYjZhMjMwZWM5MjUzNzRiZGZiNGY1MWIzNmM4ZTI2NTBkZWQ5ZWUxMmU3MjM0IiwiaWF0IjoxNjU4MjU4NTQ5LCJuYmYiOjE2NTgyNTg1NDksImV4cCI6MTY2MDg1MDU0OSwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.Kd5dqFBrzvJmtkVL-LqRsDE3tHw4SSFGxc_dFs9v_4DRRkfaiKxcgSj6iRGjWtQcJTF7kikj6RS9NNI4MV5xBbqSjSiblKWfRXTqtAtoE9a_FJO7yt_DmcSpuUf99bbwSs99UPmOX945iMEFVbJSS-KyHfcQ8Q_G3XwymmD4hjxGvEsV32KzyeXUuUswzL9RwUFjtAn-ix-9-9DSRuSAEFk9MN2FP8_o3YvJ2m-7xJwFYy6nfn-K5_EncWpyJfbFWzkge5VS7XP1Mrnn8Jui9EgcSJsEzQjDt4jHN5_ZIVW63_Mq2kD3VlVrgqM97BrJlTaDQcICxaqt55O5eu9X9A';
   RxString address = 'یک نقطه روی نقشه انتخاب کنید.'.obs;
 
-  RxDouble locationSelectionHeight = 0.0.obs;
-  RxDouble imageSelectionHeight = 0.0.obs;
-  RxDouble instagramIdSelectionHeight = 0.0.obs;
-  RxDouble instagramIdSelectionOpacity = 0.0.obs;
   RxDouble initialLat = 35.7324556.obs;
   RxDouble initialLon = 51.4229012.obs;
-
-  RxDouble selectedLat = 0.0.obs;
   RxDouble selectedLon = 0.0.obs;
-  RxString selectedInstagramId = ''.obs;
+  RxDouble selectedLat = 0.0.obs;
+
   RxString selectedInstagramIdError = ''.obs;
 
   RxBool locationSelectionBool = false.obs;
   RxBool imageSelectionBool = false.obs;
+  RxBool instagramIdSelectionBool = false.obs;
   RxList images = [].obs;
 
-  RxBool instagramIdSelectionBool = false.obs;
-  RxBool phoneBool = true.obs;
-  RxBool smsbool = false.obs;
-  RxBool chatBool = false.obs;
+  Rx<TextEditingController> phoneNumberTEC = TextEditingController().obs;
+  Rx<TextEditingController> smsNumberTEC = TextEditingController().obs;
+  Rx<TextEditingController> emailAddressTEC = TextEditingController().obs;
+  Rx<TextEditingController> websiteTEC = TextEditingController().obs;
+  Rx<TextEditingController> whatsappNumberTEC = TextEditingController().obs;
+  Rx<TextEditingController> telegramIdTEC = TextEditingController().obs;
+  Rx<TextEditingController> instagramIdTEC = TextEditingController().obs;
+  RxBool phoneBool = false.obs;
+  RxBool smsBool = false.obs;
+  RxBool emailBool = false.obs;
+  RxBool websiteBool = false.obs;
+  RxBool whatsappBool = false.obs;
+  RxBool telegramBool = false.obs;
+  RxBool chatBool = true.obs;
 
   AppDataBase database = AppDataBase();
 
@@ -88,32 +98,6 @@ class RequestController extends GetxController {
       for (int i = 0; i < response2.length; i++) {
         jobGroups.add(response2[i]);
       }
-    }
-  }
-
-//دریافت وضعیت سویچ انتخاب موقعیت مکانی و آپدیت سایز ویجت
-  void locationSelectionState(bool boolean) {
-    locationSelectionBool.value = boolean;
-    if (boolean) {
-      locationSelectionHeight.value = 70.0;
-    } else {
-      locationSelectionHeight.value = 0.0;
-    }
-  }
-
-  void instagramIdSelectionState(bool boolean) {
-    instagramIdSelectionBool.value = boolean;
-
-    if (instagramIdSelectionOpacity.value == 0.0) {
-      instagramIdSelectionOpacity.value = 1.0;
-    } else {
-      instagramIdSelectionOpacity.value = 0.0;
-    }
-
-    if (boolean) {
-      instagramIdSelectionHeight.value = 100.0;
-    } else {
-      instagramIdSelectionHeight.value = 0.0;
     }
   }
 

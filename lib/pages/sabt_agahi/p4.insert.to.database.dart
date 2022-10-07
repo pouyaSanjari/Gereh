@@ -19,12 +19,8 @@ class _InsertToDataBaseState extends State<InsertToDataBase> {
   @override
   Widget build(BuildContext context) {
     var title = controller.title.value;
-    var category = controller.selectedCategory.value;
-    var tedadNafaratMard = controller.tedadNafaratMard.value;
-    var tedadNafaratZan = controller.tedadNafaratZan.value;
-    var ghimatMard = controller.ghimatPishnahadiMard.value;
-    var ghimatZan = controller.ghimatPishnahadiZan.value;
-    var city = controller.selectedCity.value;
+    var category = controller.category.value;
+    var city = controller.city.value;
     var address = controller.address.value;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,35 +97,7 @@ class _InsertToDataBaseState extends State<InsertToDataBase> {
           title: 'دسته بندی:',
           value: category,
         ),
-        div(visible: mardVisibility()),
-        redif(
-          visible: mardVisibility(),
-          title: 'تعداد نفرات آقا:',
-          value: '$tedadNafaratMard نفر',
-        ),
         div(),
-        redif(
-          visible: zanVisibility(),
-          title: 'تعداد نفرات خانم:',
-          value: '$tedadNafaratZan نفر',
-        ),
-        div(visible: zanVisibility()),
-        redif(
-          title: 'مبلغ پیشنهادی برای آقا: ',
-          value: controller.ghimatTavafoghiMardBL.value
-              ? 'توافقی'
-              : digi(ghimatMard),
-          visible: mardVisibility(),
-        ),
-        div(visible: mardVisibility()),
-        redif(
-          title: 'مبلغ پیشنهادی برای خانم: ',
-          value: controller.ghimatTavafoghiZanBL.value
-              ? 'توافقی'
-              : digi(ghimatZan),
-          visible: zanVisibility(),
-        ),
-        div(visible: zanVisibility()),
         redif(title: 'شهر:', value: city),
         div(visible: controller.locationSelectionBool.value),
         redif(
@@ -144,19 +112,10 @@ class _InsertToDataBaseState extends State<InsertToDataBase> {
           ),
         ),
         const SizedBox(height: 10),
-        Text(controller.descriptions.value)
+        Text(controller.desc.value)
       ],
     );
   }
-
-  bool zanVisibility() =>
-      controller.tedadNafaratZan.isEmpty || controller.adType.value == 1
-          ? false
-          : true;
-  bool mardVisibility() =>
-      controller.tedadNafaratMard.isEmpty || controller.adType.value == 1
-          ? false
-          : true;
 
   Visibility div({bool? visible}) {
     return Visibility(

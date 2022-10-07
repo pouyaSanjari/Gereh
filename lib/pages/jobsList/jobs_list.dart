@@ -93,9 +93,8 @@ class _JobsListState extends State<JobsList> {
             controller.city.value = box.read('city');
           }
         },
-        onSubmit: (value) {},
         textInputAction: TextInputAction.search,
-        icon: const Icon(Iconsax.search_normal_1),
+        icon: const Icon(Iconsax.search_normal),
         labeltext: 'جستجو',
         control: searchTC,
         suffix: Padding(
@@ -229,11 +228,11 @@ class _JobsListState extends State<JobsList> {
                         () => ListTile(
                           onTap: () {
                             if (controller.searchedList.isEmpty) {
-                              Get.to(JobDetailsPageTest(
+                              Get.to(() => JobDetailsPageTest(
                                   adDetails: controller.jobsList[index],
                                   images: itemImage));
                             } else {
-                              Get.to(JobDetails(
+                              Get.to(() => JobDetails(
                                   adDetails: controller.searchedList[index],
                                   images: itemImage));
                             }

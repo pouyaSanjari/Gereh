@@ -31,7 +31,7 @@ class UiDesign {
       required int currentIndex,
       required List<BottomNavigationBarItem> items}) {
     return BottomNavigationBar(
-      elevation: 10,
+      showUnselectedLabels: false,
       selectedFontSize: 14,
       unselectedFontSize: 11,
       backgroundColor: const Color(0xfff2f5fc),

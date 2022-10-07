@@ -81,4 +81,7 @@ flutter:
     - family: sans
       fonts:
         - asset: assets/fonts/samim.ttf
+    - family: titr
+      fonts:
+        - asset: assets/fonts/titr.ttf
 
