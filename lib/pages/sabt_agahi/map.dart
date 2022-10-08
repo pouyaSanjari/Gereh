@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/constants/colors.dart';
 
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 import '../../controllers/request_controller.dart';

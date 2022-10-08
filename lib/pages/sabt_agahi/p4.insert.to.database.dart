@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 
 class InsertToDataBase extends StatefulWidget {
   const InsertToDataBase({Key? key}) : super(key: key);
@@ -78,7 +78,7 @@ class _InsertToDataBaseState extends State<InsertToDataBase> {
               children: [
                 Icon(
                   Iconsax.instagram,
-                  color: controller.instagramIdSelectionBool.value
+                  color: controller.instagramIdBool.value
                       ? Colors.green
                       : Colors.red,
                 ),

@@ -11,7 +11,7 @@ import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:sarkargar/components/select.city.dart';
-import '../../services/uiDesign.dart';
+import '../../services/ui_design.dart';
 
 class SignUp extends StatefulWidget {
   final String number;
@@ -86,7 +86,7 @@ class _SignUpState extends State<SignUp> {
                           }),
                       //دکمه ثبت نام
                       MyButton(
-                        child: Text('ثبت نام'),
+                        child: const Text('ثبت نام'),
                         onClick: () {
                           //اگه اسم رو وارد نکرده باشه
                           if (nameController.text.isEmpty) {

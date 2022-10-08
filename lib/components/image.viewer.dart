@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:sarkargar/controllers/image_viewer_controller.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 
 class ImageViewerPage extends StatelessWidget {
   final List images;

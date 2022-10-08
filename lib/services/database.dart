@@ -41,7 +41,7 @@ class AppDataBase {
           : null;
       return result;
     } catch (e) {
-      print(e);
+      null;
     }
   }
 

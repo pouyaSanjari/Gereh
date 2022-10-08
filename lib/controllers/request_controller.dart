@@ -6,7 +6,6 @@ import 'dart:convert' as convert;
 
 class RequestController extends GetxController {
   @override
-  // TODO: implement initialized
   bool get initialized {
     AppDataBase().uploadedImages();
     return super.initialized;
@@ -65,7 +64,7 @@ class RequestController extends GetxController {
 
   RxBool locationSelectionBool = false.obs;
   RxBool imageSelectionBool = false.obs;
-  RxBool instagramIdSelectionBool = false.obs;
+  RxBool instagramIdBool = false.obs;
   RxList images = [].obs;
 
   Rx<TextEditingController> phoneNumberTEC = TextEditingController().obs;

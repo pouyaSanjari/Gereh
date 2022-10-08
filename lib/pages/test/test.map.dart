@@ -10,7 +10,6 @@ import 'package:lottie/lottie.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/image.viewer.dart';
 import 'package:sarkargar/components/marker.details.container.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/models/ad.details.model.dart';
@@ -252,7 +251,7 @@ class _TestMapState extends State<TestMap> {
               fillColor: MyColors.blue,
               onClick: () {},
               width: MediaQuery.of(context).size.width * 0.7,
-              child: Text('مشاهده آگهی'),
+              child: const Text('مشاهده آگهی'),
             ),
           ],
         ),
@@ -274,7 +273,7 @@ class _TestMapState extends State<TestMap> {
                 width: 70,
                 height: 70,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(214, 242, 245, 252),
+                  color: const Color.fromARGB(214, 242, 245, 252),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Lottie.asset('assets/lottie/loading.json',

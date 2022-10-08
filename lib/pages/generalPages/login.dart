@@ -12,7 +12,7 @@ import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/login.controller.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/pages/generalPages/signup.dart';
 import 'package:sarkargar/services/database.dart';
@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildCRawMaterialButton() {
     if (_isButtonDisabled == false) {
       return MyButton(
-        child: Text('دریافت کد '),
+        child: const Text('دریافت کد '),
         onClick: () async {
           getUserId(number: msgController.text);
           if (msgController.text.length != 11) {
@@ -213,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
       return MyButton(child: Text(' $seconds  لطفا منتظر بمانید . . .    '));
     } else {
       return MyButton(
-        child: Text('ورود'),
+        child: const Text('ورود'),
         onClick: () {
           ///در صورت صحیح بودن یا نبودن کد وارد شده
           if (msgController.text == sentcode.toString()) {

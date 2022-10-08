@@ -5,7 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/pages/chat/main.chat.page.dart';
 import 'package:sarkargar/pages/profile_page/main.profile.page.dart';
 import 'package:sarkargar/pages/test/test.map.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/jobsList/jobs_list.dart';
 import 'package:sarkargar/pages/sabt_agahi/p0.main.page.dart';
 

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/components/buttons/rounded.button.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/profile_page/offers.dart';
 import 'package:sarkargar/pages/profile_page/savabegh.dart';
 import 'package:sarkargar/services/database.dart';

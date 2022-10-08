@@ -44,7 +44,7 @@ class MyContainer extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: color,
-                  offset: Offset(0.0, 0),
+                  offset: const Offset(0.0, 0),
                   blurRadius: 5,
                   spreadRadius: 0.0,
                 ),

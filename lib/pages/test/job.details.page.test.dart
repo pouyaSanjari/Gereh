@@ -13,7 +13,7 @@ import 'package:sarkargar/components/image.viewer.dart';
 import 'package:sarkargar/components/my.container.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/jobs.details.test.controller.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobDetailsPageTest extends StatelessWidget {
@@ -470,7 +470,7 @@ class JobDetailsPageTest extends StatelessWidget {
 
   Future<void> launchInstagram({required String id}) async {
     // ignore: deprecated_member_use
-    await launch("https://www.instagram.com/${id}/", universalLinksOnly: true);
+    await launch("https://www.instagram.com/$id/", universalLinksOnly: true);
   }
 
   String digi(String number) {
@@ -479,7 +479,6 @@ class JobDetailsPageTest extends StatelessWidget {
   }
 
   String gender(String gender) {
-    print(gender);
     if (gender == '0') {
       return 'آقا';
     } else if (gender == '1') {

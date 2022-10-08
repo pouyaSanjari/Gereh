@@ -7,7 +7,7 @@ import 'package:sarkargar/components/buttons/rounded.button.dart';
 import 'package:sarkargar/components/image.viewer.dart';
 import 'package:sarkargar/components/my.container.dart';
 import 'package:sarkargar/controllers/job_details_controller.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 
 import '../../constants/colors.dart';
 
@@ -281,7 +281,7 @@ class _JobDetailsState extends State<JobDetails> {
           ),
           Row(
             children: [
-              Icon(
+              const Icon(
                 Iconsax.clock5,
                 size: 18,
               ),

@@ -8,7 +8,7 @@ import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 

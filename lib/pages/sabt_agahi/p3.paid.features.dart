@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,8 +10,9 @@ import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/components/error.page.dart';
 import 'package:sarkargar/components/switch.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
+import 'package:sarkargar/controllers/p3.paid.futures.controller.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import '../../constants/colors.dart';
 import '../../controllers/request_controller.dart';
 import 'map.dart';
@@ -28,14 +27,11 @@ class PaidFeatures extends StatefulWidget {
 class _PaidFeaturesState extends State<PaidFeatures> {
   final box = GetStorage();
   final controller = Get.put(RequestController());
+  final pageController = Get.put(PaidFuturesController());
   final database = AppDataBase();
   final uiDesign = UiDesign();
   final picker = ImagePicker();
 
-  bool image = false;
-  double imageSelectionHight = 0;
-
-  TextEditingController instagramController = TextEditingController();
   List<String> uploadedImages = [];
   List snap = [];
 
@@ -52,341 +48,200 @@ class _PaidFeaturesState extends State<PaidFeatures> {
             child: Text('راه های ارتباطی',
                 style: TextStyle(fontFamily: 'titr', fontSize: 30)),
           ),
-          Obx(
-            () => InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                controller.phoneBool.value == true
-                    ? controller.phoneBool.value = false
-                    : controller.phoneBool.value = true;
-                if (controller.phoneBool.value == false &&
-                    controller.smsBool.value == false &&
-                    controller.chatBool.value == false) {
-                  controller.smsBool.value = true;
-                }
-              },
-              child: listTiles(
-                  leading: Iconsax.call,
-                  iconColor: Colors.black,
-                  title: 'تماس',
-                  switc: MySwitch(
-                      val: controller.phoneBool.value,
-                      onChange: (value) {
-                        controller.phoneBool.value = value;
-                        if (value == false &&
-                            controller.smsBool.value == false &&
-                            controller.chatBool.value == false) {
-                          controller.smsBool.value = true;
-                        }
-                      }),
-                  sub: 'کاربران می توانند مستقیما با شما تماس بگیرند.'),
-            ),
-          ),
-          Obx(
-            () => AnimatedOpacity(
-              curve: Curves.fastLinearToSlowEaseIn,
-              opacity: controller.phoneBool.value ? 1 : 0,
-              duration: const Duration(milliseconds: 1500),
-              child: AnimatedSize(
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: const Duration(milliseconds: 1500),
-                child: SizedBox(
-                  height: controller.phoneBool.value ? 50 : 0,
-                  child: MyTextField(
-                      textAlign: TextAlign.center,
-                      hint: '...0921',
-                      textInputType: TextInputType.phone,
-                      labeltext: 'شماره تلفن همراه یا ثابت',
-                      control: controller.phoneNumberTEC.value),
-                ),
+          // call
+          listTiles(
+              onTap: () => pageController.callState(),
+              leading: Iconsax.call,
+              iconColor: Colors.black,
+              title: 'تماس',
+              switc: Obx(
+                () => MySwitch(
+                    val: controller.phoneBool.value,
+                    onChange: (value) {
+                      pageController.callState();
+                    }),
               ),
-            ),
-          ),
+              sub: 'کاربران می توانند مستقیما با شما تماس بگیرند.'),
           Obx(
-            () => InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                controller.smsBool.value == true
-                    ? controller.smsBool.value = false
-                    : controller.smsBool.value = true;
-                if (controller.phoneBool.value == false &&
-                    controller.phoneBool.value == false &&
-                    controller.chatBool.value == false) {
-                  controller.phoneBool.value = true;
-                }
-              },
-              child: listTiles(
-                  leading: Iconsax.sms,
-                  iconColor: MyColors.black,
-                  title: 'پیامک',
-                  switc: MySwitch(
-                      val: controller.smsBool.value,
-                      onChange: (value) {
-                        controller.smsBool.value = value;
-                        if (value == false &&
-                            controller.phoneBool.value == false &&
-                            controller.chatBool.value == false) {
-                          controller.phoneBool.value = true;
-                        }
-                      }),
-                  sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
-            ),
-          ),
-          Obx(
-            () => AnimatedOpacity(
-              opacity: controller.smsBool.value ? 1 : 0,
-              curve: Curves.fastLinearToSlowEaseIn,
-              duration: const Duration(milliseconds: 1500),
-              child: AnimatedSize(
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: const Duration(milliseconds: 1500),
-                child: SizedBox(
-                  height: controller.smsBool.value ? 50 : 0,
-                  child: MyTextField(
+            () => MyAnimatedWidget(
+                state: controller.phoneBool.value,
+                child: MyTextField(
                     textAlign: TextAlign.center,
                     hint: '...0921',
                     textInputType: TextInputType.phone,
                     labeltext: 'شماره تلفن همراه یا ثابت',
-                    control: controller.smsNumberTEC.value,
-                  ),
-                ),
-              ),
-            ),
+                    control: controller.phoneNumberTEC.value)),
           ),
-
-          Obx(
-            () => InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                controller.chatBool.value == true
-                    ? controller.chatBool.value = false
-                    : controller.chatBool.value = true;
-
-                if (controller.chatBool.value == false &&
-                    controller.phoneBool.value == false &&
-                    controller.smsBool.value == false) {
-                  controller.phoneBool.value = true;
-                }
-              },
-              child: listTiles(
-                  leading: Iconsax.sms_tracking,
-                  iconColor: Colors.black,
-                  title: 'چت',
-                  switc: MySwitch(
-                      val: controller.chatBool.value,
-                      onChange: (value) {
-                        controller.chatBool.value = value;
-                        if (value == false &&
-                            controller.phoneBool.value == false &&
-                            controller.smsBool.value == false) {
-                          controller.phoneBool.value = true;
-                        }
-                      }),
-                  sub:
-                      'کاربران می توانند از طریق چت درون برنامه ای با شما ارتباط برقرار کنند.'),
-            ),
-          ),
-          InkWell(
-            borderRadius: BorderRadius.circular(20),
-            onTap: () {
-              controller.emailBool.value
-                  ? controller.emailBool.value = false
-                  : controller.emailBool.value = true;
-            },
-            child: listTiles(
-                leading: Icons.email,
-                iconColor: MyColors.black,
-                title: 'ایمیل',
-                switc: Obx(
-                  () => MySwitch(
-                      val: controller.emailBool.value,
-                      onChange: (value) {
-                        controller.emailBool.value = value;
-                      }),
-                ),
-                sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
-          ),
-          Obx(
-            () => AnimatedOpacity(
-              opacity: controller.emailBool.value ? 1 : 0,
-              curve: Curves.fastLinearToSlowEaseIn,
-              duration: const Duration(milliseconds: 1500),
-              child: AnimatedSize(
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: const Duration(milliseconds: 1500),
-                child: SizedBox(
-                  height: controller.emailBool.value ? 50 : 0,
-                  child: MyTextField(
-                    textAlign: TextAlign.left,
-                    hint: 'example@gmail.com',
-                    textInputType: TextInputType.emailAddress,
-                    labeltext: 'آدرس ایمیل',
-                    control: controller.emailAddressTEC.value,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          InkWell(
-            borderRadius: BorderRadius.circular(20),
-            onTap: () {
-              controller.websiteBool.value
-                  ? controller.websiteBool.value = false
-                  : controller.websiteBool.value = true;
-            },
-            child: listTiles(
-                leading: Iconsax.global,
-                iconColor: MyColors.black,
-                title: 'وبسایت',
-                switc: Obx(
-                  () => MySwitch(
-                      val: controller.websiteBool.value,
-                      onChange: (value) {
-                        controller.websiteBool.value = value;
-                      }),
-                ),
-                sub: 'هدایت کاربران به صفحه سایت مورد نظر شما'),
-          ),
-          Obx(
-            () => AnimatedOpacity(
-              opacity: controller.websiteBool.value ? 1 : 0,
-              curve: Curves.fastLinearToSlowEaseIn,
-              duration: const Duration(milliseconds: 1500),
-              child: AnimatedSize(
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: const Duration(milliseconds: 1500),
-                child: SizedBox(
-                  height: controller.websiteBool.value ? 50 : 0,
-                  child: MyTextField(
-                    textAlign: TextAlign.left,
-                    hint: 'example.com',
-                    textInputType: TextInputType.emailAddress,
-                    labeltext: 'آدرس صفحه وب مورد نظر',
-                    control: controller.websiteTEC.value,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          InkWell(
-            borderRadius: BorderRadius.circular(20),
-            onTap: () {
-              controller.whatsappBool.value
-                  ? controller.whatsappBool.value = false
-                  : controller.whatsappBool.value = true;
-            },
-            child: Obx(
-              () => listTiles(
-                  leading: FontAwesomeIcons.whatsapp,
-                  iconColor: controller.whatsappBool.value
-                      ? MyColors.green
-                      : MyColors.black,
-                  title: 'واتس اپ',
-                  switc: MySwitch(
-                    val: controller.whatsappBool.value,
+          // sms
+          listTiles(
+              onTap: () => pageController.smsState(),
+              leading: Iconsax.sms,
+              iconColor: MyColors.black,
+              title: 'پیامک',
+              switc: Obx(
+                () => MySwitch(
+                    val: controller.smsBool.value,
                     onChange: (value) {
-                      controller.whatsappBool.value = value;
-                    },
-                  ),
-                  sub: 'هدایت کاربران به صفحه گفتگو در واتس اپ'),
-            ),
-          ),
+                      pageController.smsState();
+                    }),
+              ),
+              sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
           Obx(
-            () => AnimatedOpacity(
-              opacity: controller.whatsappBool.value ? 1 : 0,
-              curve: Curves.fastLinearToSlowEaseIn,
-              duration: const Duration(milliseconds: 1500),
-              child: AnimatedSize(
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: const Duration(milliseconds: 1500),
-                child: SizedBox(
-                  height: controller.whatsappBool.value ? 50 : 0,
-                  child: MyTextField(
-                    textAlign: TextAlign.left,
-                    hint: '09210000000',
-                    textInputType: TextInputType.phone,
-                    labeltext: 'شماره تلفن اکانت واتس اپ',
-                    control: controller.whatsappNumberTEC.value,
-                  ),
+            () => MyAnimatedWidget(
+                state: controller.smsBool.value,
+                child: MyTextField(
+                  textAlign: TextAlign.center,
+                  hint: '...0921',
+                  textInputType: TextInputType.phone,
+                  labeltext: 'شماره تلفن همراه یا ثابت',
+                  control: controller.smsNumberTEC.value,
+                )),
+          ),
+          // chat
+          listTiles(
+              onTap: () => pageController.chatState(),
+              leading: Iconsax.sms_tracking,
+              iconColor: Colors.black,
+              title: 'چت',
+              switc: Obx(
+                () => MySwitch(
+                    val: controller.chatBool.value,
+                    onChange: (value) {
+                      pageController.chatState();
+                    }),
+              ),
+              sub:
+                  'کاربران می توانند از طریق چت درون برنامه ای با شما ارتباط برقرار کنند.'),
+          // email
+          listTiles(
+              onTap: () =>
+                  controller.emailBool.value = !controller.emailBool.value,
+              leading: Icons.email,
+              iconColor: MyColors.black,
+              title: 'ایمیل',
+              switc: Obx(
+                () => MySwitch(
+                    val: controller.emailBool.value,
+                    onChange: (value) {
+                      controller.emailBool.value = value;
+                    }),
+              ),
+              sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
+          Obx(
+            () => MyAnimatedWidget(
+                state: controller.emailBool.value,
+                child: MyTextField(
+                  textAlign: TextAlign.left,
+                  hint: 'example@gmail.com',
+                  textInputType: TextInputType.emailAddress,
+                  labeltext: 'آدرس ایمیل',
+                  control: controller.emailAddressTEC.value,
+                )),
+          ),
+          // website
+          listTiles(
+              onTap: () =>
+                  controller.websiteBool.value = !controller.websiteBool.value,
+              leading: Iconsax.global,
+              iconColor: MyColors.black,
+              title: 'وبسایت',
+              switc: Obx(
+                () => MySwitch(
+                    val: controller.websiteBool.value,
+                    onChange: (value) {
+                      controller.websiteBool.value = value;
+                    }),
+              ),
+              sub: 'هدایت کاربران به صفحه سایت مورد نظر شما'),
+          Obx(
+            () => MyAnimatedWidget(
+                state: controller.websiteBool.value,
+                child: MyTextField(
+                  textAlign: TextAlign.left,
+                  hint: 'example.com',
+                  textInputType: TextInputType.emailAddress,
+                  labeltext: 'آدرس صفحه وب مورد نظر',
+                  control: controller.websiteTEC.value,
+                )),
+          ),
+          // whatsApp
+          listTiles(
+              onTap: () => controller.whatsappBool.value =
+                  !controller.whatsappBool.value,
+              leading: FontAwesomeIcons.whatsapp,
+              iconColor: controller.whatsappBool.value
+                  ? MyColors.green
+                  : MyColors.black,
+              title: 'واتس اپ',
+              switc: Obx(
+                () => MySwitch(
+                  val: controller.whatsappBool.value,
+                  onChange: (value) {
+                    controller.whatsappBool.value = value;
+                  },
                 ),
               ),
-            ),
-          ),
-          InkWell(
-            borderRadius: BorderRadius.circular(20),
-            onTap: () {
-              controller.telegramBool.value
-                  ? controller.telegramBool.value = false
-                  : controller.telegramBool.value = true;
-            },
-            child: Obx(
-              () => listTiles(
-                  leading: FontAwesomeIcons.telegram,
-                  iconColor: controller.telegramBool.value
-                      ? MyColors.blue
-                      : MyColors.black,
-                  title: 'تلگرام',
-                  switc: MySwitch(
-                      val: controller.telegramBool.value,
-                      onChange: (value) {
-                        controller.telegramBool.value = value;
-                      }),
-                  sub: 'هدایت کاربران به صفحه گفتگو در تلگرام'),
-            ),
-          ),
+              sub: 'هدایت کاربران به صفحه گفتگو در واتس اپ'),
           Obx(
-            () => AnimatedOpacity(
-              opacity: controller.telegramBool.value ? 1 : 0,
-              curve: Curves.fastLinearToSlowEaseIn,
-              duration: const Duration(milliseconds: 1500),
-              child: AnimatedSize(
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: const Duration(milliseconds: 1500),
-                child: SizedBox(
-                  height: controller.telegramBool.value ? 50 : 0,
-                  child: MyTextField(
-                    textAlign: TextAlign.left,
-                    hint: 'مثال: gereh',
-                    textInputType: TextInputType.emailAddress,
-                    labeltext: 'آی دی اکانت تلگرام بدون @',
-                    control: controller.telegramIdTEC.value,
-                  ),
-                ),
+            () => MyAnimatedWidget(
+                state: controller.whatsappBool.value,
+                child: MyTextField(
+                  textAlign: TextAlign.left,
+                  hint: '09210000000',
+                  textInputType: TextInputType.phone,
+                  labeltext: 'شماره تلفن اکانت واتس اپ',
+                  control: controller.whatsappNumberTEC.value,
+                )),
+          ),
+          // telegram
+          listTiles(
+              onTap: () => controller.telegramBool.value =
+                  !controller.telegramBool.value,
+              leading: FontAwesomeIcons.telegram,
+              iconColor: controller.telegramBool.value
+                  ? MyColors.blue
+                  : MyColors.black,
+              title: 'تلگرام',
+              switc: Obx(
+                () => MySwitch(
+                    val: controller.telegramBool.value,
+                    onChange: (value) {
+                      controller.telegramBool.value = value;
+                    }),
               ),
-            ),
-          ),
+              sub: 'هدایت کاربران به صفحه گفتگو در تلگرام'),
           Obx(
-            () => InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                controller.instagramIdSelectionBool.value == true
-                    ? controller.instagramIdSelectionBool.value = false
-                    : controller.instagramIdSelectionBool.value = true;
-              },
-              child: listTiles(
-                  leading: Iconsax.instagram,
-                  iconColor: controller.instagramIdSelectionBool.value
-                      ? MyColors.red
-                      : Colors.black,
-                  title: 'اینستاگرام',
-                  switc: MySwitch(
-                      val: controller.instagramIdSelectionBool.value,
-                      onChange: (value) {
-                        controller.instagramIdSelectionBool.value = value;
-                      }),
-                  sub:
-                      'کابران به راحتی می توانند صفحه اینستاگرام شما را مشاهده کنند.'),
-            ),
+            () => MyAnimatedWidget(
+                state: controller.telegramBool.value,
+                child: MyTextField(
+                  textAlign: TextAlign.left,
+                  hint: 'مثال: gereh',
+                  textInputType: TextInputType.emailAddress,
+                  labeltext: 'آی دی اکانت تلگرام بدون @',
+                  control: controller.telegramIdTEC.value,
+                )),
           ),
+          // instagram
+          listTiles(
+              onTap: () => controller.instagramIdBool.value =
+                  !controller.instagramIdBool.value,
+              leading: Iconsax.instagram,
+              iconColor: controller.instagramIdBool.value
+                  ? MyColors.red
+                  : Colors.black,
+              title: 'اینستاگرام',
+              switc: Obx(
+                () => MySwitch(
+                    val: controller.instagramIdBool.value,
+                    onChange: (value) {
+                      controller.instagramIdBool.value = value;
+                    }),
+              ),
+              sub:
+                  'کابران به راحتی می توانند صفحه اینستاگرام شما را مشاهده کنند.'),
           Obx(
-            () => AnimatedOpacity(
-              opacity: controller.instagramIdSelectionBool.value ? 1 : 0,
-              curve: Curves.fastLinearToSlowEaseIn,
-              duration: const Duration(milliseconds: 1500),
-              child: AnimatedContainer(
-                height: controller.instagramIdSelectionBool.value ? 80 : 0,
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: const Duration(milliseconds: 1500),
+            () => MyAnimatedWidget(
+                state: controller.instagramIdBool.value,
                 child: MyTextField(
                   textAlign: TextAlign.end,
                   length: 30,
@@ -397,7 +252,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                   labeltext: 'آیدی اینستاگرام خود را وارد کنید.',
                   control: controller.instagramIdTEC.value,
                   onChange: (value) {
-                    if (instagramController.text
+                    if (controller.instagramIdTEC.value.text
                         .contains(RegExp(r'[@#$&-+()?!;:*+%-]'))) {
                       controller.selectedInstagramIdError.value =
                           'کاراکتر غیر مجاز!';
@@ -405,9 +260,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                       controller.selectedInstagramIdError.value = '';
                     }
                   },
-                ),
-              ),
-            ),
+                )),
           ),
           const SizedBox(height: 30),
 
@@ -418,27 +271,22 @@ class _PaidFeaturesState extends State<PaidFeatures> {
               style: TextStyle(fontFamily: 'titr', fontSize: 30),
             ),
           ),
-
-          Obx(
-            () => InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                controller.imageSelectionBool.value =
-                    !controller.imageSelectionBool.value;
-              },
-              child: listTiles(
-                  leading: Iconsax.gallery,
-                  iconColor: Colors.black,
-                  title: 'تصویر',
-                  switc: MySwitch(
-                      val: controller.imageSelectionBool.value,
-                      onChange: (value) {
-                        controller.imageSelectionBool.value = value;
-                      }),
-                  sub:
-                      'افزودن تصویر به آگهی موجب تعامل بیشتر کاربران با آگهی شما خواهد شد.'),
-            ),
-          ),
+          // image
+          listTiles(
+              onTap: () => controller.imageSelectionBool.value =
+                  !controller.imageSelectionBool.value,
+              leading: Iconsax.gallery,
+              iconColor: Colors.black,
+              title: 'تصویر',
+              switc: Obx(
+                () => MySwitch(
+                    val: controller.imageSelectionBool.value,
+                    onChange: (value) {
+                      controller.imageSelectionBool.value = value;
+                    }),
+              ),
+              sub:
+                  'افزودن تصویر به آگهی موجب تعامل بیشتر کاربران با آگهی شما خواهد شد.'),
           //###########################################################################################
           Obx(
             () => AnimatedSize(
@@ -455,7 +303,6 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                             future: database.paidFeautersImages(uploadedImages),
                             builder: (BuildContext context,
                                 AsyncSnapshot<dynamic> snapshot) {
-                              print(snapshot.data.toString());
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
@@ -610,36 +457,24 @@ class _PaidFeaturesState extends State<PaidFeatures> {
             ),
           ),
           //###########################################################################################
+          // location
+          listTiles(
+              onTap: () => controller.locationSelectionBool.value =
+                  !controller.locationSelectionBool.value,
+              leading: Iconsax.map_1,
+              iconColor: Colors.black,
+              title: 'نمایش مکان روی نقشه',
+              switc: Obx(
+                () => MySwitch(
+                    val: controller.locationSelectionBool.value,
+                    onChange: (value) {
+                      controller.locationSelectionBool.value = value;
+                    }),
+              ),
+              sub: 'آگهی شما بر روی نقشه نمایش داده خواهد شد'),
           Obx(
-            () => InkWell(
-              borderRadius: BorderRadius.circular(20),
-              // radius: 10,
-              onTap: () {
-                controller.locationSelectionBool.value == false
-                    ? controller.locationSelectionBool.value = true
-                    : controller.locationSelectionBool.value = false;
-              },
-              child: listTiles(
-                  leading: Iconsax.map_1,
-                  iconColor: Colors.black,
-                  title: 'نمایش مکان روی نقشه',
-                  switc: MySwitch(
-                      val: controller.locationSelectionBool.value,
-                      onChange: (value) {
-                        controller.locationSelectionBool.value = value;
-                      }),
-                  sub: 'آگهی شما بر روی نقشه نمایش داده خواهد شد'),
-            ),
-          ),
-          Obx(
-            () => AnimatedOpacity(
-              duration: const Duration(milliseconds: 1500),
-              opacity: controller.locationSelectionBool.value ? 1 : 0,
-              curve: Curves.fastLinearToSlowEaseIn,
-              child: AnimatedContainer(
-                height: controller.locationSelectionBool.value ? 50 : 0,
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: const Duration(milliseconds: 1500),
+            () => MyAnimatedWidget(
+                state: controller.locationSelectionBool.value,
                 child: MyButton(
                   fillColor: MyColors.blueGrey,
                   child: const Text(
@@ -648,31 +483,60 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                   ),
                   onClick: () => Get.to(() => const MapPage())
                       ?.then((value) => address = value[0]),
-                ),
-              ),
-            ),
-          ),
-          // const SizedBox(height: 10),
+                )),
+          )
         ],
       ),
     );
   }
 
   ListTile listTiles(
-      {required IconData leading,
+      {void Function()? onTap,
+      required IconData leading,
       required Color iconColor,
       required String title,
       required Widget switc,
       required String sub}) {
     return ListTile(
+      onTap: onTap,
       minLeadingWidth: 5,
       leading: Icon(leading, color: iconColor),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(title, style: uiDesign.titleTextStyle()), switc],
+        children: [
+          Text(title, style: uiDesign.titleTextStyle()),
+          switc,
+        ],
       ),
       subtitle: Text(sub, style: uiDesign.descriptionsTextStyle()),
       contentPadding: EdgeInsets.zero,
+    );
+  }
+}
+
+class MyAnimatedWidget extends StatelessWidget {
+  final bool state;
+  final Widget child;
+  const MyAnimatedWidget({
+    Key? key,
+    required this.state,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      curve: Curves.fastLinearToSlowEaseIn,
+      opacity: state ? 1 : 0,
+      duration: const Duration(milliseconds: 1500),
+      child: AnimatedSize(
+        curve: Curves.fastLinearToSlowEaseIn,
+        duration: const Duration(milliseconds: 1500),
+        child: SizedBox(
+          height: state ? 50 : 0,
+          child: child,
+        ),
+      ),
     );
   }
 }

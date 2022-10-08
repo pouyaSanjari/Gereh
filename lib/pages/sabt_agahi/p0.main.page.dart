@@ -7,7 +7,7 @@ import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/sabt_agahi/p1.title.dart';
 import 'package:sarkargar/pages/sabt_agahi/p3.paid.features.dart';
 import 'package:sarkargar/pages/sabt_agahi/p2.workers.count.dart';
@@ -279,7 +279,7 @@ class _MainRequestPageState extends State<MainRequestPage>
         emailAddress: '',
         websiteBool: '',
         websiteAddress: '',
-        instagramBool: controller.instagramIdSelectionBool.value ? '1' : '0',
+        instagramBool: controller.instagramIdBool.value ? '1' : '0',
         instagramId: controller.instagramIdTEC.value.text,
         whatsappBool: '',
         whatsappNumber: '',

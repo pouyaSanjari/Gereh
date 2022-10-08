@@ -10,7 +10,7 @@ import 'package:sarkargar/components/filter.dialog.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
 import 'package:sarkargar/pages/test/job.details.page.test.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
 
@@ -85,7 +85,6 @@ class _JobsListState extends State<JobsList> {
           } else {
             controller.searchMap
                 .removeWhere((key, value) => key == 'title' || key == '');
-            print(controller.searchMap);
             controller.searchMap.isEmpty
                 ? controller.searchedList.clear()
                 : controller.searchMethod();

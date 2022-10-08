@@ -11,7 +11,6 @@ class JobDetailsTestController extends GetxController {
           await database.getUserDetailsById(userId: int.parse(advertizer));
       phoneNumber.value = user[0]['number'];
     } catch (e) {
-      print(e);
       phoneNumber.value = '';
     }
   }

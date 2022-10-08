@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_slider/flutter_multi_slider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/components/select.category.dart';
@@ -9,7 +8,7 @@ import 'package:sarkargar/components/toggle.switch.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/filter.controller.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 
 class FilterDialog extends StatelessWidget {
   const FilterDialog({Key? key}) : super(key: key);

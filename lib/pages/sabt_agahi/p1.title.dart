@@ -9,7 +9,7 @@ import 'package:sarkargar/components/select.city.dart';
 import 'package:sarkargar/components/textFields/selectable.text.field.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/services/uiDesign.dart';
+import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/services/database.dart';
 import '../../controllers/request_controller.dart';
 

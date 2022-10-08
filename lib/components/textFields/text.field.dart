@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 import '../../constants/colors.dart';
 
@@ -15,11 +14,11 @@ class MyTextField extends StatelessWidget {
   final int? maxLine;
   final bool? enabled;
   final Widget? suffix;
-  TextAlign? textAlign;
+  final TextAlign? textAlign;
   final ValueChanged<String>? onSubmit;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onChange;
-  MyTextField(
+  const MyTextField(
       {Key? key,
       required this.labeltext,
       this.icon,
