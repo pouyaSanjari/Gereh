@@ -1,4 +1,4 @@
-import 'package:animations/animations.dart';
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -159,6 +159,7 @@ class _JobsListState extends State<JobsList> {
               //زمانی که اطلاعات رو از سرور دریافت کرده
             } else if (snapshot.hasData) {
               snap = snapshot.data[0];
+              log(snap.toString());
               controller.jobsList.value = snap.reversed.toList();
               controller.jobsImages.value = snapshot.data[1];
 
