@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import 'request_controller.dart';
 
-class PaidFuturesController extends GetxController {
+class PaidFuturesController {
   final controller = Get.put(RequestController());
 
   void callState() {

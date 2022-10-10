@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/components/error.page.dart';
@@ -27,10 +26,9 @@ class PaidFeatures extends StatefulWidget {
 class _PaidFeaturesState extends State<PaidFeatures> {
   final box = GetStorage();
   final controller = Get.put(RequestController());
-  final pageController = Get.put(PaidFuturesController());
+  final pageController = PaidFuturesController();
   final database = AppDataBase();
   final uiDesign = UiDesign();
-  final picker = ImagePicker();
 
   List<String> uploadedImages = [];
   List snap = [];
@@ -45,23 +43,31 @@ class _PaidFeaturesState extends State<PaidFeatures> {
         children: [
           const Align(
             alignment: Alignment.centerRight,
-            child: Text('راه های ارتباطی',
-                style: TextStyle(fontFamily: 'titr', fontSize: 30)),
+            child: Text(
+              'راه های ارتباطی',
+              style: TextStyle(
+                fontFamily: 'titr',
+                fontSize: 30,
+              ),
+            ),
           ),
           // call
-          listTiles(
+          Obx(
+            () => listTiles(
               onTap: () => pageController.callState(),
               leading: Iconsax.call,
-              iconColor: Colors.black,
+              iconColor:
+                  controller.phoneBool.value ? Colors.green : Colors.black,
               title: 'تماس',
-              switc: Obx(
-                () => MySwitch(
-                    val: controller.phoneBool.value,
-                    onChange: (value) {
-                      pageController.callState();
-                    }),
+              swich: MySwitch(
+                val: controller.phoneBool.value,
+                onChange: (value) {
+                  pageController.callState();
+                },
               ),
-              sub: 'کاربران می توانند مستقیما با شما تماس بگیرند.'),
+              sub: 'کاربران می توانند مستقیما با شما تماس بگیرند.',
+            ),
+          ),
           Obx(
             () => MyAnimatedWidget(
                 state: controller.phoneBool.value,
@@ -73,19 +79,22 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                     control: controller.phoneNumberTEC.value)),
           ),
           // sms
-          listTiles(
+          Obx(
+            () => listTiles(
               onTap: () => pageController.smsState(),
               leading: Iconsax.sms,
-              iconColor: MyColors.black,
+              iconColor:
+                  controller.smsBool.value ? Colors.pink : MyColors.black,
               title: 'پیامک',
-              switc: Obx(
-                () => MySwitch(
-                    val: controller.smsBool.value,
-                    onChange: (value) {
-                      pageController.smsState();
-                    }),
+              sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.',
+              swich: MySwitch(
+                val: controller.smsBool.value,
+                onChange: (value) {
+                  pageController.smsState();
+                },
               ),
-              sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
+            ),
+          ),
           Obx(
             () => MyAnimatedWidget(
                 state: controller.smsBool.value,
@@ -98,35 +107,39 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 )),
           ),
           // chat
-          listTiles(
+          Obx(
+            () => listTiles(
               onTap: () => pageController.chatState(),
               leading: Iconsax.sms_tracking,
-              iconColor: Colors.black,
+              iconColor: controller.chatBool.value ? Colors.blue : Colors.black,
               title: 'چت',
-              switc: Obx(
-                () => MySwitch(
-                    val: controller.chatBool.value,
-                    onChange: (value) {
-                      pageController.chatState();
-                    }),
-              ),
               sub:
-                  'کاربران می توانند از طریق چت درون برنامه ای با شما ارتباط برقرار کنند.'),
-          // email
-          listTiles(
-              onTap: () =>
-                  controller.emailBool.value = !controller.emailBool.value,
-              leading: Icons.email,
-              iconColor: MyColors.black,
-              title: 'ایمیل',
-              switc: Obx(
-                () => MySwitch(
-                    val: controller.emailBool.value,
-                    onChange: (value) {
-                      controller.emailBool.value = value;
-                    }),
+                  'کاربران می توانند از طریق چت درون برنامه ای با شما ارتباط برقرار کنند.',
+              swich: MySwitch(
+                val: controller.chatBool.value,
+                onChange: (value) {
+                  pageController.chatState();
+                },
               ),
-              sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
+            ),
+          ),
+          // email
+          Obx(
+            () => listTiles(
+                onTap: () =>
+                    controller.emailBool.value = !controller.emailBool.value,
+                leading: Icons.email,
+                iconColor:
+                    controller.emailBool.value ? MyColors.red : MyColors.black,
+                title: 'ایمیل',
+                swich: MySwitch(
+                  val: controller.emailBool.value,
+                  onChange: (value) {
+                    controller.emailBool.value = value;
+                  },
+                ),
+                sub: 'کاربران می توانند به خط شما پیامک ارسال کنند.'),
+          ),
           Obx(
             () => MyAnimatedWidget(
                 state: controller.emailBool.value,
@@ -139,20 +152,24 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 )),
           ),
           // website
-          listTiles(
+          Obx(
+            () => listTiles(
               onTap: () =>
                   controller.websiteBool.value = !controller.websiteBool.value,
               leading: Iconsax.global,
-              iconColor: MyColors.black,
+              iconColor: controller.websiteBool.value
+                  ? MyColors.orange
+                  : MyColors.black,
               title: 'وبسایت',
-              switc: Obx(
-                () => MySwitch(
-                    val: controller.websiteBool.value,
-                    onChange: (value) {
-                      controller.websiteBool.value = value;
-                    }),
+              swich: MySwitch(
+                val: controller.websiteBool.value,
+                onChange: (value) {
+                  controller.websiteBool.value = value;
+                },
               ),
-              sub: 'هدایت کاربران به صفحه سایت مورد نظر شما'),
+              sub: 'هدایت کاربران به صفحه سایت مورد نظر شما',
+            ),
+          ),
           Obx(
             () => MyAnimatedWidget(
                 state: controller.websiteBool.value,
@@ -165,80 +182,84 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                 )),
           ),
           // whatsApp
-          listTiles(
-              onTap: () => controller.whatsappBool.value =
-                  !controller.whatsappBool.value,
-              leading: FontAwesomeIcons.whatsapp,
-              iconColor: controller.whatsappBool.value
-                  ? MyColors.green
-                  : MyColors.black,
-              title: 'واتس اپ',
-              switc: Obx(
-                () => MySwitch(
+          Obx(
+            () => listTiles(
+                onTap: () => controller.whatsappBool.value =
+                    !controller.whatsappBool.value,
+                leading: FontAwesomeIcons.whatsapp,
+                iconColor: controller.whatsappBool.value
+                    ? Colors.green
+                    : MyColors.black,
+                title: 'واتس اپ',
+                swich: MySwitch(
                   val: controller.whatsappBool.value,
                   onChange: (value) {
                     controller.whatsappBool.value = value;
                   },
                 ),
-              ),
-              sub: 'هدایت کاربران به صفحه گفتگو در واتس اپ'),
+                sub: 'هدایت کاربران به صفحه گفتگو در واتس اپ'),
+          ),
           Obx(
             () => MyAnimatedWidget(
-                state: controller.whatsappBool.value,
-                child: MyTextField(
-                  textAlign: TextAlign.left,
-                  hint: '09210000000',
-                  textInputType: TextInputType.phone,
-                  labeltext: 'شماره تلفن اکانت واتس اپ',
-                  control: controller.whatsappNumberTEC.value,
-                )),
+              state: controller.whatsappBool.value,
+              child: MyTextField(
+                textAlign: TextAlign.left,
+                hint: '09210000000',
+                textInputType: TextInputType.phone,
+                labeltext: 'شماره تلفن اکانت واتس اپ',
+                control: controller.whatsappNumberTEC.value,
+              ),
+            ),
           ),
           // telegram
-          listTiles(
-              onTap: () => controller.telegramBool.value =
-                  !controller.telegramBool.value,
-              leading: FontAwesomeIcons.telegram,
-              iconColor: controller.telegramBool.value
-                  ? MyColors.blue
-                  : MyColors.black,
-              title: 'تلگرام',
-              switc: Obx(
-                () => MySwitch(
-                    val: controller.telegramBool.value,
-                    onChange: (value) {
-                      controller.telegramBool.value = value;
-                    }),
-              ),
-              sub: 'هدایت کاربران به صفحه گفتگو در تلگرام'),
+          Obx(
+            () => listTiles(
+                onTap: () => controller.telegramBool.value =
+                    !controller.telegramBool.value,
+                leading: FontAwesomeIcons.telegram,
+                iconColor: controller.telegramBool.value
+                    ? MyColors.blue
+                    : MyColors.black,
+                title: 'تلگرام',
+                swich: MySwitch(
+                  val: controller.telegramBool.value,
+                  onChange: (value) {
+                    controller.telegramBool.value = value;
+                  },
+                ),
+                sub: 'هدایت کاربران به صفحه گفتگو در تلگرام'),
+          ),
           Obx(
             () => MyAnimatedWidget(
-                state: controller.telegramBool.value,
-                child: MyTextField(
-                  textAlign: TextAlign.left,
-                  hint: 'مثال: gereh',
-                  textInputType: TextInputType.emailAddress,
-                  labeltext: 'آی دی اکانت تلگرام بدون @',
-                  control: controller.telegramIdTEC.value,
-                )),
+              state: controller.telegramBool.value,
+              child: MyTextField(
+                textAlign: TextAlign.left,
+                hint: 'مثال: gereh',
+                textInputType: TextInputType.emailAddress,
+                labeltext: 'آی دی اکانت تلگرام بدون @',
+                control: controller.telegramIdTEC.value,
+              ),
+            ),
           ),
           // instagram
-          listTiles(
-              onTap: () => controller.instagramIdBool.value =
-                  !controller.instagramIdBool.value,
-              leading: Iconsax.instagram,
-              iconColor: controller.instagramIdBool.value
-                  ? MyColors.red
-                  : Colors.black,
-              title: 'اینستاگرام',
-              switc: Obx(
-                () => MySwitch(
-                    val: controller.instagramIdBool.value,
-                    onChange: (value) {
-                      controller.instagramIdBool.value = value;
-                    }),
-              ),
-              sub:
-                  'کابران به راحتی می توانند صفحه اینستاگرام شما را مشاهده کنند.'),
+          Obx(
+            () => listTiles(
+                onTap: () => controller.instagramIdBool.value =
+                    !controller.instagramIdBool.value,
+                leading: Iconsax.instagram,
+                iconColor: controller.instagramIdBool.value
+                    ? MyColors.red
+                    : Colors.black,
+                title: 'اینستاگرام',
+                swich: MySwitch(
+                  val: controller.instagramIdBool.value,
+                  onChange: (value) {
+                    controller.instagramIdBool.value = value;
+                  },
+                ),
+                sub:
+                    'کابران به راحتی می توانند صفحه اینستاگرام شما را مشاهده کنند.'),
+          ),
           Obx(
             () => MyAnimatedWidget(
                 state: controller.instagramIdBool.value,
@@ -271,29 +292,33 @@ class _PaidFeaturesState extends State<PaidFeatures> {
               style: TextStyle(fontFamily: 'titr', fontSize: 30),
             ),
           ),
+          //###########################################################################################
           // image
-          listTiles(
+          Obx(
+            () => listTiles(
               onTap: () => controller.imageSelectionBool.value =
                   !controller.imageSelectionBool.value,
               leading: Iconsax.gallery,
-              iconColor: Colors.black,
+              iconColor: controller.imageSelectionBool.value
+                  ? Colors.orange
+                  : Colors.black,
               title: 'تصویر',
-              switc: Obx(
-                () => MySwitch(
-                    val: controller.imageSelectionBool.value,
-                    onChange: (value) {
-                      controller.imageSelectionBool.value = value;
-                    }),
-              ),
               sub:
-                  'افزودن تصویر به آگهی موجب تعامل بیشتر کاربران با آگهی شما خواهد شد.'),
-          //###########################################################################################
+                  'افزودن تصویر به آگهی موجب تعامل بیشتر کاربران با آگهی شما خواهد شد.',
+              swich: MySwitch(
+                val: controller.imageSelectionBool.value,
+                onChange: (value) {
+                  controller.imageSelectionBool.value = value;
+                },
+              ),
+            ),
+          ),
           Obx(
             () => AnimatedSize(
               curve: Curves.fastLinearToSlowEaseIn,
               duration: const Duration(milliseconds: 1500),
               child: SizedBox(
-                height: controller.imageSelectionBool.value ? 280 : 0,
+                height: controller.imageSelectionBool.value ? 210 : 0,
                 child: Column(
                   children: [
                     Expanded(
@@ -376,7 +401,8 @@ class _PaidFeaturesState extends State<PaidFeatures> {
                                             content: const Directionality(
                                               textDirection: TextDirection.rtl,
                                               child: Text(
-                                                  'آیا مطمئن هستید که میخواهید این تصویر را حذف کنید؟ در صورت تایید امکان بازیابی تصویر وجود ندارد.'),
+                                                'آیا مطمئن هستید که میخواهید این تصویر را حذف کنید؟ در صورت تایید امکان بازیابی تصویر وجود ندارد.',
+                                              ),
                                             ),
                                             actions: [
                                               TextButton(
@@ -458,32 +484,35 @@ class _PaidFeaturesState extends State<PaidFeatures> {
           ),
           //###########################################################################################
           // location
-          listTiles(
+          Obx(
+            () => listTiles(
               onTap: () => controller.locationSelectionBool.value =
                   !controller.locationSelectionBool.value,
               leading: Iconsax.map_1,
               iconColor: Colors.black,
               title: 'نمایش مکان روی نقشه',
-              switc: Obx(
-                () => MySwitch(
-                    val: controller.locationSelectionBool.value,
-                    onChange: (value) {
-                      controller.locationSelectionBool.value = value;
-                    }),
+              sub: 'آگهی شما بر روی نقشه نمایش داده خواهد شد',
+              swich: MySwitch(
+                val: controller.locationSelectionBool.value,
+                onChange: (value) {
+                  controller.locationSelectionBool.value = value;
+                },
               ),
-              sub: 'آگهی شما بر روی نقشه نمایش داده خواهد شد'),
+            ),
+          ),
           Obx(
             () => MyAnimatedWidget(
-                state: controller.locationSelectionBool.value,
-                child: MyButton(
-                  fillColor: MyColors.blueGrey,
-                  child: const Text(
-                    'انتخاب موقعیت از روی نقشه',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onClick: () => Get.to(() => const MapPage())
-                      ?.then((value) => address = value[0]),
-                )),
+              state: controller.locationSelectionBool.value,
+              child: MyButton(
+                fillColor: MyColors.blueGrey,
+                child: const Text(
+                  'انتخاب موقعیت از روی نقشه',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onClick: () => Get.to(() => const MapPage())
+                    ?.then((value) => address = value[0]),
+              ),
+            ),
           )
         ],
       ),
@@ -491,11 +520,11 @@ class _PaidFeaturesState extends State<PaidFeatures> {
   }
 
   ListTile listTiles(
-      {void Function()? onTap,
+      {required void Function()? onTap,
       required IconData leading,
       required Color iconColor,
       required String title,
-      required Widget switc,
+      required Widget swich,
       required String sub}) {
     return ListTile(
       onTap: onTap,
@@ -505,7 +534,7 @@ class _PaidFeaturesState extends State<PaidFeatures> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title, style: uiDesign.titleTextStyle()),
-          switc,
+          swich,
         ],
       ),
       subtitle: Text(sub, style: uiDesign.descriptionsTextStyle()),
