@@ -6,7 +6,7 @@ import 'package:sarkargar/models/ad.details.model.dart';
 import '../constants/colors.dart';
 
 class MarkerDetailsContainer extends StatelessWidget {
-  final List<Model> data;
+  final List<AdDetailsModel> data;
   final int index;
   final Function() onTap;
 

@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
@@ -60,6 +61,7 @@ class _SelectCityState extends State<SelectCity> {
           ),
         ),
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           leading: IconButton(
               onPressed: () => Get.back(),
               icon: const Icon(
@@ -85,17 +87,45 @@ class _SelectCityState extends State<SelectCity> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(width: 15),
                 const Icon(Iconsax.building_3),
                 const SizedBox(width: 10),
-                Obx(
-                  () => Text(
-                    controller.city.value,
-                    style: const TextStyle(fontSize: 18),
+                Expanded(
+                  child: Obx(
+                    () => Row(
+                      children: [
+                        Text(
+                          controller.city.value,
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                MyButton(
+                  height: 30,
+                  fillColor: MyColors.blue,
+                  onClick: () async {
+                    controller.city.value = 'لطفا صبر کنید...';
+                    await getCityNameByLocation();
+                    Get.back(result: controller.city.value);
+                  },
+                  child: Row(children: const [
+                    Icon(
+                      Iconsax.location,
+                      size: 20,
+                      color: Colors.white,
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      'دریافت خودکار ',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ]),
+                ),
+                const SizedBox(width: 5),
               ],
             ),
             Expanded(
@@ -141,26 +171,6 @@ class _SelectCityState extends State<SelectCity> {
                           );
                         },
                       ),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              color: MyColors.red,
-              child: TextButton.icon(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(MyColors.red)),
-                onPressed: () {
-                  controller.city.value = 'لطفا صبر کنید...';
-                  getCityNameByLocation();
-                },
-                icon: const Icon(
-                  Iconsax.location,
-                  color: Colors.white,
-                ),
-                label: const Text(
-                  "دریافت خودکار موقعیت مکانی",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
               ),
             ),
           ],
@@ -275,7 +285,6 @@ class _SelectCityState extends State<SelectCity> {
 
   @override
   void initState() {
-    controller.city.value = 'یک شهر انتخاب کنید.';
     getCitiesList();
     super.initState();
   }

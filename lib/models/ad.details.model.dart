@@ -1,4 +1,4 @@
-class Model {
+class AdDetailsModel {
   double lat;
   double lon;
   String title;
@@ -7,7 +7,7 @@ class Model {
   String category;
   List images;
 
-  Model(
+  AdDetailsModel(
       {required this.lat,
       required this.images,
       required this.category,

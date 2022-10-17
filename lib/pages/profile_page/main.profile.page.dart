@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: uiDesign.cTheme(),
+      theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: buildAppBar(

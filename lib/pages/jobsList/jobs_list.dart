@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +12,6 @@ import 'package:sarkargar/pages/test/job.details.page.test.dart';
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
-
 import '../../components/select.city.dart';
 import '../../constants/colors.dart';
 
@@ -37,7 +35,7 @@ class _JobsListState extends State<JobsList> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: uiDesign.cTheme(),
+      theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,
@@ -126,7 +124,7 @@ class _JobsListState extends State<JobsList> {
                     const SizedBox(width: 3),
                     Obx(
                       () => Text(controller.city.value,
-                          style: uiDesign.descriptionsTextStyle()),
+                          style: UiDesign.descriptionsTextStyle()),
                     ),
                   ],
                 )),
@@ -158,7 +156,7 @@ class _JobsListState extends State<JobsList> {
               //زمانی که اطلاعات رو از سرور دریافت کرده
             } else if (snapshot.hasData) {
               snap = snapshot.data[0];
-              log(snap.toString());
+              // log(snap.toString());
               controller.jobsList.value = snap.reversed.toList();
               controller.jobsImages.value = snapshot.data[1];
 
@@ -232,7 +230,7 @@ class _JobsListState extends State<JobsList> {
                                   adDetails: controller.jobsList[index],
                                   images: itemImage));
                             } else {
-                              Get.to(() => JobDetails(
+                              Get.to(() => JobDetailsPageTest(
                                   adDetails: controller.searchedList[index],
                                   images: itemImage));
                             }
@@ -353,7 +351,7 @@ class _JobsListState extends State<JobsList> {
                                       ),
                                     ),
                                     Text(
-                                        uiDesign.timeFunction(
+                                        UiDesign.timeFunction(
                                             controller.jobsList[index]['time']),
                                         style: const TextStyle(
                                             color: Color.fromARGB(
@@ -392,7 +390,7 @@ class _JobsListState extends State<JobsList> {
                                         ),
                                       ),
                                       Text(
-                                          uiDesign.timeFunction(controller
+                                          UiDesign.timeFunction(controller
                                               .jobsList[index]['time']),
                                           style: const TextStyle(
                                               color: Colors.white,

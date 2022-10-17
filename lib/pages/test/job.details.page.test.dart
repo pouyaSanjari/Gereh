@@ -28,7 +28,7 @@ class JobDetailsPageTest extends StatelessWidget {
     bool isHiring = adDetails['adtype'] == '1' ? false : true;
 
     return MaterialApp(
-      theme: UiDesign().cTheme(),
+      theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,
@@ -109,9 +109,10 @@ class JobDetailsPageTest extends StatelessWidget {
                                         value: adDetails['price'] == '' &&
                                                 adDetails['price'] == ''
                                             ? 'توافقی'
-                                            : digi(adDetails['price'] == ''
-                                                ? adDetails['price']
-                                                : adDetails['price']),
+                                            : UiDesign.digi(
+                                                adDetails['price'] == ''
+                                                    ? adDetails['price']
+                                                    : adDetails['price']),
                                         icon: Iconsax.wallet_1,
                                         backgroundColor: const Color.fromARGB(
                                             140, 251, 221, 217),
@@ -471,11 +472,6 @@ class JobDetailsPageTest extends StatelessWidget {
   Future<void> launchInstagram({required String id}) async {
     // ignore: deprecated_member_use
     await launch("https://www.instagram.com/$id/", universalLinksOnly: true);
-  }
-
-  String digi(String number) {
-    String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
-    return digit;
   }
 
   String gender(String gender) {

@@ -20,14 +20,13 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currIndex = 3;
   int logInType = 1;
-  UiDesign uiDesign = UiDesign();
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: uiDesign.cTheme(),
+        theme: UiDesign.cTheme(),
         home: Scaffold(
           bottomNavigationBar: buildBottomNavigationBar(),
           body: buildBody(),
@@ -52,7 +51,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   BottomNavigationBar buildBottomNavigationBar() {
-    return uiDesign.buildBottomNavigationBar(
+    return UiDesign.buildBottomNavigationBar(
       currentIndex: currIndex,
       items: [
         BottomNavigationBarItem(

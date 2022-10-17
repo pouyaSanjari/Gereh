@@ -30,7 +30,7 @@ class _TestMapState extends State<TestMap> {
       'https://map.ir/shiveh/xyz/1.0.0/Shiveh:Shiveh@EPSG:3857@png/{z}/{x}/{y}.png?x-api-key=';
   final String apiKey =
       'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjhmODZjYjc0MDg5MTI4NjAyNmQ3ODkyMDQ5NjVjZmI1MWRhZTY0MzE5MGEzMDgxMTQ3ZTBkNjQ0ZmM0MjE2NWYwZTZlYTgwNDgxY2Y0ZjJlIn0.eyJhdWQiOiIxOTYxMCIsImp0aSI6IjhmODZjYjc0MDg5MTI4NjAyNmQ3ODkyMDQ5NjVjZmI1MWRhZTY0MzE5MGEzMDgxMTQ3ZTBkNjQ0ZmM0MjE2NWYwZTZlYTgwNDgxY2Y0ZjJlIiwiaWF0IjoxNjY0NjE4NDE2LCJuYmYiOjE2NjQ2MTg0MTYsImV4cCI6MTY2NzEyNDAxNiwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.X4uuixNND2gEvlamTn73r9b4XxxF0GEQQsIFRJtxyxtHHQxAQRTzcG5CwZTn4zNtoVdQ6Iu9iQw6TMeOElaB2vmmrpefgtIShlM77uvpOcG-MpVoHIfEL248Jn4VK0_ATYDHTsivh9AiVJjwpHcas_hx9M10y0TiUHO52cNhCKsCWeO56qBeR8bo64dkxg0tLikGIEzAE2MmWJFQK74wfPjwRwB6PBUE_qoWLp2xLB9kDRNs9WZUwOblauWzAehT-C51hB749fDT40W2obzNa0eFtDh-JM1N1LXFvpZctykiUn0ZliobtqJSptqnOw2sRCkBuDLu6zwIm915Bn2OyQ';
-  late List<Model> _data;
+  late List<AdDetailsModel> _data;
   late MapZoomPanBehavior _mapZoomPanBehavior;
   late MapTileLayerController markerController;
   @override
@@ -160,7 +160,7 @@ class _TestMapState extends State<TestMap> {
     );
   }
 
-  Container bottomSheet(List<Model> data, int index) {
+  Container bottomSheet(List<AdDetailsModel> data, int index) {
     List images = data[index].images;
     return Container(
       decoration: const BoxDecoration(
@@ -302,7 +302,7 @@ class _TestMapState extends State<TestMap> {
             .where((element) => element['adId'] == jobs[0][itemIndex]['id'])
             .toList();
         if (jobs[0][itemIndex]['locationlat'] != '') {
-          _data.add(Model(
+          _data.add(AdDetailsModel(
               lat: double.parse(jobs[0][itemIndex]['locationlat']),
               lon: double.parse(jobs[0][itemIndex]['locationlon']),
               title: '${jobs[0][itemIndex]['title']}',

@@ -28,11 +28,10 @@ class _SettingsState extends State<Settings> {
     Icons.star_border
   ];
   int signInType = 0;
-  UiDesign uiDesign = UiDesign();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: uiDesign.cTheme(),
+      theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,

@@ -27,7 +27,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   AppDataBase dataBase = AppDataBase();
   final controller = Get.put(LoginController());
-  UiDesign uiDesign = UiDesign();
   final box = GetStorage();
 
   late String number;
@@ -47,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: uiDesign.cTheme(),
+      theme: UiDesign.cTheme(),
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -76,12 +75,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Text(
                         'ورود | ثبت نام',
-                        style: uiDesign.titleTextStyle(),
+                        style: UiDesign.titleTextStyle(),
                       ),
                       const SizedBox(height: 10),
                       Text(
                         'جهت ورود و استفاده از امکانات اپلیکیشن گـِـــرِـه، لطفا شماره تفن همراه خود را وارد کنید.',
-                        style: uiDesign.descriptionsTextStyle(),
+                        style: UiDesign.descriptionsTextStyle(),
                       ),
                       const SizedBox(height: 10),
 

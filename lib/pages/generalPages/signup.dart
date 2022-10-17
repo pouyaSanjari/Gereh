@@ -33,7 +33,6 @@ class _SignUpState extends State<SignUp> {
   String res = '';
   bool activeConnection = false;
   int userId = 0;
-  UiDesign uiDesign = UiDesign();
   AppDataBase dataBase = AppDataBase();
 
   @override
@@ -41,7 +40,7 @@ class _SignUpState extends State<SignUp> {
     return WillPopScope(
       onWillPop: () async => false,
       child: MaterialApp(
-        theme: uiDesign.cTheme(),
+        theme: UiDesign.cTheme(),
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(

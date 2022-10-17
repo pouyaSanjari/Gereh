@@ -4,7 +4,7 @@ import 'package:sarkargar/constants/colors.dart';
 
 class UiDesign {
   ///تم نرمافزار
-  ThemeData cTheme() {
+  static ThemeData cTheme() {
     return ThemeData(
       useMaterial3: true,
       fontFamily: 'sans',
@@ -26,7 +26,7 @@ class UiDesign {
   }
 
   ///نویگیشن بار صفحه اصلی
-  BottomNavigationBar buildBottomNavigationBar(
+  static BottomNavigationBar buildBottomNavigationBar(
       {required ValueChanged<int?> onTap,
       required int currentIndex,
       required List<BottomNavigationBarItem> items}) {
@@ -46,7 +46,7 @@ class UiDesign {
   }
 
   /// فاصله بین زمان حال و زمان دریافت شده رو به فارسی مینویسه
-  String timeFunction(String time) {
+  static String timeFunction(String time) {
     var adTime = DateTime.parse(time);
     var now = DateTime.now();
     var difference = now.difference(adTime);
@@ -90,12 +90,12 @@ class UiDesign {
   }
 
   /// عدد دریافتی رو به فارسی می نویسه
-  String digi(String number) {
+  static String digi(String number) {
     String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
     return digit;
   }
 
-  TextStyle titleTextStyle() => const TextStyle(fontSize: 20);
-  TextStyle descriptionsTextStyle() =>
+  static TextStyle titleTextStyle() => const TextStyle(fontSize: 20);
+  static TextStyle descriptionsTextStyle() =>
       const TextStyle(color: Colors.grey, fontSize: 12);
 }

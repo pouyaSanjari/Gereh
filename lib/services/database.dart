@@ -23,6 +23,7 @@ class AppDataBase {
     for (var i = 0; i < result.length; i++) {
       requestController.images.add(result[i]['image']);
     }
+    print(result);
   }
 
   paidFeautersImages(List uploadedImages) async {
@@ -128,7 +129,7 @@ class AppDataBase {
   }
 
   addNewAD({
-    required String advertizer,
+    required String advertizerid,
     required String adtype,
     required String title,
     required String category,
@@ -138,7 +139,7 @@ class AppDataBase {
     required String workType,
     required String workTime,
     required String payMethod,
-    required String profession,
+    required String profission,
     required String price,
     required String resumeBool,
     required String callBool,
@@ -152,9 +153,10 @@ class AppDataBase {
     required String websiteAddress,
     required String instagramBool,
     required String instagramId,
+    required String telegramBool,
+    required String telegramId,
     required String whatsappBool,
     required String whatsappNumber,
-    required String photobool,
     required String locationbool,
     required String locationlat,
     required String locationlon,
@@ -162,7 +164,7 @@ class AppDataBase {
   }) async {
     var url = Uri.parse('https://sarkargar.ir/phpfiles/jobreqsDB/request.php');
     var response = await http.post(url, body: {
-      'advertizerid': advertizer,
+      'advertizerid': advertizerid,
       'adtype': adtype,
       'title': title,
       'category': category,
@@ -172,10 +174,10 @@ class AppDataBase {
       'workType': workType,
       'workTime': workTime,
       'payMethod': payMethod,
-      'profession': profession,
-      'wprice': price,
+      'profission': profission,
+      'price': price,
       'resumeBool': resumeBool,
-      'phonebool': callBool,
+      'callBool': callBool,
       'callNumber': callNumber,
       'smsbool': smsBool,
       'smsNumber': smsNumber,
@@ -184,17 +186,19 @@ class AppDataBase {
       'emailAddress': emailAddress,
       'websiteBool': websiteBool,
       'websiteAddress': websiteAddress,
-      'instagrambool': instagramBool,
+      'instagramBool': instagramBool,
+      'telegramId': telegramId,
       'instagramid': instagramId,
+      'telegramBool': telegramBool,
       'whatsappBool': whatsappBool,
       'whatsappNumber': whatsappNumber,
-      'photobool': photobool,
       'locationbool': locationbool,
       'locationlat': locationlat,
       'locationlon': locationlon,
       'address': address,
       'time': DateTime.now().toString(),
     });
+    print(response.body);
     return response.statusCode;
   }
 

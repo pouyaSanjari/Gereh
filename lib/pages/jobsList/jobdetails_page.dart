@@ -21,7 +21,6 @@ class JobDetails extends StatefulWidget {
 }
 
 class _JobDetailsState extends State<JobDetails> {
-  UiDesign uiDesign = UiDesign();
   final controller = Get.put(JobDetailsController(), permanent: true);
   OverlayEntry? entry;
 
@@ -38,7 +37,7 @@ class _JobDetailsState extends State<JobDetails> {
     controller.getAdvertizer();
 
     return MaterialApp(
-      theme: uiDesign.cTheme(),
+      theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,
@@ -46,20 +45,21 @@ class _JobDetailsState extends State<JobDetails> {
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           appBar: appBar(context),
           floatingActionButton: FloatingActionButton.extended(
-              backgroundColor: MyColors.red,
-              onPressed: () {
-                if (entry == null) {
-                  showContactInfo();
-                } else {
-                  hideOverlay(false);
-                }
-              },
-              label: Row(
-                children: const [
-                  Icon(Iconsax.call, size: 18),
-                  Text(' برقراری ارتباط'),
-                ],
-              )),
+            backgroundColor: MyColors.red,
+            onPressed: () {
+              if (entry == null) {
+                showContactInfo();
+              } else {
+                hideOverlay(false);
+              }
+            },
+            label: Row(
+              children: const [
+                Icon(Iconsax.call, size: 18),
+                Text(' برقراری ارتباط'),
+              ],
+            ),
+          ),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(
@@ -73,7 +73,7 @@ class _JobDetailsState extends State<JobDetails> {
                         widgets: [imagesView(context, images)]),
                     const SizedBox(height: 5),
                     Text(controller.title.value,
-                        style: uiDesign.titleTextStyle()),
+                        style: UiDesign.titleTextStyle()),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -81,8 +81,8 @@ class _JobDetailsState extends State<JobDetails> {
                         const SizedBox(width: 5),
                         Expanded(
                           child: Text(
-                            uiDesign.timeFunction(controller.time.value),
-                            style: uiDesign.descriptionsTextStyle(),
+                            UiDesign.timeFunction(controller.time.value),
+                            style: UiDesign.descriptionsTextStyle(),
                           ),
                         ),
                         Visibility(
@@ -187,7 +187,7 @@ class _JobDetailsState extends State<JobDetails> {
                         child: Center(
                           child: Text(
                               'با کلیک بر بروی نقشه می توانید محل آگهی را مشاهده کنید.',
-                              style: uiDesign.descriptionsTextStyle()),
+                              style: UiDesign.descriptionsTextStyle()),
                         )),
                     const SizedBox(height: 20),
                     MyContainer(color: MyColors.red, widgets: [
@@ -270,7 +270,7 @@ class _JobDetailsState extends State<JobDetails> {
                   child: Text(
                     price == ''
                         ? 'توافقی'
-                        : uiDesign.digi(
+                        : UiDesign.digi(
                             price,
                           ),
                     style: const TextStyle(color: Colors.white),

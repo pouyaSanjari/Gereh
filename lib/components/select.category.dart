@@ -40,7 +40,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                     return ExpansionTile(
                       leading: Icon(IconData(icon,
                           fontFamily: 'iconsax', fontPackage: 'iconsax')),
-                      title: Text(title, style: UiDesign().titleTextStyle()),
+                      title: Text(title, style: UiDesign.titleTextStyle()),
                       children:
                           selectJob('${controller.jobGroups[index]['groupid']}')
                               .toList(),

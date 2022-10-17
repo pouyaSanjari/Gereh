@@ -17,7 +17,7 @@ class ImageViewerPage extends StatelessWidget {
     controller.current.value = 1;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: UiDesign().cTheme(),
+      theme: UiDesign.cTheme(),
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(

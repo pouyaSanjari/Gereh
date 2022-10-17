@@ -25,7 +25,6 @@ class _MyRequestsState extends State<MyRequests> {
   //لیست های استفاده شده در لیست شغل ها
   List snat = [];
   List snap = [];
-  UiDesign uiDesign = UiDesign();
   AppDataBase dataBase = AppDataBase();
   TextEditingController searchTC = TextEditingController();
 
@@ -38,7 +37,7 @@ class _MyRequestsState extends State<MyRequests> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: uiDesign.cTheme(),
+      theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
@@ -249,7 +248,7 @@ class _MyRequestsState extends State<MyRequests> {
                                 ),
                               ),
                               Text(
-                                  uiDesign.timeFunction(
+                                  UiDesign.timeFunction(
                                       controller.jobsList[index]['time']),
                                   style: const TextStyle(
                                       color: Color.fromARGB(255, 109, 109, 109),
@@ -284,7 +283,7 @@ class _MyRequestsState extends State<MyRequests> {
                                   ),
                                 ),
                                 Text(
-                                    uiDesign.timeFunction(
+                                    UiDesign.timeFunction(
                                         controller.jobsList[index]['time']),
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 12)),

@@ -220,12 +220,12 @@ class FilterDialog extends StatelessWidget {
                           children: [
                             // درصورتی که نوع استخدام ماهیانه باشه مقدار اسلایدر رو در عدد بزرگتری ضرب می کنیم
                             Obx(() => Text(
-                                  'تا: ${UiDesign().digi(controller.maxPrice.value.toString())}',
+                                  'تا: ${UiDesign.digi(controller.maxPrice.value.toString())}',
                                   style: const TextStyle(fontSize: 12),
                                 )),
                             Obx(
                               () => Text(
-                                'از: ${UiDesign().digi(controller.minPrice.value.toString())}',
+                                'از: ${UiDesign.digi(controller.minPrice.value.toString())}',
                                 style: const TextStyle(fontSize: 12),
                               ),
                             ),
@@ -262,7 +262,7 @@ class FilterDialog extends StatelessWidget {
         children: [
           Text(
             title,
-            style: UiDesign().titleTextStyle(),
+            style: UiDesign.titleTextStyle(),
           ),
           IconButton(
               padding: EdgeInsets.zero,

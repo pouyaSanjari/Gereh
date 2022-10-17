@@ -7,11 +7,12 @@ import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/constants/colors.dart';
+import 'package:sarkargar/pages/sabt_agahi/p4_other_futures.dart';
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/sabt_agahi/p1.title.dart';
-import 'package:sarkargar/pages/sabt_agahi/p3.paid.features.dart';
-import 'package:sarkargar/pages/sabt_agahi/p2.workers.count.dart';
-import 'package:sarkargar/pages/sabt_agahi/p4.insert.to.database.dart';
+import 'package:sarkargar/pages/sabt_agahi/p3_contact_info.dart';
+import 'package:sarkargar/pages/sabt_agahi/p2_worker_details.dart';
+import 'package:sarkargar/pages/sabt_agahi/p5_inser_to_database.dart';
 import 'package:sarkargar/services/database.dart';
 import '../../controllers/request_controller.dart';
 
@@ -28,13 +29,12 @@ class _MainRequestPageState extends State<MainRequestPage>
   final controller = Get.put(RequestController());
   late Animation animation;
 
-  UiDesign uiDesign = UiDesign();
   AppDataBase dataBase = AppDataBase();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: uiDesign.cTheme(),
+      theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -53,11 +53,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                             children: [
                               Obx(() => buildIconStepper()),
                               //قسمت وارد کردن اطلاعات
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: Obx(() => body()),
-                              ),
+                              Obx(() => body()),
                               const SizedBox(height: 50)
                             ],
                           ),
@@ -93,50 +89,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onClick: () {
-                if (controller.adType.value == 2) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: MyColors.notWhite,
-                    content: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Row(
-                        children: const [
-                          Expanded(
-                            child: Text(
-                              'لطفا نوع آگهی خود را انتخاب کنید',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'sans',
-                                color: MyColors.red,
-                              ),
-                            ),
-                          ),
-                          Icon(
-                            Iconsax.danger,
-                            color: MyColors.red,
-                            size: 30,
-                          ),
-                        ],
-                      ),
-                    ),
-                    duration: const Duration(seconds: 3),
-                  ));
-                } else if (controller.title.trim().isEmpty) {
-                  controller.titleError.value = 'وارد کردن عنوان الزامی است.';
-                } else if (controller.title.trim().length < 5) {
-                  controller.titleError.value = 'حداقل 5 کاراکتر وارد کنید.';
-                } else if (controller.category.trim().isEmpty) {
-                  controller.categoryError.value = 'یک دسته بندی انتخاب کنید.';
-                } else if (controller.desc.trim().isEmpty) {
-                  controller.descriptionsError.value =
-                      'واردکردن توضیحات آگهی الزامی است.';
-                } else if (controller.desc.trim().length < 10) {
-                  controller.descriptionsError.value =
-                      'حداقل 10 کاراکتر وارد کنید.';
-                } else {
-                  controller.adType.value == 0
-                      ? controller.activeStep.value++
-                      : controller.activeStep.value = 2;
-                }
+                controller.validateTitlePage();
               }),
         );
       case 1:
@@ -155,10 +108,7 @@ class _MainRequestPageState extends State<MainRequestPage>
               ),
               MyButton(
                 fillColor: MyColors.red,
-                onClick: () {
-                  if (controller.selectGenderTEC.value.text == '') {}
-                  controller.activeStep.value++;
-                },
+                onClick: () => controller.validateWorkerDeatails(),
                 child: const Text(
                   'ادامه',
                   style: TextStyle(color: Colors.white, fontSize: 20),
@@ -175,27 +125,51 @@ class _MainRequestPageState extends State<MainRequestPage>
             children: [
               MyButton(
                 fillColor: Colors.grey.withOpacity(0.4),
-                // borderColor: Colors.black,
                 elevation: 0,
                 child: const Icon(Iconsax.arrow_right_4),
                 onClick: () {
-                  setState(() {
-                    controller.adType.value == 0
-                        ? controller.activeStep.value--
-                        : controller.activeStep.value = 0;
-                  });
+                  controller.adType.value == 0
+                      ? controller.activeStep.value--
+                      : controller.activeStep.value = 0;
                 },
               ),
               MyButton(
                 fillColor: MyColors.red,
                 child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
-                onClick: () => controller.activeStep.value++,
+                onClick: () {
+                  controller.validateContactInfos();
+                  // controller.activeStep.value++;
+                },
               )
             ],
           ),
         );
-
       case 3:
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MyButton(
+                fillColor: Colors.grey.withOpacity(0.4),
+                // borderColor: Colors.black,
+                elevation: 0,
+                child: const Icon(Iconsax.arrow_right_4),
+                onClick: () {
+                  controller.activeStep.value--;
+                },
+              ),
+              MyButton(
+                fillColor: MyColors.red,
+                child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
+                onClick: () {
+                  controller.validateOtherFuturesPage();
+                },
+              )
+            ],
+          ),
+        );
+      case 4:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
@@ -204,7 +178,10 @@ class _MainRequestPageState extends State<MainRequestPage>
               backBTN(),
               MyButton(
                   fillColor: Colors.green,
-                  child: const Text('ثبت'),
+                  child: const Text(
+                    'ثبت نهایی آگهی',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
                   onClick: () {
                     setState(() {
                       insertAdToDb();
@@ -257,37 +234,39 @@ class _MainRequestPageState extends State<MainRequestPage>
 //ذخیره تبلیغ در دیتابیس
   insertAdToDb() async {
     var response = await dataBase.addNewAD(
-        advertizer: box.read('id').toString(),
-        adtype: controller.adType.value.toString(),
-        title: controller.title.value.trim(),
-        category: controller.category.value,
-        city: controller.city.value,
-        descs: controller.desc.value.trim(),
-        gender: controller.selectGenderTEC.value.text,
-        workType: controller.selectCollaborationTypeTEC.value.text,
-        workTime: controller.selectWorkTimeTEC.value.text,
-        payMethod: controller.selectPayMethodTEC.value.text,
-        profession: controller.skillTEC.value.text,
-        price: controller.priceTEC.value.text,
-        resumeBool: '',
-        callBool: controller.phoneBool.value.toString(),
-        callNumber: '',
-        smsBool: controller.smsBool.value.toString(),
-        smsNumber: '',
-        chatBool: controller.chatBool.value.toString(),
-        emailBool: '',
-        emailAddress: '',
-        websiteBool: '',
-        websiteAddress: '',
-        instagramBool: controller.instagramIdBool.value ? '1' : '0',
-        instagramId: controller.instagramIdTEC.value.text,
-        whatsappBool: '',
-        whatsappNumber: '',
-        photobool: controller.phoneBool.value.toString(),
-        locationbool: controller.locationSelectionBool.value.toString(),
-        locationlat: controller.selectedLat.value.toString(),
-        locationlon: controller.selectedLon.value.toString(),
-        address: controller.address.value.trim().toString());
+      advertizerid: box.read('id').toString(),
+      adtype: controller.adType.value.toString(),
+      title: controller.titleTEC.value.text.trim(),
+      category: controller.categoryTEC.value.text,
+      city: controller.cityTEC.value.text,
+      descs: controller.descriptionsTEC.value.text.trim(),
+      gender: controller.genderTEC.value.text,
+      workType: controller.cooperationTypeTEC.value.text,
+      workTime: controller.workTimeTEC.value.text,
+      payMethod: controller.payMethodTEC.value.text,
+      profission: controller.skillTEC.value.text,
+      price: controller.priceTEC.value.text,
+      resumeBool: controller.resumeBool.value ? '1' : '0',
+      callBool: controller.phoneBool.value ? '1' : '0',
+      callNumber: controller.phoneTEC.value.text,
+      smsBool: controller.smsBool.value ? '1' : '0',
+      smsNumber: controller.smsTEC.value.text,
+      chatBool: controller.chatBool.value ? '1' : '0',
+      emailBool: controller.emailBool.value ? '1' : '0',
+      emailAddress: controller.emailTEC.value.text,
+      websiteBool: controller.websiteBool.value ? '1' : '0',
+      websiteAddress: controller.websiteTEC.value.text,
+      instagramBool: controller.instagramBool.value ? '1' : '0',
+      instagramId: controller.instagramIdTEC.value.text,
+      telegramBool: controller.telegramBool.value ? '1' : '0',
+      telegramId: controller.telegramIdTEC.value.text,
+      whatsappBool: controller.whatsappBool.value ? '1' : '0',
+      whatsappNumber: controller.whatsappTEC.value.text,
+      locationbool: controller.locationBool.value ? '1' : '0',
+      locationlat: controller.selectedLat.value.toString(),
+      locationlon: controller.selectedLon.value.toString(),
+      address: controller.address.value.trim().toString(),
+    );
 
     setState(() {
       if (response.toString() == '200') {
@@ -332,9 +311,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                     style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
-                    setState(() {
-                      controller.activeStep.value = 0;
-                    });
+                    controller.activeStep.value = 0;
                     Navigator.of(dialogContext).pop(); // Dismiss alert dialog
                   },
                 ),
@@ -351,8 +328,9 @@ class _MainRequestPageState extends State<MainRequestPage>
     return IconStepper(
       enableStepTapping: false,
       enableNextPreviousButtons: false,
-      scrollingDisabled: true,
-      stepRadius: 18,
+      stepReachedAnimationDuration: const Duration(milliseconds: 1),
+      stepReachedAnimationEffect: Curves.fastLinearToSlowEaseIn,
+      stepRadius: 20,
       lineDotRadius: 1.4,
       activeStepColor: Colors.transparent,
       stepColor: Colors.transparent,
@@ -360,28 +338,46 @@ class _MainRequestPageState extends State<MainRequestPage>
       activeStepBorderColor: Colors.transparent,
       activeStep: controller.activeStep.value,
       // lineLength: 100,
+      steppingEnabled: true,
       onStepReached: (index) {
         setState(() {
           controller.activeStep.value = index;
         });
       },
       icons: [
+        // title page icon
         Icon(
-          Iconsax.message_question,
+          controller.activeStep.value == 0
+              ? Iconsax.message_question5
+              : Iconsax.message_question,
           color: controller.activeStep.value == 0 ? MyColors.red : Colors.grey,
         ),
+        // worker datails page icon
         Icon(
-          Iconsax.people,
+          controller.activeStep.value == 1 ? Iconsax.people5 : Iconsax.people,
           color: controller.activeStep.value == 1 ? MyColors.red : Colors.grey,
         ),
+        // contact info page icon
         Icon(
-          Iconsax.dollar_circle,
+          controller.activeStep.value == 2
+              ? Iconsax.call_calling5
+              : Iconsax.call,
           color: controller.activeStep.value == 2 ? MyColors.red : Colors.grey,
         ),
+        // other futures page icon
         Icon(
-          Iconsax.tick_square,
+          controller.activeStep.value == 3
+              ? Iconsax.more_circle5
+              : Iconsax.more_circle,
           color: controller.activeStep.value == 3 ? MyColors.red : Colors.grey,
-        )
+        ),
+        // insert page icon
+        Icon(
+          controller.activeStep.value == 4
+              ? Iconsax.tick_square5
+              : Iconsax.tick_square,
+          color: controller.activeStep.value == 4 ? MyColors.red : Colors.grey,
+        ),
       ],
     );
   }
@@ -390,10 +386,12 @@ class _MainRequestPageState extends State<MainRequestPage>
   Widget body() {
     switch (controller.activeStep.value) {
       case 1:
-        return const WorkersCount();
+        return const WorkerDetails();
       case 2:
-        return const PaidFeatures();
+        return ContactInfo();
       case 3:
+        return const OtherFutures();
+      case 4:
         return const InsertToDataBase();
       default:
         return const TitlePage();
