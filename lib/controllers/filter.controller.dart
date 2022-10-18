@@ -1,16 +1,17 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'jobs_list_controller.dart';
 
-class FilterController extends GetxController {
+class FilterController extends FullLifeCycleController {
   final box = GetStorage();
   RxList<double> ghimat = [0.0, 1.0].obs;
   RxInt adType = 3.obs;
   RxInt hiringType = 3.obs;
   RxInt gender = 3.obs;
+
   RxInt minPrice = 0.obs;
   RxInt maxPrice = 1000000.obs;
   final categoryTEController = TextEditingController().obs;
@@ -86,5 +87,37 @@ class FilterController extends GetxController {
       minPrice.value = 0;
       maxPrice.value = 30000000;
     }
+  }
+
+  @override
+  InternalFinalCallback<void> get onDelete {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+          systemNavigationBarColor: Color.fromARGB(255, 215, 180, 27),
+          systemNavigationBarIconBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.dark),
+    );
+    return super.onDelete;
+  }
+
+  @override
+  void onClose() {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+          systemNavigationBarColor: Color.fromARGB(255, 215, 180, 27),
+          systemNavigationBarIconBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.dark),
+    );
+    // TODO: implement onClose
+    super.onClose();
+  }
+
+  @override
+  void onReady() {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        systemNavigationBarColor: Color.fromARGB(141, 0, 0, 0),
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark));
+    super.onReady();
   }
 }

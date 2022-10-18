@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/models/ad.details.model.dart';
 
-import '../constants/colors.dart';
+import '../../constants/colors.dart';
 
 class MarkerDetailsContainer extends StatelessWidget {
   final List<AdDetailsModel> data;

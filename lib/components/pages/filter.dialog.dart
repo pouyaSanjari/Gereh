@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_slider/flutter_multi_slider.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/select.category.dart';
+import 'package:sarkargar/components/pages/select.category.dart';
 import 'package:sarkargar/components/textFields/selectable.text.field.dart';
-import 'package:sarkargar/components/toggle.switch.dart';
+import 'package:sarkargar/components/switchs/toggle.switch.dart';
 import 'package:sarkargar/constants/colors.dart';
+import 'package:sarkargar/constants/my_strings.dart';
 import 'package:sarkargar/controllers/filter.controller.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
 import 'package:sarkargar/services/ui_design.dart';
@@ -220,12 +221,12 @@ class FilterDialog extends StatelessWidget {
                           children: [
                             // درصورتی که نوع استخدام ماهیانه باشه مقدار اسلایدر رو در عدد بزرگتری ضرب می کنیم
                             Obx(() => Text(
-                                  'تا: ${UiDesign.digi(controller.maxPrice.value.toString())}',
+                                  'تا: ${MyStrings.digi(controller.maxPrice.value.toString())}',
                                   style: const TextStyle(fontSize: 12),
                                 )),
                             Obx(
                               () => Text(
-                                'از: ${UiDesign.digi(controller.minPrice.value.toString())}',
+                                'از: ${MyStrings.digi(controller.minPrice.value.toString())}',
                                 style: const TextStyle(fontSize: 12),
                               ),
                             ),

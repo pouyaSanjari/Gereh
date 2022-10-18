@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sarkargar/components/other/my_row2.dart';
 import 'package:sarkargar/constants/colors.dart';
+import 'package:sarkargar/constants/my_strings.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
-import 'package:sarkargar/services/ui_design.dart';
 
 class InsertToDataBase extends GetView<RequestController> {
   const InsertToDataBase({Key? key}) : super(key: key);
@@ -112,78 +113,78 @@ class InsertToDataBase extends GetView<RequestController> {
             ),
           ),
           div(),
-          redif(
+          MyRow2(
             icon: Iconsax.subtitle,
             title: 'عنوان:',
             value: title,
           ),
           div(visible: isHirng),
-          redif(
+          MyRow2(
               visible: isHirng,
               icon: gender == 'آقا' ? Iconsax.man : Iconsax.woman,
               title: 'جنسیت:',
               value: gender),
           div(visible: isHirng),
-          redif(
+          MyRow2(
             visible: isHirng,
             icon: Iconsax.home_wifi,
             title: 'نوع همکاری:',
             value: cooperation,
           ),
           div(visible: isHirng),
-          redif(
+          MyRow2(
             visible: isHirng,
             icon: Iconsax.wallet_1,
             title: 'شیوه پرداخت:',
             value: payMthod,
           ),
           div(visible: isHirng),
-          redif(
+          MyRow2(
             visible: isHirng,
             icon: Iconsax.dollar_circle,
             title: 'مبلغ پرداختی:',
-            value: price == 'توافقی' ? 'توافقی' : UiDesign.digi(price),
+            value: price == 'توافقی' ? 'توافقی' : MyStrings.digi(price),
           ),
           div(visible: isHirng),
-          redif(
+          MyRow2(
             visible: isHirng,
             icon: Iconsax.clock,
             title: 'ساعات کاری:',
             value: workTime,
           ),
           div(visible: isHirng),
-          redif(
+          MyRow2(
             visible: isHirng,
             icon: Iconsax.briefcase,
             title: 'تخصص:',
             value: skill,
           ),
           div(),
-          redif(
+          MyRow2(
               icon: Iconsax.location,
               title: 'قابلیت نمایش روی نقشه:',
               value: location ? 'دارد' : 'ندارد'),
           div(visible: isHirng),
-          redif(
+          MyRow2(
             visible: isHirng,
             icon: Iconsax.paperclip,
             title: 'قابلیت دریافت رزومه:',
             value: resume ? 'دارد' : 'ندارد',
           ),
           div(),
-          redif(
+          MyRow2(
             icon: Iconsax.category_2,
             title: 'دسته بندی:',
             value: category,
           ),
           div(),
-          redif(
+          MyRow2(
             icon: Iconsax.building_3,
             title: 'شهر:',
             value: city,
           ),
           div(visible: controller.locationBool.value),
-          redif(
+          MyRow2(
               icon: Iconsax.map,
               title: 'آدرس:',
               value: address,
@@ -226,34 +227,8 @@ class InsertToDataBase extends GetView<RequestController> {
     );
   }
 
-  Visibility div({bool? visible}) {
+  div({bool? visible}) {
     return Visibility(
         visible: visible ?? true, child: const Divider(height: 30));
-  }
-
-  Visibility redif(
-      {String? title,
-      String? value,
-      bool? visible,
-      IconData? icon,
-      Color? iconColor}) {
-    return Visibility(
-      visible: visible ?? true,
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            color: iconColor,
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-              child: Text(
-            title ?? '',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          )),
-          Text(value ?? ''),
-        ],
-      ),
-    );
   }
 }

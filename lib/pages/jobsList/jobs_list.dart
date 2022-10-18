@@ -4,15 +4,15 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/components/error.page.dart';
-import 'package:sarkargar/components/filter.dialog.dart';
+import 'package:sarkargar/components/pages/error.page.dart';
+import 'package:sarkargar/components/pages/filter.dialog.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
+import 'package:sarkargar/constants/my_strings.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
-import 'package:sarkargar/pages/test/job.details.page.test.dart';
+import 'package:sarkargar/pages/jobsList/job_details.dart';
 import 'package:sarkargar/services/ui_design.dart';
-import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
-import '../../components/select.city.dart';
+import '../../components/pages/select.city.dart';
 import '../../constants/colors.dart';
 
 final bucket = PageStorageBucket();
@@ -28,9 +28,9 @@ class _JobsListState extends State<JobsList> {
   final controller = Get.put(JobsListController());
   final box = GetStorage();
   List snap = [];
-  UiDesign uiDesign = UiDesign();
   AppDataBase dataBase = AppDataBase();
   TextEditingController searchTC = TextEditingController();
+  double height = 130;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +56,6 @@ class _JobsListState extends State<JobsList> {
   AppBar appBar() {
     return AppBar(
       scrolledUnderElevation: 0,
-
-      // snap: true,
       actions: const [SizedBox(width: 15)],
       leadingWidth: 40,
       leading: IconButton(
@@ -226,11 +224,11 @@ class _JobsListState extends State<JobsList> {
                         () => ListTile(
                           onTap: () {
                             if (controller.searchedList.isEmpty) {
-                              Get.to(() => JobDetailsPageTest(
+                              Get.to(() => JobDetails(
                                   adDetails: controller.jobsList[index],
                                   images: itemImage));
                             } else {
-                              Get.to(() => JobDetailsPageTest(
+                              Get.to(() => JobDetails(
                                   adDetails: controller.searchedList[index],
                                   images: itemImage));
                             }
@@ -239,7 +237,7 @@ class _JobsListState extends State<JobsList> {
                             children: [
                               Expanded(
                                 child: SizedBox(
-                                  height: 110,
+                                  height: height,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -279,7 +277,7 @@ class _JobsListState extends State<JobsList> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 2.0),
                                 child: SizedBox(
-                                  height: 110,
+                                  height: height,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -342,8 +340,8 @@ class _JobsListState extends State<JobsList> {
                                               Border.all(color: Colors.grey),
                                           borderRadius:
                                               BorderRadius.circular(5)),
-                                      height: 110,
-                                      width: 110,
+                                      height: height,
+                                      width: height,
                                       child: const Icon(
                                         Iconsax.gallery_slash,
                                         size: 55,
@@ -351,7 +349,7 @@ class _JobsListState extends State<JobsList> {
                                       ),
                                     ),
                                     Text(
-                                        UiDesign.timeFunction(
+                                        MyStrings.timeFunction(
                                             controller.jobsList[index]['time']),
                                         style: const TextStyle(
                                             color: Color.fromARGB(
@@ -362,39 +360,77 @@ class _JobsListState extends State<JobsList> {
                               else
                                 ClipRRect(
                                   borderRadius: const BorderRadius.all(
-                                      Radius.circular(5)),
+                                    Radius.circular(5),
+                                  ),
                                   child: Stack(
-                                    alignment: Alignment.bottomCenter,
+                                    alignment: Alignment.center,
                                     children: [
                                       CachedNetworkImage(
                                         imageUrl: itemImage[0]['image'],
-                                        height: 110,
-                                        width: 110,
+                                        height: height,
+                                        width: height,
                                         filterQuality: FilterQuality.low,
                                         maxWidthDiskCache: 302,
                                         maxHeightDiskCache: 302,
                                         fit: BoxFit.cover,
                                       ),
-                                      Container(
-                                        height: 30,
-                                        width: 110,
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                            colors: [
-                                              Colors.black,
-                                              Colors.transparent
+                                      Positioned(
+                                        bottom: 0,
+                                        child: Container(
+                                          height: 30,
+                                          width: height,
+                                          decoration: const BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: Alignment.bottomCenter,
+                                              end: Alignment.topCenter,
+                                              colors: [
+                                                Colors.black54,
+                                                Colors.transparent
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        child: Text(
+                                            MyStrings.timeFunction(controller
+                                                .jobsList[index]['time']),
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12)),
+                                      ),
+                                      Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        child: Container(
+                                          height: 20,
+                                          width: 35,
+                                          decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(6)),
+                                              color: Colors.black45),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Iconsax.gallery5,
+                                                size: 15,
+                                                color: Colors.white,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Text(
+                                                itemImage.length.toString(),
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white),
+                                              ),
                                             ],
                                           ),
                                         ),
                                       ),
-                                      Text(
-                                          UiDesign.timeFunction(controller
-                                              .jobsList[index]['time']),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12)),
                                     ],
                                   ),
                                 )

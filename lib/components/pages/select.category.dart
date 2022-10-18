@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/services/ui_design.dart';
 
-import '../controllers/request_controller.dart';
+import '../../controllers/request_controller.dart';
 
 class SelectCategory extends StatefulWidget {
   const SelectCategory({Key? key}) : super(key: key);

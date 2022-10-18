@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/toggle.switch.dart';
-import 'package:sarkargar/components/select.category.dart';
-import 'package:sarkargar/components/select.city.dart';
+import 'package:sarkargar/components/switchs/toggle.switch.dart';
+import 'package:sarkargar/components/pages/select.category.dart';
+import 'package:sarkargar/components/pages/select.city.dart';
 import 'package:sarkargar/components/textFields/selectable.text.field.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/constants/colors.dart';
@@ -105,10 +104,7 @@ class TitlePage extends GetView<RequestController> {
                   ? null
                   : controller.titleError.value,
               labeltext: 'عنوان',
-              icon: const Icon(
-                Iconsax.subtitle,
-                color: MyColors.black,
-              ),
+              icon: const Icon(Iconsax.subtitle, color: MyColors.black),
               control: controller.titleTEC.value,
               hint: 'عنوان درخواست خود را وارد کنید',
               onChange: (value) {

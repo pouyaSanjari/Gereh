@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/select.city.dart';
+import 'package:sarkargar/components/pages/select.city.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/login.controller.dart';

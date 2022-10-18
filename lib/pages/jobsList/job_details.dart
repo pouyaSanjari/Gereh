@@ -1,32 +1,32 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/icon.container.dart';
-import 'package:sarkargar/components/image.viewer.dart';
-import 'package:sarkargar/components/my.container.dart';
+import 'package:sarkargar/components/other/icon.container.dart';
+import 'package:sarkargar/components/pages/image.viewer.dart';
+import 'package:sarkargar/components/other/my.container.dart';
+import 'package:sarkargar/components/other/my_row2.dart';
 import 'package:sarkargar/constants/colors.dart';
+import 'package:sarkargar/constants/my_strings.dart';
 import 'package:sarkargar/controllers/jobs.details.test.controller.dart';
+import 'package:sarkargar/models/adv_model.dart';
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class JobDetailsPageTest extends StatelessWidget {
+class JobDetails extends GetView<JobDetailsTestController> {
   final Map adDetails;
   final List images;
-  JobDetailsPageTest(
-      {super.key, required this.adDetails, required this.images});
-  final controller = Get.put(JobDetailsTestController());
+  const JobDetails({super.key, required this.adDetails, required this.images});
   @override
   Widget build(BuildContext context) {
     log(adDetails.toString());
-    bool isHiring = adDetails['adtype'] == '1' ? false : true;
-
+    AdvModel mod = AdvModel.fromJson(adDetails);
+    bool isHiring = mod.adType == '1' ? false : true;
     return MaterialApp(
       theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
@@ -76,17 +76,23 @@ class JobDetailsPageTest extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               imagesView(context, images),
-                              const SizedBox(height: 10),
-                              Center(
-                                child: Text(
-                                  adDetails['title'],
-                                  style: const TextStyle(
-                                    color: MyColors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              const SizedBox(height: 30),
+                              Text(
+                                mod.title,
+                                style: const TextStyle(
+                                  color: MyColors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  MyStrings.timeFunction(mod.time),
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
                               Visibility(
                                 visible: isHiring,
                                 child: Padding(
@@ -98,40 +104,38 @@ class JobDetailsPageTest extends StatelessWidget {
                                     children: [
                                       IconContainer(
                                         title: 'جنسیت',
-                                        value: gender(adDetails['gender']),
-                                        icon: Iconsax.people,
+                                        value: mod.gender,
+                                        icon: mod.gender == 'آقا'
+                                            ? Iconsax.man
+                                            : Iconsax.woman,
                                         iconColor: MyColors.green,
                                         backgroundColor: const Color.fromARGB(
                                             158, 220, 239, 207),
                                       ),
                                       IconContainer(
                                         title: 'دستمزد',
-                                        value: adDetails['price'] == '' &&
-                                                adDetails['price'] == ''
+                                        value: mod.price == 'توافقی'
                                             ? 'توافقی'
-                                            : UiDesign.digi(
-                                                adDetails['price'] == ''
-                                                    ? adDetails['price']
-                                                    : adDetails['price']),
-                                        icon: Iconsax.wallet_1,
+                                            : MyStrings.digi(mod.price == ''
+                                                ? mod.price
+                                                : mod.price),
+                                        icon: Iconsax.dollar_square,
                                         backgroundColor: const Color.fromARGB(
                                             140, 251, 221, 217),
                                         iconColor: MyColors.red,
                                       ),
                                       IconContainer(
-                                        title: 'نوع استخدام',
-                                        value: adDetails['hiringtype'] == '0'
-                                            ? 'روزمزد'
-                                            : 'ماهیانه',
-                                        icon: Iconsax.brifecase_timer,
+                                        title: 'شیوه پرداخت',
+                                        value: mod.payMethod,
+                                        icon: Iconsax.wallet_money,
                                         iconColor: MyColors.orange,
                                         backgroundColor: const Color.fromARGB(
                                             105, 254, 236, 196),
                                       ),
                                       IconContainer(
-                                        title: 'شهر',
-                                        value: adDetails['city'],
-                                        icon: Iconsax.map_1,
+                                        title: 'نوع همکاری',
+                                        value: mod.workType,
+                                        icon: Iconsax.home_wifi5,
                                         iconColor: MyColors.blue,
                                         backgroundColor: MyColors.bluewhite,
                                       )
@@ -139,7 +143,21 @@ class JobDetailsPageTest extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const Divider(),
+                              const SizedBox(height: 30),
+                              MyRow2(
+                                icon: Iconsax.profile_2user,
+                                title: 'عنوان شغلی:',
+                                value: mod.profission,
+                              ),
+                              const Divider(
+                                height: 35,
+                              ),
+                              MyRow2(
+                                icon: Iconsax.category,
+                                title: 'دسته بندی:',
+                                value: mod.category,
+                              ),
+                              const Divider(height: 35),
                               const Text(
                                 'توضیحات',
                                 style: TextStyle(fontSize: 20),
@@ -147,26 +165,24 @@ class JobDetailsPageTest extends StatelessWidget {
                               const SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(adDetails['descs'],
+                                child: Text(mod.descs,
                                     textAlign: TextAlign.justify),
                               ),
                               const SizedBox(height: 10),
-                              adDetails['locationbool'] == '1'
+                              mod.locationBool
                                   ? InkWell(
                                       onTap: () {
                                         MapsLauncher.launchCoordinates(
-                                            double.parse(
-                                                adDetails['locationlat']),
-                                            double.parse(
-                                                adDetails['locationlon']));
+                                            mod.lat, mod.lon);
                                       },
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: CachedNetworkImage(
-                                            imageUrl:
-                                                'https://api.neshan.org/v2/static?key=service.3701bff2e5814681af87132d10abe63a&'
-                                                'type=dreamy&zoom=15&center=${adDetails['locationlat']},${adDetails['locationlon']}'
-                                                '&width=700&height=400&marker=red'),
+                                          imageUrl:
+                                              'https://api.neshan.org/v2/static?key=service.3701bff2e5814681af87132d10abe63a&'
+                                              'type=dreamy&zoom=15&center=${mod.lat},${mod.lon}'
+                                              '&width=700&height=400&marker=red',
+                                        ),
                                       ),
                                     )
 
@@ -472,16 +488,6 @@ class JobDetailsPageTest extends StatelessWidget {
   Future<void> launchInstagram({required String id}) async {
     // ignore: deprecated_member_use
     await launch("https://www.instagram.com/$id/", universalLinksOnly: true);
-  }
-
-  String gender(String gender) {
-    if (gender == '0') {
-      return 'آقا';
-    } else if (gender == '1') {
-      return 'خانم';
-    } else {
-      return 'مهم نیست';
-    }
   }
 }
 

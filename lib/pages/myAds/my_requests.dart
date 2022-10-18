@@ -4,12 +4,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/components/error.page.dart';
+import 'package:sarkargar/components/pages/error.page.dart';
+import 'package:sarkargar/constants/my_strings.dart';
 import 'package:sarkargar/services/ui_design.dart';
-import 'package:sarkargar/pages/jobsList/jobdetails_page.dart';
 import 'package:sarkargar/services/database.dart';
-
-import '../../controllers/jobs_list_controller.dart';
+import 'package:sarkargar/controllers/jobs_list_controller.dart';
 
 class MyRequests extends StatefulWidget {
   const MyRequests({Key? key}) : super(key: key);
@@ -132,15 +131,7 @@ class _MyRequestsState extends State<MyRequests> {
                     : controller.jobsList[index]['address'];
                 var title = controller.jobsList[index]['title'];
                 return ListTile(
-                  onTap: () {
-                    Get.to(
-                        () => JobDetails(
-                            adDetails: controller.jobsList[index],
-                            images: itemImage),
-                        transition: Transition.cupertino,
-                        duration: const Duration(milliseconds: 200),
-                        popGesture: true);
-                  },
+                  onTap: () {},
                   title: Directionality(
                     textDirection: TextDirection.rtl,
                     child: Row(
@@ -248,7 +239,7 @@ class _MyRequestsState extends State<MyRequests> {
                                 ),
                               ),
                               Text(
-                                  UiDesign.timeFunction(
+                                  MyStrings.timeFunction(
                                       controller.jobsList[index]['time']),
                                   style: const TextStyle(
                                       color: Color.fromARGB(255, 109, 109, 109),
@@ -283,7 +274,7 @@ class _MyRequestsState extends State<MyRequests> {
                                   ),
                                 ),
                                 Text(
-                                    UiDesign.timeFunction(
+                                    MyStrings.timeFunction(
                                         controller.jobsList[index]['time']),
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 12)),

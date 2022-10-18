@@ -10,7 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/marker.details.container.dart';
+import 'package:sarkargar/components/other/marker.details.container.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/models/ad.details.model.dart';
 import 'package:sarkargar/services/database.dart';

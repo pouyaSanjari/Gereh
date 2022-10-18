@@ -22,12 +22,10 @@ class IconContainer extends StatelessWidget {
           width: 50,
           height: 50,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50), color: backgroundColor),
-          child: Center(
-            child: Icon(
-              icon,
-              color: iconColor,
-            ),
+              borderRadius: BorderRadius.circular(20), color: backgroundColor),
+          child: Icon(
+            icon,
+            color: iconColor,
           ),
         ),
         const SizedBox(height: 5),

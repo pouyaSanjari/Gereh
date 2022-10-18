@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/components/animated_widget.dart';
+import 'package:sarkargar/components/other/animated_widget.dart';
 import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
 import 'package:sarkargar/pages/sabt_agahi/map.dart';
 import 'package:sarkargar/services/ui_design.dart';
-import '../../components/error.page.dart';
-import '../../components/switch.dart';
+import '../../components/pages/error.page.dart';
+import '../../components/switchs/switch.dart';
 import '../../constants/colors.dart';
 import '../../services/database.dart';
 

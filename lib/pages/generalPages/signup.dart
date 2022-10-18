@@ -10,7 +10,7 @@ import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:sarkargar/components/select.city.dart';
+import 'package:sarkargar/components/pages/select.city.dart';
 import '../../services/ui_design.dart';
 
 class SignUp extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
-import '../constants/colors.dart';
+import '../../constants/colors.dart';
 
 class MySwitch extends StatelessWidget {
   final bool val;
