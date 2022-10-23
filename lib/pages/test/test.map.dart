@@ -12,6 +12,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/components/other/marker.details.container.dart';
 import 'package:sarkargar/constants/colors.dart';
+import 'package:sarkargar/controllers/jobs_list_controller.dart';
 import 'package:sarkargar/models/ad.details.model.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -26,6 +27,7 @@ class TestMap extends StatefulWidget {
 
 class _TestMapState extends State<TestMap> {
   final controller = Get.put(MapTestController());
+  final jobsListController = Get.put(JobsListController());
   final String mapAddress =
       'https://map.ir/shiveh/xyz/1.0.0/Shiveh:Shiveh@EPSG:3857@png/{z}/{x}/{y}.png?x-api-key=';
   final String apiKey =
@@ -289,7 +291,7 @@ class _TestMapState extends State<TestMap> {
     _data = [];
 
     try {
-      List jobs = await database.getAds(
+      List jobs = await jobsListController.getAds(
           query: "SELECT * FROM `requests` WHERE `city` = 'جیرفت'");
       Get.back();
       if (markerController.markersCount > 0) {

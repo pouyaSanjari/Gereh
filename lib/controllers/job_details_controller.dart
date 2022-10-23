@@ -1,5 +1,4 @@
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
-import 'package:expandable_fab_menu/expandable_fab_menu.dart';
 import 'package:get/get.dart';
 import 'package:sarkargar/services/database.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,8 +36,6 @@ class JobDetailsController extends GetxController {
   RxBool instagrambool = false.obs;
 
   RxBool contactInfoPosition = false.obs;
-
-  RxList<ExpandableFabMenuItem> contact = <ExpandableFabMenuItem>[].obs;
 
   void initialData({required Map ad}) {
     advertizer.value = ad['advertizerid'];

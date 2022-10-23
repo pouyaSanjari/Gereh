@@ -9,6 +9,8 @@ class MyStrings {
     return digit;
   }
 
+  static String titrFontFamily = 'titr';
+
   /// فاصله بین زمان حال و زمان دریافت شده رو به فارسی مینویسه
   static String timeFunction(String time) {
     var adTime = DateTime.parse(time);

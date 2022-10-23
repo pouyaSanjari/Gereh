@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,18 +12,18 @@ import 'package:sarkargar/components/other/my_row2.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/constants/my_strings.dart';
 import 'package:sarkargar/controllers/jobs.details.test.controller.dart';
-import 'package:sarkargar/models/adv_model.dart';
+import 'package:sarkargar/models/adv_model_test.dart';
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobDetails extends GetView<JobDetailsTestController> {
-  final Map adDetails;
-  final List images;
-  const JobDetails({super.key, required this.adDetails, required this.images});
+  final AdvModelTest mod;
+  const JobDetails({
+    super.key,
+    required this.mod,
+  });
   @override
   Widget build(BuildContext context) {
-    log(adDetails.toString());
-    AdvModel mod = AdvModel.fromJson(adDetails);
     bool isHiring = mod.adType == '1' ? false : true;
     return MaterialApp(
       theme: UiDesign.cTheme(),
@@ -75,7 +73,7 @@ class JobDetails extends GetView<JobDetailsTestController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              imagesView(context, images),
+                              imagesView(context, mod.images),
                               const SizedBox(height: 30),
                               Text(
                                 mod.title,
@@ -173,7 +171,8 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                   ? InkWell(
                                       onTap: () {
                                         MapsLauncher.launchCoordinates(
-                                            mod.lat, mod.lon);
+                                            double.parse(mod.lat),
+                                            double.parse(mod.lon));
                                       },
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
@@ -374,13 +373,13 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                           MyRow(
                                             icon: Iconsax.call,
                                             text:
-                                                'تماس تلفنی با: ${controller.phoneNumber.value}',
+                                                'تماس تلفنی با: ${mod.callNumber}',
                                             background: MyColors.green,
                                           ),
                                           MyRow(
                                             icon: Iconsax.sms,
                                             text:
-                                                'ارسال پیامک به: ${controller.phoneNumber.value}',
+                                                'ارسال پیامک به: ${mod.smsNumber}',
                                             background: MyColors.blue,
                                           ),
                                         ],
@@ -456,8 +455,10 @@ class JobDetails extends GetView<JobDetailsTestController> {
                   () => ImageViewerPage(images: images),
                 ),
                 child: CachedNetworkImage(
+                    height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
-                    maxHeightDiskCache: 687,
+                    maxHeightDiskCache:
+                        MediaQuery.of(context).size.height.toInt(),
                     maxWidthDiskCache:
                         MediaQuery.of(context).size.width.toInt(),
                     imageUrl: images[0]['image'],

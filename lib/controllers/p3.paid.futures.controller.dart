@@ -24,9 +24,7 @@ class PaidFuturesController {
   }
 
   void chatState() {
-    controller.chatBool.value == true
-        ? controller.chatBool.value = false
-        : controller.chatBool.value = true;
+    controller.chatBool.value = !controller.chatBool.value;
 
     if (controller.chatBool.value == false &&
         controller.phoneBool.value == false &&

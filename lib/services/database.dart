@@ -1,4 +1,5 @@
 import 'dart:convert' as convert;
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
+import 'package:sarkargar/models/adv_model_test.dart';
 
 final requestController = Get.put(RequestController());
 final box = GetStorage();
@@ -23,7 +25,6 @@ class AppDataBase {
     for (var i = 0; i < result.length; i++) {
       requestController.images.add(result[i]['image']);
     }
-    print(result);
   }
 
   paidFeautersImages(List uploadedImages) async {
@@ -48,8 +49,12 @@ class AppDataBase {
 
 // آپلود تصویر
   uploadImage() async {
-    final image =
-        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    final image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 40,
+      maxHeight: 1500,
+      maxWidth: 1500,
+    );
     if (image == null) {
       return;
     }
@@ -91,19 +96,6 @@ class AppDataBase {
     );
     var jsonresponse = await convert.jsonDecode(response.body);
     return jsonresponse;
-  }
-
-  ///گرفتن تمام تبیلغلات
-  getAds({required String query}) async {
-    var url = Uri.parse('https://sarkargar.ir/phpfiles/jobreqsDB/ads.php');
-    var response = await http.post(url, body: {'query': query});
-    var jsonResponse = convert.jsonDecode(response.body);
-
-    var imagesUrl =
-        Uri.parse('https://sarkargar.ir/phpfiles/userimages/getallimages.php');
-    var imagesResponse = await http.get(imagesUrl);
-    var imageToJson = convert.jsonDecode(imagesResponse.body);
-    return [jsonResponse, imageToJson];
   }
 
   ///گرفتن لیست گروه های شغلی

@@ -3,12 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sarkargar/components/pages/select.city.dart';
+import 'package:sarkargar/pages/generalPages/binding.dart';
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/generalPages/login.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 
 void main() async {
   await GetStorage.init();
+
   runApp(const MyApp());
 }
 
@@ -25,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: StoreBinding(),
       debugShowCheckedModeBanner: false,
       theme: UiDesign.cTheme(),
       home: buildPage(),

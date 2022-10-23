@@ -1,58 +1,45 @@
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+import 'package:sarkargar/models/adv_model_test.dart';
 
 class JobsListController extends GetxController {
-  RxBool isInTheTopOfList = true.obs;
-  double listPosition = 0;
-
   final box = GetStorage();
-  RxList jobsList = [].obs;
-  RxList searchedList = [].obs;
-  RxList jobsImages = [].obs;
-  RxList<String> citiesList = <String>[].obs;
-  RxList<String> provienceList = <String>[].obs;
-
-  RxMap<String, String> searchMap = {'': ''}.obs;
-
-  RxBool cityNamesEnabled = false.obs;
-
   RxString city = ''.obs;
-  RxString provience = ''.obs;
-  RxString searchText = ''.obs;
-
-  RxMap<String, Widget> chips = <String, Widget>{}.obs;
-
-  Future<bool> searchMethod() async {
-    searchedList.clear();
-    searchedList.value = jobsList;
-    if (searchMap.isNotEmpty) {
-      searchMap.forEach(
-        (key, value) {
-          searchedList.value = searchedList.where(
-            (p0) {
-              return p0[key].toString().contains(value);
-            },
-          ).toList();
-        },
-      );
-    }
-
-    // چک می کنیم نتیحه داده یا نه
-    if (searchedList.isEmpty) {
-      searchMap.clear();
-      Fluttertoast.showToast(msg: 'موردی یافت نشد');
-      return false;
-    } else {
-      return true;
-    }
-  }
+  Rx<TextEditingController> searchTEC = TextEditingController().obs;
 
   void initialData() async {
-    cityNamesEnabled.value = box.read('cityNamesEnabled') ?? false;
     city.value = box.read('city') ?? '';
-    provience.value = box.read('provience') ?? '';
+  }
+
+  ///گرفتن تمام تبیلغلات
+  getAds({required String query}) async {
+    var url = Uri.parse('https://sarkargar.ir/phpfiles/jobreqsDB/ads.php');
+    try {
+      var response = await http.post(url, body: {'query': query});
+      List jsonResponse = convert.jsonDecode(response.body);
+      Uri imagesUrl = Uri.parse(
+          'https://sarkargar.ir/phpfiles/userimages/getallimages.php');
+      var imagesResponse = await http.get(imagesUrl);
+
+      List imageToJson = convert.jsonDecode(imagesResponse.body);
+
+      List<AdvModelTest> jobTestModel = [];
+
+      for (var element in jsonResponse) {
+        jobTestModel.add(AdvModelTest.fromJson(
+            element,
+            imageToJson
+                .where((image) => image['adId'] == element['id'])
+                .toList()));
+      }
+      return jobTestModel;
+    } catch (e) {
+      e.printError;
+    }
   }
 
   @override

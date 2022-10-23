@@ -1,4 +1,4 @@
-class AdvModel {
+class AdvModelTest {
   final String id,
       advertizerId,
       adType,
@@ -20,8 +20,9 @@ class AdvModel {
       telegramId,
       whatsappNumber,
       time,
+      lat,
+      lon,
       address;
-  final double lat, lon;
 
   final bool resumeBool,
       callBool,
@@ -33,8 +34,9 @@ class AdvModel {
       telegramBool,
       whatsappBool,
       locationBool;
+  final List images;
 
-  AdvModel(
+  AdvModelTest(
       this.callNumber,
       this.smsNumber,
       this.emailAddress,
@@ -68,9 +70,10 @@ class AdvModel {
       this.gender,
       this.workType,
       this.workTime,
-      this.payMethod);
+      this.payMethod,
+      this.images);
 
-  AdvModel.fromJson(Map<dynamic, dynamic> json)
+  AdvModelTest.fromJson(Map<dynamic, dynamic> json, List imagesJson)
       : id = json['id'],
         advertizerId = json['advertizerid'],
         adType = json['adtype'],
@@ -102,7 +105,8 @@ class AdvModel {
         instagramid = json['instagramid'],
         telegramId = json['telegramId'],
         whatsappNumber = json['whatsappNumber'],
-        lat = double.parse(json['locationlat']),
-        lon = double.parse(json['locationlon']),
-        time = json['time'];
+        lat = json['locationlat'],
+        lon = json['locationlon'],
+        time = json['time'],
+        images = imagesJson;
 }

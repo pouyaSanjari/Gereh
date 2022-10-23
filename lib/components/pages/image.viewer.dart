@@ -9,7 +9,7 @@ import 'package:sarkargar/services/ui_design.dart';
 class ImageViewerPage extends StatelessWidget {
   final List images;
   ImageViewerPage({Key? key, required this.images}) : super(key: key);
-  final controller = Get.put(ViewerController(), permanent: true);
+  final controller = Get.put(ViewerController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,31 +35,24 @@ class ImageViewerPage extends StatelessWidget {
             children: [
               Expanded(
                 child: PhotoViewGallery.builder(
-                  customSize: Size(
-                      MediaQuery.of(context).size.width - 1, double.infinity),
                   onPageChanged: (index) {
                     controller.current.value = index + 1;
                   },
                   backgroundDecoration: BoxDecoration(color: Colors.grey[50]),
-                  wantKeepAlive: true,
+                  wantKeepAlive: false,
                   itemCount: images.length,
                   builder: (context, index) {
                     return PhotoViewGalleryPageOptions(
+                        minScale: Get.mediaQuery.size.aspectRatio,
                         maxScale: Get.mediaQuery.size.aspectRatio * 3,
                         imageProvider: CachedNetworkImageProvider(
                             images[index]['image'],
+                            maxWidth:
+                                MediaQuery.of(context).size.width.toInt() + 200,
                             scale: Get.mediaQuery.size.aspectRatio));
                   },
-                  loadingBuilder: (context, event) => Center(
-                    child: SizedBox(
-                      width: 20.0,
-                      height: 20.0,
-                      child: CircularProgressIndicator(
-                        value: event == null
-                            ? 0
-                            : event.cumulativeBytesLoaded.toDouble(),
-                      ),
-                    ),
+                  loadingBuilder: (context, event) => const Center(
+                    child: Text('loading'),
                   ),
                 ),
               ),
