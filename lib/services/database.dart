@@ -1,5 +1,4 @@
 import 'dart:convert' as convert;
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sarkargar/controllers/request_controller.dart';
-import 'package:sarkargar/models/adv_model_test.dart';
 
 final requestController = Get.put(RequestController());
 final box = GetStorage();

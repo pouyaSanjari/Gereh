@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/models/ad.details.model.dart';
-
+import 'package:sarkargar/models/adv_model_test.dart';
 import '../../constants/colors.dart';
 
 class MarkerDetailsContainer extends StatelessWidget {
-  final List<AdDetailsModel> data;
+  final List<AdvModelTest> data;
   final int index;
   final Function() onTap;
 
@@ -27,12 +26,13 @@ class MarkerDetailsContainer extends StatelessWidget {
           decoration: const BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                    blurRadius: 20,
-                    color: Colors.black26,
-                    spreadRadius: 0,
-                    blurStyle: BlurStyle.normal)
+                  blurRadius: 20,
+                  color: Colors.black26,
+                  spreadRadius: 0,
+                  blurStyle: BlurStyle.normal,
+                )
               ],
-              color: MyColors.notWhite,
+              color: MyColors.backgroundColor,
               borderRadius: BorderRadius.all(Radius.circular(4))),
           width: 180,
           height: 60,
@@ -45,7 +45,7 @@ class MarkerDetailsContainer extends StatelessWidget {
                     padding: const EdgeInsets.all(2.0),
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(4)),
-                      child: data[index].imageUrl == ''
+                      child: data[index].images.isEmpty
                           ? Container(
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.grey),
@@ -61,7 +61,7 @@ class MarkerDetailsContainer extends StatelessWidget {
                           : CachedNetworkImage(
                               maxHeightDiskCache: 154,
                               maxWidthDiskCache: 154,
-                              imageUrl: data[index].imageUrl,
+                              imageUrl: data[index].images[0]['image'],
                               fit: BoxFit.cover),
                     ),
                   )),
@@ -85,12 +85,13 @@ class MarkerDetailsContainer extends StatelessWidget {
                           width: 3,
                         ),
                         SizedBox(
-                            width: 100,
-                            child: Text(
-                              data[index].category,
-                              style: const TextStyle(
-                                  color: Colors.grey, fontSize: 11),
-                            )),
+                          width: 100,
+                          child: Text(
+                            data[index].category,
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 11),
+                          ),
+                        ),
                       ],
                     ),
                   ],

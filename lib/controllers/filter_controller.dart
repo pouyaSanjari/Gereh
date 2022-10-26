@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -9,8 +10,8 @@ class FilterController extends GetxController {
   Rx<TextEditingController> titleTEC = TextEditingController().obs;
 
   RxMap<String, String> searchMap = {'': ''}.obs;
-  RxDouble minPrice = 0.0.obs;
-  RxDouble maxPrice = 0.0.obs;
+  RxInt minPrice = 0.obs;
+  RxInt maxPrice = 0.obs;
   RxList<double> sliderValues = [0.0, 1.0].obs;
   RxInt sliderValuesMultiplyer = 50000000.obs;
 
@@ -156,11 +157,13 @@ class FilterController extends GetxController {
     searchMap.forEach((key, value) {
       searchQuery.value = "${searchQuery.value} AND `$key` LIKE '%$value%'";
     });
-    if (!minPrice.value.isEqual(0) || !maxPrice.value.isEqual(0)) {
+    // اگر مقدار ایلایدر تغییر کرده باشه
+    if (!listEquals(sliderValues, [0.0, 1.0])) {
       searchQuery.value =
-          "${searchQuery.value} AND `price` BETWEEN ${minPrice.toString()} AND ${maxPrice.toString()}";
+          "${searchQuery.value} AND `price` BETWEEN ${(sliderValues[0] * sliderValuesMultiplyer.value).round()} AND"
+          " ${(sliderValues[1] * sliderValuesMultiplyer.value).round()}";
     }
-    print(searchQuery);
+    // print(searchQuery);
   }
 
   void deleteTitleFilter() {

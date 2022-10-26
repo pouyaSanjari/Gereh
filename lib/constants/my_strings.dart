@@ -11,6 +11,12 @@ class MyStrings {
 
   static String titrFontFamily = 'titr';
 
+  static String mapAddres =
+      'https://map.ir/shiveh/xyz/1.0.0/Shiveh:Shiveh@EPSG:3857@png/{z}/{x}/{y}.png?x-api-key=';
+
+  static String apiKey =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjA4YTg2ODM1YjA3MzcwZTFiOTBjOWVmZDNhM2VlNzIzMWM4MjEwZjM2MWEyODIyNGVhZTMzYmU0NmM0ZWI4MzYxOTIzMDUxZDBmODlkZGRlIn0.eyJhdWQiOiIxODc5NSIsImp0aSI6IjA4YTg2ODM1YjA3MzcwZTFiOTBjOWVmZDNhM2VlNzIzMWM4MjEwZjM2MWEyODIyNGVhZTMzYmU0NmM0ZWI4MzYxOTIzMDUxZDBmODlkZGRlIiwiaWF0IjoxNjY2NTQ5NjYzLCJuYmYiOjE2NjY1NDk2NjMsImV4cCI6MTY2NjU0OTY2Mywic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.bJzb_WFb_rcJKUQQr3nVMjcscPgnqetYLWvonMfSoXfmGvj_ztRNHxgPNhCkjYTusoRepQy8UF5UzuwPEz8fIV-p5rXMoJkbcn8GnLH42ql02vQf7joL10nuHcbW7j3j66QYRP2C9Sjx7F1v0NAGnRJJdOKaAtnRGNDTKmCA2YpGTQ57kjYTgYXaMdG-6G3M76nHXUIRCPuY3IYAxO-nXoakIbvvvlb0R2QnaNWej6qi0Fz2fgV2FVROBYGbY_hIIKBhl9j4mgBxrvfUPakmvSFmOjxr9PO6kwcf-3OUIYH5Yy3jynRAkZgEiA7b3UyQmgJKHvOhyZiNeUKlUPDEhQ';
+
   /// فاصله بین زمان حال و زمان دریافت شده رو به فارسی مینویسه
   static String timeFunction(String time) {
     var adTime = DateTime.parse(time);

@@ -1,5 +1,8 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+final box = GetStorage();
 
 class MapTestController extends GetxController {
   RxMap<String, String> listitem = <String, String>{}.obs;
@@ -7,6 +10,9 @@ class MapTestController extends GetxController {
   RxDouble opacity = 1.0.obs;
   RxDouble initialZoom = 5.1.obs;
   RxInt current = 1.obs;
+
+  RxString query =
+      "SELECT * FROM `requests` WHERE `city` = '${box.read('city')}'".obs;
 
   void showHideAdsDetails() {
     if (adDetailsVisibility.value) {

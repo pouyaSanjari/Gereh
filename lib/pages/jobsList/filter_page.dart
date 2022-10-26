@@ -16,7 +16,7 @@ import '../../components/textFields/text.field.dart';
 
 class FilterPage extends StatelessWidget {
   FilterPage({super.key});
-  final controller = Get.find<FilterController>();
+  final controller = Get.put(FilterController());
   @override
   Widget build(BuildContext context) {
     double elementsPadding = 30;
@@ -37,6 +37,7 @@ class FilterPage extends StatelessWidget {
                 onPressed: () {
                   controller.checkAllFilters();
                   controller.searchMethod();
+                  Navigator.pop(context, controller.searchQuery.value);
                 },
                 label: Row(
                   children: const [
@@ -80,7 +81,7 @@ class FilterPage extends StatelessWidget {
                       Expanded(
                         child: Text(
                           'جستجو در عناوین',
-                          style: MyTextStyles.titleTextStyle(),
+                          style: MyTextStyles.titleTextStyle(Colors.black),
                         ),
                       ),
                       InkWell(
@@ -107,7 +108,7 @@ class FilterPage extends StatelessWidget {
                       Expanded(
                         child: Text(
                           'دسته بندی',
-                          style: MyTextStyles.titleTextStyle(),
+                          style: MyTextStyles.titleTextStyle(Colors.black),
                         ),
                       ),
                       InkWell(
@@ -138,7 +139,7 @@ class FilterPage extends StatelessWidget {
                   SizedBox(height: elementsPadding),
                   Text(
                     'نوع آگهی',
-                    style: MyTextStyles.titleTextStyle(),
+                    style: MyTextStyles.titleTextStyle(Colors.black),
                   ),
                   Obx(
                     () => Wrap(
@@ -169,7 +170,7 @@ class FilterPage extends StatelessWidget {
                   SizedBox(height: insideElementsPadding),
                   Text(
                     'نوع همکاری',
-                    style: MyTextStyles.titleTextStyle(),
+                    style: MyTextStyles.titleTextStyle(Colors.black),
                   ),
                   Obx(
                     () => Wrap(
@@ -204,7 +205,7 @@ class FilterPage extends StatelessWidget {
                   SizedBox(height: insideElementsPadding),
                   Text(
                     'شیوه پرداخت',
-                    style: MyTextStyles.titleTextStyle(),
+                    style: MyTextStyles.titleTextStyle(Colors.black),
                   ),
                   Obx(
                     () => Wrap(
@@ -239,7 +240,7 @@ class FilterPage extends StatelessWidget {
                       Expanded(
                         child: Text(
                           'دستمزد',
-                          style: MyTextStyles.titleTextStyle(),
+                          style: MyTextStyles.titleTextStyle(Colors.black),
                         ),
                       ),
                       Obx(
@@ -266,10 +267,6 @@ class FilterPage extends StatelessWidget {
                           ? null
                           : (value) {
                               controller.sliderValues.value = value;
-                              controller.minPrice.value = value[0] *
-                                  controller.sliderValuesMultiplyer.value;
-                              controller.maxPrice.value = value[1] *
-                                  controller.sliderValuesMultiplyer.value;
                             },
                     ),
                   ),

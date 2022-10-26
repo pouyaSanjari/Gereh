@@ -90,7 +90,6 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                   style: const TextStyle(color: Colors.grey),
                                 ),
                               ),
-                              const SizedBox(height: 10),
                               Visibility(
                                 visible: isHiring,
                                 child: Padding(
@@ -141,6 +140,7 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                   ),
                                 ),
                               ),
+                              const SizedBox(height: 10),
                               const SizedBox(height: 30),
                               MyRow2(
                                 icon: Iconsax.profile_2user,

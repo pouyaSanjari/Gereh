@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/pages/chat/main.chat.page.dart';
 import 'package:sarkargar/pages/profile_page/main.profile.page.dart';
+import 'package:sarkargar/pages/test/jobs_list_test.dart';
 import 'package:sarkargar/pages/test/test.map.dart';
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/jobsList/jobs_list.dart';
@@ -42,7 +43,7 @@ class _MainPageState extends State<MainPage> {
       case 2:
         return const MainRequestPage();
       case 3:
-        return const JobsList();
+        return JobsListTest();
       case 4:
         return const TestMap();
       default:

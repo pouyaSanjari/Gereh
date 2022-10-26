@@ -8,13 +8,18 @@ import 'package:sarkargar/services/ui_design.dart';
 
 class ImageViewerPage extends StatelessWidget {
   final List images;
-  ImageViewerPage({Key? key, required this.images}) : super(key: key);
+  final int? currentIndex;
+  ImageViewerPage({Key? key, required this.images, this.currentIndex})
+      : super(key: key);
   final controller = Get.put(ViewerController());
 
   @override
   Widget build(BuildContext context) {
+    final pageController = PageController(initialPage: currentIndex ?? 1);
     controller.total.value = images.length;
-    controller.current.value = 1;
+    currentIndex == null
+        ? controller.current.value = 1
+        : controller.current.value = currentIndex! + 1;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: UiDesign.cTheme(),
@@ -38,6 +43,7 @@ class ImageViewerPage extends StatelessWidget {
                   onPageChanged: (index) {
                     controller.current.value = index + 1;
                   },
+                  pageController: pageController,
                   backgroundDecoration: BoxDecoration(color: Colors.grey[50]),
                   wantKeepAlive: false,
                   itemCount: images.length,

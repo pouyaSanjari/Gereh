@@ -81,6 +81,11 @@ class _JobsListState extends State<JobsList> {
         )
       ],
       title: OpenContainer(
+        onClosed: (data) {
+          if (data != null) {
+            controller.query.value = data.toString();
+          }
+        },
         openShape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         closedColor: Colors.transparent,
@@ -131,9 +136,7 @@ class _JobsListState extends State<JobsList> {
         removeTop: true,
         context: context,
         child: FutureBuilder(
-          future: controller.getAds(
-              query:
-                  "SELECT * FROM `requests` WHERE `city` = '${controller.city.value}'"),
+          future: controller.getAds(query: controller.query.value),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             List<AdvModelTest> newData;
 
