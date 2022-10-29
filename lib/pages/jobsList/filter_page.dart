@@ -16,7 +16,7 @@ import '../../components/textFields/text.field.dart';
 
 class FilterPage extends StatelessWidget {
   FilterPage({super.key});
-  final controller = Get.put(FilterController());
+  final controller = Get.put(permanent: true, FilterController());
   @override
   Widget build(BuildContext context) {
     double elementsPadding = 30;

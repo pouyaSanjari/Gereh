@@ -21,7 +21,7 @@ class MyRoundedButton extends StatelessWidget {
       children: [
         RawMaterialButton(
           constraints: const BoxConstraints(minHeight: 20, minWidth: 60),
-          elevation: 0,
+          elevation: 5,
           fillColor: backColor,
           splashColor: MyColors.red,
           highlightColor: MyColors.red,
@@ -30,16 +30,18 @@ class MyRoundedButton extends StatelessWidget {
           onPressed: onClick,
           child: icon,
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 2, bottom: 3),
-          child: Material(
-            color: Colors.transparent,
-            child: Text(
-              text,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-        )
+        text == ''
+            ? Container()
+            : Padding(
+                padding: const EdgeInsets.only(top: 2, bottom: 3),
+                child: Material(
+                  color: Colors.transparent,
+                  child: Text(
+                    text,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              )
       ],
     );
   }

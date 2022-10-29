@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sarkargar/constants/colors.dart';
+import 'package:sarkargar/constants/my_strings.dart';
 
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -92,7 +93,7 @@ class _MapPageState extends State<MapPage> {
                 child: SfMaps(
                   layers: [
                     MapTileLayer(
-                      urlTemplate: mapAddress + apiKey,
+                      urlTemplate: MyStrings.mapAddres + MyStrings.apiKey,
                       zoomPanBehavior: _mapZoomPanBehavior,
                       initialFocalLatLng: const MapLatLng(31.0, 54.0),
                       controller: markerController,

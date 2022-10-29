@@ -151,8 +151,10 @@ class TitlePage extends GetView<RequestController> {
                 onClick: () {
                   Get.to(() => const SelectCity(isFirstTime: false))
                       ?.then((value) {
-                    controller.cityError.value = '';
-                    return controller.cityTEC.value.text = value;
+                    if (value != null) {
+                      controller.cityError.value = '';
+                      return controller.cityTEC.value.text = value;
+                    }
                   });
                 }),
           ),

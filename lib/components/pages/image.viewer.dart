@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/image_viewer_controller.dart';
 import 'package:sarkargar/services/ui_design.dart';
 
@@ -15,7 +16,7 @@ class ImageViewerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageController = PageController(initialPage: currentIndex ?? 1);
+    final pageController = PageController(initialPage: currentIndex ?? 0);
     controller.total.value = images.length;
     currentIndex == null
         ? controller.current.value = 1
@@ -58,7 +59,9 @@ class ImageViewerPage extends StatelessWidget {
                             scale: Get.mediaQuery.size.aspectRatio));
                   },
                   loadingBuilder: (context, event) => const Center(
-                    child: Text('loading'),
+                    child: CircularProgressIndicator(
+                      color: MyColors.blue,
+                    ),
                   ),
                 ),
               ),

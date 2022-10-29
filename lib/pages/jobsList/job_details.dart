@@ -12,12 +12,12 @@ import 'package:sarkargar/components/other/my_row2.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/constants/my_strings.dart';
 import 'package:sarkargar/controllers/jobs.details.test.controller.dart';
-import 'package:sarkargar/models/adv_model_test.dart';
+import 'package:sarkargar/models/adv_model.dart';
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobDetails extends GetView<JobDetailsTestController> {
-  final AdvModelTest mod;
+  final AdvModel mod;
   const JobDetails({
     super.key,
     required this.mod,
@@ -54,7 +54,7 @@ class JobDetails extends GetView<JobDetailsTestController> {
               ),
             ),
             elevation: 0,
-            backgroundColor: Colors.white,
+            scrolledUnderElevation: 3,
             title: const Text(
               'جزئیات آگهی',
             ),
@@ -83,12 +83,21 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  MyStrings.timeFunction(mod.time),
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Icon(
+                                    Iconsax.clock,
+                                    color: Colors.grey,
+                                    size: 15,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    MyStrings.timeFunction(mod.time),
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontSize: 12),
+                                  ),
+                                ],
                               ),
                               Visibility(
                                 visible: isHiring,
@@ -106,8 +115,6 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                             ? Iconsax.man
                                             : Iconsax.woman,
                                         iconColor: MyColors.green,
-                                        backgroundColor: const Color.fromARGB(
-                                            158, 220, 239, 207),
                                       ),
                                       IconContainer(
                                         title: 'دستمزد',
@@ -117,8 +124,6 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                                 ? mod.price
                                                 : mod.price),
                                         icon: Iconsax.dollar_square,
-                                        backgroundColor: const Color.fromARGB(
-                                            140, 251, 221, 217),
                                         iconColor: MyColors.red,
                                       ),
                                       IconContainer(
@@ -126,15 +131,12 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                         value: mod.payMethod,
                                         icon: Iconsax.wallet_money,
                                         iconColor: MyColors.orange,
-                                        backgroundColor: const Color.fromARGB(
-                                            105, 254, 236, 196),
                                       ),
                                       IconContainer(
                                         title: 'نوع همکاری',
                                         value: mod.workType,
                                         icon: Iconsax.home_wifi5,
                                         iconColor: MyColors.blue,
-                                        backgroundColor: MyColors.bluewhite,
                                       )
                                     ],
                                   ),
@@ -264,74 +266,65 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 15.0),
                                                   child: IconContainer(
-                                                      title: 'تلگرام',
+                                                    title: 'تلگرام',
+                                                    value: '',
+                                                    icon: FontAwesomeIcons
+                                                        .telegram,
+                                                    iconColor: Colors.lightBlue,
+                                                  ),
+                                                ),
+                                              ),
+                                              Visibility(
+                                                visible: true,
+                                                child: InkWell(
+                                                  onTap: () {},
+                                                  child: const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 15.0),
+                                                    child: IconContainer(
+                                                      title: 'اینستاگرام',
+                                                      value: '',
+                                                      icon: Iconsax.instagram,
+                                                      iconColor: MyColors.red,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Visibility(
+                                                visible: true,
+                                                child: InkWell(
+                                                  onTap: () {},
+                                                  child: const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 15.0),
+                                                    child: IconContainer(
+                                                      title: 'واتس اپ',
                                                       value: '',
                                                       icon: FontAwesomeIcons
-                                                          .telegram,
+                                                          .whatsapp,
+                                                      iconColor: Colors.green,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Visibility(
+                                                visible: true,
+                                                child: InkWell(
+                                                  onTap: () {},
+                                                  child: const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 15.0),
+                                                    child: IconContainer(
+                                                      title: 'چت',
+                                                      value: '',
+                                                      icon:
+                                                          Iconsax.sms_tracking,
                                                       iconColor:
-                                                          Colors.lightBlue,
-                                                      backgroundColor:
-                                                          Color.fromARGB(104,
-                                                              155, 223, 255)),
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible: true,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 15.0),
-                                                    child: IconContainer(
-                                                        title: 'اینستاگرام',
-                                                        value: '',
-                                                        icon: Iconsax.instagram,
-                                                        iconColor: MyColors.red,
-                                                        backgroundColor:
-                                                            Color.fromARGB(87,
-                                                                250, 170, 160)),
-                                                  ),
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible: true,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 15.0),
-                                                    child: IconContainer(
-                                                        title: 'واتس اپ',
-                                                        value: '',
-                                                        icon: FontAwesomeIcons
-                                                            .whatsapp,
-                                                        iconColor: Colors.green,
-                                                        backgroundColor:
-                                                            Color.fromARGB(67,
-                                                                114, 168, 116)),
-                                                  ),
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible: true,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 15.0),
-                                                    child: IconContainer(
-                                                        title: 'چت',
-                                                        value: '',
-                                                        icon: Iconsax
-                                                            .sms_tracking,
-                                                        iconColor:
-                                                            MyColors.orange,
-                                                        backgroundColor:
-                                                            Color.fromARGB(68,
-                                                                232, 202, 138)),
+                                                          MyColors.orange,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -341,13 +334,11 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 15.0),
                                                   child: IconContainer(
-                                                      title: 'وبسایت',
-                                                      value: '',
-                                                      icon: Iconsax.global,
-                                                      iconColor: Colors.brown,
-                                                      backgroundColor:
-                                                          Color.fromARGB(
-                                                              60, 107, 99, 40)),
+                                                    title: 'وبسایت',
+                                                    value: '',
+                                                    icon: Iconsax.global,
+                                                    iconColor: Colors.brown,
+                                                  ),
                                                 ),
                                               ),
                                               InkWell(
@@ -362,9 +353,6 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                                         .alternate_email_outlined,
                                                     iconColor:
                                                         Colors.deepPurple,
-                                                    backgroundColor:
-                                                        Color.fromARGB(
-                                                            50, 106, 60, 120),
                                                   ),
                                                 ),
                                               ),
@@ -466,19 +454,31 @@ class JobDetails extends GetView<JobDetailsTestController> {
               ),
             ),
             Container(
-              width: 25,
+              width: 35,
               height: 25,
               decoration: const BoxDecoration(
                   color: Colors.black54,
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              child: Center(
-                  child: Text(
-                images.length.toString(),
-                style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              )),
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(12),
+                      topLeft: Radius.circular(12))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Iconsax.gallery5,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                  const SizedBox(width: 3),
+                  Text(
+                    images.length.toString(),
+                    style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
             )
           ],
         ),

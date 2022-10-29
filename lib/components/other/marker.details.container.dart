@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/models/adv_model_test.dart';
+import 'package:sarkargar/models/adv_model.dart';
 import '../../constants/colors.dart';
 
 class MarkerDetailsContainer extends StatelessWidget {
-  final List<AdvModelTest> data;
+  final List<AdvModel> data;
   final int index;
   final Function() onTap;
 

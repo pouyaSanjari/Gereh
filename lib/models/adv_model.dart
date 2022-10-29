@@ -1,42 +1,43 @@
-class AdvModelTest {
-  final String id,
-      advertizerId,
-      adType,
-      title,
-      category,
-      city,
-      descs,
-      gender,
-      workType,
-      workTime,
-      payMethod,
-      profission,
-      price,
-      callNumber,
-      smsNumber,
-      emailAddress,
-      websiteAddress,
-      instagramid,
-      telegramId,
-      whatsappNumber,
-      time,
-      lat,
-      lon,
-      address;
+// part 'adv_model.g.dart';
 
-  final bool resumeBool,
-      callBool,
-      smsBool,
-      chatBool,
-      emailBool,
-      websiteBool,
-      instagramBool,
-      telegramBool,
-      whatsappBool,
-      locationBool;
+class AdvModel {
+  final String id;
+  final String advertizerId;
+  final String adType;
+  final String title;
+  final String category;
+  final String city;
+  final String descs;
+  final String gender;
+  final String workType;
+  final String workTime;
+  final String payMethod;
+  final String profission;
+  final String price;
+  final String callNumber;
+  final String smsNumber;
+  final String emailAddress;
+  final String websiteAddress;
+  final String instagramid;
+  final String telegramId;
+  final String whatsappNumber;
+  final String time;
+  final String lat;
+  final String lon;
+  final String address;
+  final bool resumeBool;
+  final bool callBool;
+  final bool smsBool;
+  final bool chatBool;
+  final bool emailBool;
+  final bool websiteBool;
+  final bool instagramBool;
+  final bool telegramBool;
+  final bool whatsappBool;
+  final bool locationBool;
   final List images;
 
-  AdvModelTest(
+  AdvModel(
       this.callNumber,
       this.smsNumber,
       this.emailAddress,
@@ -73,7 +74,7 @@ class AdvModelTest {
       this.payMethod,
       this.images);
 
-  AdvModelTest.fromJson(Map<dynamic, dynamic> json, List imagesJson)
+  AdvModel.fromJson(Map<dynamic, dynamic> json, List imagesJson)
       : id = json['id'],
         advertizerId = json['advertizerid'],
         adType = json['adtype'],

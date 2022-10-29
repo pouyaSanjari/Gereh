@@ -1,23 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:sarkargar/components/buttons/button.dart';
+import 'package:sarkargar/components/buttons/rounded.button.dart';
 import 'package:sarkargar/components/other/icon.container.dart';
 import 'package:sarkargar/components/other/marker.details.container.dart';
-import 'package:sarkargar/components/pages/image.viewer.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/constants/my_strings.dart';
 import 'package:sarkargar/constants/my_text_styles.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
-import 'package:sarkargar/models/adv_model_test.dart';
+import 'package:sarkargar/models/adv_model.dart';
 import 'package:sarkargar/pages/jobsList/filter_page.dart';
 import 'package:sarkargar/pages/jobsList/job_details.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -31,19 +31,23 @@ class TestMap extends StatefulWidget {
 }
 
 class _TestMapState extends State<TestMap> {
-  final controller = Get.put(MapTestController());
-  final jobsListController = Get.put(JobsListController());
+  final controller = Get.put(permanent: true, MapTestController());
+  final jobsListController = Get.find<JobsListController>();
 
-  late List<AdvModelTest> _data;
+  late List<AdvModel> _data;
   late MapZoomPanBehavior _mapZoomPanBehavior;
   late MapTileLayerController markerController;
 
   @override
   void initState() {
     markerController = MapTileLayerController();
-    _mapZoomPanBehavior =
-        MapZoomPanBehavior(zoomLevel: 5, maxZoomLevel: 20, minZoomLevel: 5);
-
+    _mapZoomPanBehavior = MapZoomPanBehavior(
+      zoomLevel: 5,
+      maxZoomLevel: 20,
+      minZoomLevel: 5,
+      enableDoubleTapZooming: true,
+      enableMouseWheelZooming: true,
+    );
     addMarkers();
     super.initState();
   }
@@ -73,21 +77,27 @@ class _TestMapState extends State<TestMap> {
               ),
               FloatingActionButton(
                 heroTag: 'filter',
-                tooltip: 'نمایش جزئیات',
+                tooltip: 'فیلتر',
                 backgroundColor: MyColors.black,
                 child: const Icon(
                   Iconsax.filter,
                   size: 30,
                   color: MyColors.notWhite,
                 ),
-                onPressed: () {
-                  Get.to(() => FilterPage())?.then((value) {
-                    if (value != null) {
-                      controller.query.value = value.toString();
+                onPressed: () async {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FilterPage(),
+                      )).then(
+                    (value) {
+                      if (value != null) {
+                        jobsListController.query.value = value.toString();
 
-                      return addMarkers();
-                    }
-                  });
+                        return addMarkers();
+                      }
+                    },
+                  );
                 },
               ),
               FloatingActionButton(
@@ -141,15 +151,14 @@ class _TestMapState extends State<TestMap> {
                                     data: _data,
                                     index: index,
                                     onTap: () {
-                                      controller.current.value = 1;
+                                      controller.currentImage.value = 1;
                                       showModalBottomSheet(
-                                        // backgroundColor: Colors.transparent,
+                                        backgroundColor: Colors.transparent,
                                         context: context,
                                         useRootNavigator: true,
                                         isScrollControlled: true,
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(15))),
+                                        elevation: 0,
+                                        barrierColor: Colors.transparent,
                                         builder: (context) {
                                           return bottomSheet(_data, index);
                                         },
@@ -164,23 +173,24 @@ class _TestMapState extends State<TestMap> {
                                 curve: Curves.fastLinearToSlowEaseIn,
                                 duration: const Duration(milliseconds: 2000),
                                 child: Obx(
-                                  // padding for when the above container is showing to avoid changing marker location
+                                  // padding for when the above container is showing to avoid changing marker location and also
+                                  // to fix bottom of pointer icon on it`s right position
                                   () => Padding(
                                     padding: EdgeInsets.only(
                                       bottom:
                                           controller.adDetailsVisibility.value
-                                              ? 65.0
-                                              : 0,
+                                              ? 100.0
+                                              : 35,
                                     ),
                                     child: isHiring
-                                        ? Image.asset(
-                                            width: 40,
-                                            height: 40,
-                                            'images/hire_map_marker.png')
-                                        : Image.asset(
-                                            width: 40,
-                                            height: 40,
-                                            'images/adv_map_marker.png'),
+                                        ? SvgPicture.asset(
+                                            'assets/SVG/hire.svg',
+                                            width: 25,
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/SVG/adv.svg',
+                                            width: 25,
+                                          ),
                                   ),
                                 ),
                               ),
@@ -199,194 +209,267 @@ class _TestMapState extends State<TestMap> {
     );
   }
 
-  Widget bottomSheet(List<AdvModelTest> data, int index) {
-    bool isHiring = data[index].adType == '1' ? false : true;
-    List images = data[index].images;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+  Widget bottomSheet(List<AdvModel> data, int ind) {
+    controller.currentIndex.value = ind;
+    return CarouselSlider.builder(
+      options: CarouselOptions(
+        viewportFraction: 0.85,
+        initialPage: ind,
+        enableInfiniteScroll: true,
+        enlargeCenterPage: true,
+        height: 320,
+        pageViewKey: const PageStorageKey('value'),
+        onPageChanged: (index, reason) {
+          controller.currentIndex.value = ind;
+        },
+      ),
+      itemCount: data.length,
+      itemBuilder: (context, index, realIndex) {
+        bool isHiring = data[index].adType == '1' ? false : true;
+
+        return Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
-            const SizedBox(height: 5),
-            Container(
-              height: 6,
-              width: 40,
-              decoration: BoxDecoration(
-                  color: Colors.grey, borderRadius: BorderRadius.circular(10)),
-            ),
-            const SizedBox(height: 5),
-            data[index].images.isEmpty
-                ? const SizedBox(height: 20)
-                : SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: 200,
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: PhotoViewGallery.builder(
-                            wantKeepAlive: true,
-                            itemCount: images.length,
-                            customSize: Size(
-                                MediaQuery.of(context).size.width - 1,
-                                double.infinity),
-                            onPageChanged: (i) {
-                              controller.current.value = i + 1;
-                            },
-                            backgroundDecoration:
-                                BoxDecoration(color: Colors.grey[50]),
-                            builder: (context, index) {
-                              return PhotoViewGalleryPageOptions(
-                                onTapUp: (context, details, controllerValue) {
-                                  Get.to(
-                                    () => ImageViewerPage(
-                                        images: images,
-                                        currentIndex:
-                                            controller.current.value - 1),
-                                    transition: Transition.downToUp,
-                                  );
-                                },
-                                minScale: PhotoViewComputedScale.contained * 1,
-                                maxScale: PhotoViewComputedScale.contained * 1,
-                                imageProvider: CachedNetworkImageProvider(
-                                  images[index]['image'],
-                                  scale: Get.mediaQuery.size.aspectRatio,
-                                ),
-                              );
-                            },
-                            loadingBuilder: (context, event) => Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  value: event == null
-                                      ? 0
-                                      : event.cumulativeBytesLoaded.toDouble(),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.bottomCenter,
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Obx(
-                            () => Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black54,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 2),
-                                child: Text(
-                                  '${data[index].images.length} / ${controller.current.value}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-            Text(
-              data[index].title,
-              style: MyTextStyles.titleTextStyle(Colors.black),
-            ),
-            Visibility(
-              visible: isHiring,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconContainer(
-                      title: 'جنسیت',
-                      value: data[index].gender,
-                      icon: data[index].gender == 'آقا'
-                          ? Iconsax.man
-                          : Iconsax.woman,
-                      iconColor: MyColors.green,
-                      backgroundColor: const Color.fromARGB(158, 220, 239, 207),
-                    ),
-                    IconContainer(
-                      title: 'دستمزد',
-                      value: data[index].price == 'توافقی'
-                          ? 'توافقی'
-                          : MyStrings.digi(data[index].price == ''
-                              ? data[index].price
-                              : data[index].price),
-                      icon: Iconsax.dollar_square,
-                      backgroundColor: const Color.fromARGB(140, 251, 221, 217),
-                      iconColor: MyColors.red,
-                    ),
-                    IconContainer(
-                      title: 'شیوه پرداخت',
-                      value: data[index].payMethod,
-                      icon: Iconsax.wallet_money,
-                      iconColor: MyColors.orange,
-                      backgroundColor: const Color.fromARGB(105, 254, 236, 196),
-                    ),
-                    IconContainer(
-                      title: 'نوع همکاری',
-                      value: data[index].workType,
-                      icon: Iconsax.home_wifi5,
-                      iconColor: MyColors.blue,
-                      backgroundColor: MyColors.bluewhite,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            const Divider(),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
-                  child: Text(
-                    'توضیحات',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                MyRoundedButton(
+                  icon: const Icon(
+                    Icons.location_searching_rounded,
+                    color: MyColors.black,
                   ),
+                  backColor: Colors.white,
+                  text: '',
+                  onClick: () {
+                    Future.delayed(
+                      const Duration(milliseconds: 500),
+                      () {
+                        _mapZoomPanBehavior.latLngBounds = MapLatLngBounds(
+                          MapLatLng(double.parse(data[index].lat) - 0.001,
+                              double.parse(data[index].lon) - 0.001),
+                          MapLatLng(double.parse(data[index].lat) + 0.001,
+                              double.parse(data[index].lon) + 0.001),
+                        );
+                      },
+                    );
+                  },
                 ),
-                const Icon(
-                  Iconsax.clock,
-                  color: Colors.grey,
-                  size: 15,
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  MyStrings.timeFunction(data[index].time),
-                  style: MyTextStyles.descriptionsTextStyle(Colors.black),
-                ),
+                MyRoundedButton(
+                  icon: const Icon(
+                    Iconsax.bookmark,
+                    color: MyColors.black,
+                  ),
+                  backColor: Colors.white,
+                  text: '',
+                  onClick: () {},
+                )
               ],
             ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Text(
-                data[index].descs,
-                textAlign: TextAlign.justify,
+            const SizedBox(height: 5),
+            Expanded(
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => JobDetails(mod: data[index]),
+                    ));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: MyColors.backgroundColor.withOpacity(0.99),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 30,
+                            color: Colors.black.withOpacity(0.1),
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 30,
+                          )
+                        ]),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 8,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                data[index].images.isEmpty
+                                    ? Container(
+                                        decoration: BoxDecoration(
+                                            border:
+                                                Border.all(color: Colors.grey),
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        height: 80,
+                                        width: 80,
+                                        child: const Icon(
+                                          Iconsax.gallery_slash,
+                                          size: 55,
+                                          color: Colors.grey,
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        width: 80,
+                                        height: 80,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: CachedNetworkImage(
+                                              maxWidthDiskCache: 220,
+                                              maxHeightDiskCache: 220,
+                                              fit: BoxFit.cover,
+                                              imageUrl: data[index].images[0]
+                                                  ['image']),
+                                        ),
+                                      ),
+                                const SizedBox(width: 5),
+                                SizedBox(
+                                  height: 80,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          data[index].title,
+                                          style: MyTextStyles.titleTextStyle(
+                                              Colors.black),
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Iconsax.clock,
+                                            color: Colors.grey,
+                                            size: 15,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            MyStrings.timeFunction(
+                                                data[index].time),
+                                            style: MyTextStyles
+                                                .descriptionsTextStyle(
+                                                    Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Iconsax.category,
+                                            color: Colors.grey,
+                                            size: 15,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Text(data[index].category)
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            isHiring
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        IconContainer(
+                                          width: 40,
+                                          height: 40,
+                                          radius: 15,
+                                          titleFontSize: 11,
+                                          contentFontSize: 12,
+                                          title: 'جنسیت',
+                                          value: data[index].gender,
+                                          icon: data[index].gender == 'آقا'
+                                              ? Iconsax.man
+                                              : Iconsax.woman,
+                                          iconColor: MyColors.green,
+                                        ),
+                                        IconContainer(
+                                          width: 40,
+                                          height: 40,
+                                          radius: 15,
+                                          titleFontSize: 11,
+                                          contentFontSize: 12,
+                                          title: 'دستمزد',
+                                          value: data[index].price == 'توافقی'
+                                              ? 'توافقی'
+                                              : MyStrings.digi(
+                                                  data[index].price == ''
+                                                      ? data[index].price
+                                                      : data[index].price),
+                                          icon: Iconsax.dollar_square,
+                                          iconColor: MyColors.red,
+                                        ),
+                                        IconContainer(
+                                          width: 40,
+                                          height: 40,
+                                          radius: 15,
+                                          titleFontSize: 11,
+                                          contentFontSize: 12,
+                                          title: 'شیوه پرداخت',
+                                          value: data[index].payMethod,
+                                          icon: Iconsax.wallet_money,
+                                          iconColor: MyColors.orange,
+                                        ),
+                                        IconContainer(
+                                          width: 40,
+                                          height: 40,
+                                          radius: 15,
+                                          titleFontSize: 11,
+                                          contentFontSize: 12,
+                                          title: 'نوع همکاری',
+                                          value: data[index].workType,
+                                          icon: Iconsax.home_wifi5,
+                                          iconColor: MyColors.blue,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                : SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(height: 5),
+                                        const Text(
+                                          'توضیحات',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(data[index].descs)
+                                      ],
+                                    ),
+                                  )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-            MyButton(
-              fillColor: MyColors.blue,
-              onClick: () {
-                Get.to(JobDetails(mod: data[index]),
-                    transition: Transition.downToUp);
-              },
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Text(
-                'مشاهده آگهی',
-                style: MyTextStyles.titleTextStyle(Colors.white),
-              ),
-            ),
+            SizedBox(height: 65),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -418,11 +501,9 @@ class _TestMapState extends State<TestMap> {
 
     _data = [];
 
-    final box = GetStorage();
     // دریافت اطلاعات از دیتابیس
     try {
-      List<AdvModelTest> jobs =
-          await jobsListController.getAds(query: controller.query.value);
+      await jobsListController.getAds();
       // حذف لودینگ
       Get.back();
       // حذف مارکر ها در صورت وجود داشتن
@@ -432,9 +513,9 @@ class _TestMapState extends State<TestMap> {
 
       int markerIndex = 0;
       // اضافه کردن مارکر های مورد نیاز
-      for (var i = 0; i < jobs.length; i++) {
-        if (jobs[i].locationBool) {
-          _data.add(jobs[i]);
+      for (var i = 0; i < jobsListController.jobTestModel.length; i++) {
+        if (jobsListController.jobTestModel[i].locationBool) {
+          _data.add(jobsListController.jobTestModel[i]);
           markerController.insertMarker(markerIndex);
           markerIndex++;
         }

@@ -9,7 +9,8 @@ class MapTestController extends GetxController {
   RxBool adDetailsVisibility = false.obs;
   RxDouble opacity = 1.0.obs;
   RxDouble initialZoom = 5.1.obs;
-  RxInt current = 1.obs;
+  RxInt currentImage = 1.obs;
+  RxInt currentIndex = 0.obs;
 
   RxString query =
       "SELECT * FROM `requests` WHERE `city` = '${box.read('city')}'".obs;

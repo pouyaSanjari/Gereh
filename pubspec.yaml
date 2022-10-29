@@ -41,6 +41,7 @@ dependencies:
   animations: ^2.0.4
   flutter_staggered_animations:
   flutter_svg: ^1.1.6
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:

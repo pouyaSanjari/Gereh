@@ -7,15 +7,15 @@ class UiDesign {
     return ThemeData(
       useMaterial3: true,
       fontFamily: 'sans',
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
           titleSpacing: 0,
           centerTitle: true,
-          titleTextStyle: const TextStyle(
+          titleTextStyle: TextStyle(
             fontFamily: 'sans',
             color: Colors.black,
             fontSize: 20,
           ),
-          backgroundColor: Colors.grey[50]),
+          backgroundColor: MyColors.backgroundColor),
       colorScheme: ThemeData().colorScheme.copyWith(
             primary: MyColors.red,
             secondary: MyColors.black,
