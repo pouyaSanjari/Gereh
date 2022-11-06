@@ -3,14 +3,15 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
+import 'package:sarkargar/pages/generalPages/select_city_test.dart';
 import 'package:sarkargar/services/database.dart';
-import 'package:sarkargar/components/pages/select.city.dart';
 import '../../services/ui_design.dart';
 
 class SignUp extends StatefulWidget {
@@ -108,16 +109,18 @@ class _SignUpState extends State<SignUp> {
                                   getUserId(number: widget.number);
                                   box.write('isLoggedIn', true);
                                   // حالا وقتی ثبتنام کرد چک میکنه ببینه شهر رو قبلا انتخاب کرده یا نه اگه نه میفرسته به صفحه انتخاب شهر
-                                  if (box.read('selectedCityFilter') == null ||
-                                      box.read('selectedCityFilter') == '') {
+                                  if (box.read('city') == null ||
+                                      box.read('city') == '') {
                                     Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const SelectCity(
-                                                  isFirstTime: true),
+                                              SelectCityTest(),
                                         ),
-                                        (route) => false);
+                                        (route) => false).then((value) async {
+                                      await box.write('city', value);
+                                      return Get.to(const MainPage());
+                                    });
                                   } else {
                                     Navigator.pushAndRemoveUntil(
                                         context,

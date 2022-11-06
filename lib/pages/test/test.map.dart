@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/components/buttons/button.dart';
 import 'package:sarkargar/components/buttons/rounded.button.dart';
 import 'package:sarkargar/components/other/icon.container.dart';
 import 'package:sarkargar/components/other/marker.details.container.dart';
@@ -21,7 +19,7 @@ import 'package:sarkargar/models/adv_model.dart';
 import 'package:sarkargar/pages/jobsList/filter_page.dart';
 import 'package:sarkargar/pages/jobsList/job_details.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
-import 'map.test.controller.dart';
+import '../../controllers/map.test.controller.dart';
 
 class TestMap extends StatefulWidget {
   const TestMap({Key? key}) : super(key: key);
@@ -466,7 +464,7 @@ class _TestMapState extends State<TestMap> {
                 ),
               ),
             ),
-            SizedBox(height: 65),
+            const SizedBox(height: 65),
           ],
         );
       },
@@ -513,9 +511,9 @@ class _TestMapState extends State<TestMap> {
 
       int markerIndex = 0;
       // اضافه کردن مارکر های مورد نیاز
-      for (var i = 0; i < jobsListController.jobTestModel.length; i++) {
-        if (jobsListController.jobTestModel[i].locationBool) {
-          _data.add(jobsListController.jobTestModel[i]);
+      for (var i = 0; i < jobsListController.jobsList.length; i++) {
+        if (jobsListController.jobsList[i].locationBool) {
+          _data.add(jobsListController.jobsList[i]);
           markerController.insertMarker(markerIndex);
           markerIndex++;
         }

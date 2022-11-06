@@ -8,10 +8,10 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/pages/select.city.dart';
 import 'package:sarkargar/components/textFields/text.field.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/controllers/login.controller.dart';
+import 'package:sarkargar/pages/generalPages/select_city_test.dart';
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/generalPages/main_page.dart';
 import 'package:sarkargar/pages/generalPages/signup.dart';
@@ -169,7 +169,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildCRawMaterialButton() {
     if (_isButtonDisabled == false) {
       return MyButton(
-        child: const Text('دریافت کد '),
+        child: const Text(
+          'دریافت کد ',
+          style: TextStyle(color: Colors.white),
+        ),
         onClick: () async {
           getUserId(number: msgController.text);
           if (msgController.text.length != 11) {
@@ -209,7 +212,11 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
     } else if (msgController.text == '') {
-      return MyButton(child: Text(' $seconds  لطفا منتظر بمانید . . .    '));
+      return MyButton(
+          child: Text(
+        ' $seconds  لطفا منتظر بمانید . . .    ',
+        style: const TextStyle(color: Colors.white),
+      ));
     } else {
       return MyButton(
         child: const Text('ورود'),
@@ -228,7 +235,10 @@ class _LoginPageState extends State<LoginPage> {
               box.write('id', userId);
               Fluttertoast.showToast(msg: 'با موفقیت وارد شدید');
               if (box.read('city') == null || box.read('city') == '') {
-                Get.off(const SelectCity(isFirstTime: true));
+                Get.to(SelectCityTest())?.then((value) {
+                  box.write('city', value);
+                  return Get.to(const MainPage());
+                });
               } else {
                 Get.off(const MainPage());
               }

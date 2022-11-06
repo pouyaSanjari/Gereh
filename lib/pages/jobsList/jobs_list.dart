@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sarkargar/components/pages/error.page.dart';
-import 'package:sarkargar/components/pages/select.city.dart';
 import 'package:sarkargar/constants/colors.dart';
 import 'package:sarkargar/constants/my_strings.dart';
 import 'package:sarkargar/controllers/jobs_list_controller.dart';
 import 'package:sarkargar/pages/jobsList/filter_page.dart';
 import 'package:sarkargar/pages/jobsList/job_details.dart';
+import 'package:sarkargar/pages/generalPages/select_city_test.dart';
 import 'package:sarkargar/services/ui_design.dart';
 
 final bucket = PageStorageBucket();
@@ -50,15 +50,15 @@ class JobsListTest extends StatelessWidget {
                           bucket: bucket,
                           child: ListView.separated(
                             key: const PageStorageKey('value'),
-                            itemCount: controller.jobTestModel.length,
+                            itemCount: controller.jobsList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              var newData = controller.jobTestModel;
+                              var newData = controller.jobsList;
                               var adtype =
-                                  controller.jobTestModel[index].adType == '0'
+                                  controller.jobsList[index].adType == '0'
                                       ? 'استخدام'
                                       : 'تبلیغ';
                               Color adTypeBgColor =
-                                  controller.jobTestModel[index].adType == '0'
+                                  controller.jobsList[index].adType == '0'
                                       ? MyColors.orange
                                       : MyColors.red;
 
@@ -326,10 +326,10 @@ class JobsListTest extends StatelessWidget {
       scrolledUnderElevation: 0,
       actions: [
         InkWell(
-          onTap: () =>
-              Get.to(() => const SelectCity(isFirstTime: false))?.then((value) {
+          onTap: () => Get.to(() => SelectCityTest())?.then((value) async {
             controller.city.value = value;
-            return box.write('city', value);
+            await box.write('city', value);
+            controller.getAds();
           }),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),

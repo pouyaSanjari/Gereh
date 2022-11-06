@@ -7,7 +7,7 @@ import 'package:sarkargar/models/adv_model.dart';
 final box = GetStorage();
 
 class JobsListController extends GetxController {
-  RxList<AdvModel> jobTestModel = <AdvModel>[].obs;
+  RxList<AdvModel> jobsList = <AdvModel>[].obs;
   RxBool loading = false.obs;
   RxBool hasError = false.obs;
   RxString city = ''.obs;
@@ -20,6 +20,7 @@ class JobsListController extends GetxController {
 
   ///گرفتن تمام تبیلغلات
   getAds() async {
+    query = "SELECT * FROM `requests` WHERE `city` = '${box.read('city')}'".obs;
     hasError.value = false;
     loading.value = true;
     var url = Uri.parse('https://sarkargar.ir/phpfiles/jobreqsDB/ads.php');
@@ -33,16 +34,16 @@ class JobsListController extends GetxController {
       List imageToJson = convert.jsonDecode(imagesResponse.body);
 
       // List<AdvModelTest> jobTestModel = [];
-      jobTestModel.value = [];
+      jobsList.value = [];
 
       for (var element in jsonResponse) {
-        jobTestModel.add(AdvModel.fromJson(
+        jobsList.add(AdvModel.fromJson(
             element,
             imageToJson
                 .where((image) => image['adId'] == element['id'])
                 .toList()));
       }
-      jobTestModel.value = jobTestModel.reversed.toList();
+      jobsList.value = jobsList.reversed.toList();
       loading.value = false;
       // return jobTestModel;
     } catch (e) {

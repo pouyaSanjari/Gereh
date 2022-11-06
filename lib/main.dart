@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:sarkargar/components/pages/select.city.dart';
 import 'package:sarkargar/pages/generalPages/binding.dart';
 import 'package:sarkargar/services/ui_design.dart';
 import 'package:sarkargar/pages/generalPages/login.dart';
@@ -35,15 +34,11 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  StatefulWidget buildPage() {
+  Widget buildPage() {
     if (box.read('id') == null || box.read('id') == '') {
       return const LoginPage();
     } else {
-      if (box.read('city') == null || box.read('city') == '') {
-        return const SelectCity(isFirstTime: true);
-      } else {
-        return const MainPage();
-      }
+      return const MainPage();
     }
   }
 

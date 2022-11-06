@@ -31,10 +31,7 @@ class _MainChatPageState extends State<MainChatPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              print(mapController.center);
-            },
-            label: const Text('data')),
+            onPressed: () {}, label: const Text('data')),
         body: FlutterMap(
           mapController: mapController,
           options: MapOptions(
