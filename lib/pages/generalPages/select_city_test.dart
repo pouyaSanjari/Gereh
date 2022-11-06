@@ -19,11 +19,12 @@ class SelectCityTest extends StatelessWidget {
         appBar: AppBar(
           scrolledUnderElevation: 0,
           leading: IconButton(
-              onPressed: () => Get.back(),
-              icon: const Icon(
-                Iconsax.arrow_right_3,
-                color: Colors.black,
-              )),
+            onPressed: () => Get.back(),
+            icon: const Icon(
+              Iconsax.arrow_right_3,
+              color: Colors.black,
+            ),
+          ),
           elevation: 0,
           title: Padding(
             padding: const EdgeInsets.only(left: 8.0),
