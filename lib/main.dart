@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:sarkargar/pages/generalPages/binding.dart';
-import 'package:sarkargar/services/ui_design.dart';
-import 'package:sarkargar/pages/generalPages/login.dart';
-import 'package:sarkargar/pages/generalPages/main_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:gereh/models/adv_model.dart';
+import 'package:gereh/pages/generalPages/binding.dart';
+import 'package:gereh/services/ui_design.dart';
+import 'package:gereh/pages/generalPages/login.dart';
+import 'package:gereh/pages/generalPages/main_page.dart';
 
 void main() async {
   await GetStorage.init();
+  await Hive.initFlutter();
+  Hive.registerAdapter(AdvModelAdapter());
 
   runApp(const MyApp());
 }

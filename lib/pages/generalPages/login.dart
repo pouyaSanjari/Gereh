@@ -7,15 +7,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/textFields/text.field.dart';
-import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/controllers/login.controller.dart';
-import 'package:sarkargar/pages/generalPages/select_city_test.dart';
-import 'package:sarkargar/services/ui_design.dart';
-import 'package:sarkargar/pages/generalPages/main_page.dart';
-import 'package:sarkargar/pages/generalPages/signup.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/constants/colors.dart';
+import 'package:gereh/controllers/login.controller.dart';
+import 'package:gereh/components/pages/select_city.dart';
+import 'package:gereh/services/ui_design.dart';
+import 'package:gereh/pages/generalPages/main_page.dart';
+import 'package:gereh/pages/generalPages/signup.dart';
+import 'package:gereh/services/database.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -235,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
               box.write('id', userId);
               Fluttertoast.showToast(msg: 'با موفقیت وارد شدید');
               if (box.read('city') == null || box.read('city') == '') {
-                Get.to(SelectCityTest())?.then((value) {
+                Get.to(SelectCity())?.then((value) {
                   box.write('city', value);
                   return Get.to(const MainPage());
                 });

@@ -1,6 +1,6 @@
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:get/get.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:gereh/services/database.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobDetailsController extends GetxController {

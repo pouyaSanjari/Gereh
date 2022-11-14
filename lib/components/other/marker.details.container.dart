@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/models/adv_model.dart';
+import 'package:gereh/models/adv_model.dart';
 import '../../constants/colors.dart';
 
 class MarkerDetailsContainer extends StatelessWidget {

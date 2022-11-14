@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/other/my_row2.dart';
-import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/constants/my_strings.dart';
-import 'package:sarkargar/controllers/request_controller.dart';
+import 'package:gereh/components/other/my_row2.dart';
+import 'package:gereh/constants/colors.dart';
+import 'package:gereh/constants/my_strings.dart';
+import 'package:gereh/controllers/request_controller.dart';
 
 class InsertToDataBase extends GetView<RequestController> {
   const InsertToDataBase({Key? key}) : super(key: key);
@@ -14,7 +14,6 @@ class InsertToDataBase extends GetView<RequestController> {
   Widget build(BuildContext context) {
     bool isHirng = controller.adType.value == 0 ? true : false;
 
-    var titleImage = controller.titleimage.value;
     var title = controller.titleTEC.value.text;
     var desc = controller.descriptionsTEC.value.text;
     var category = controller.categoryTEC.value.text;

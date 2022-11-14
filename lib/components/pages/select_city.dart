@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/textFields/text.field.dart';
-import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/controllers/select_city_test_controller.dart';
+import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/constants/colors.dart';
+import 'package:gereh/controllers/select_city_test_controller.dart';
 
-class SelectCityTest extends StatelessWidget {
-  SelectCityTest({super.key});
+class SelectCity extends StatelessWidget {
+  SelectCity({super.key});
   final controller = Get.put(SelectCityTestController());
 
   @override

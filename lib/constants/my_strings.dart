@@ -11,7 +11,7 @@ class MyStrings {
 
   static String titrFontFamily = 'titr';
 
-  static String mapAddres =
+  static String mapAddress =
       'https://map.ir/shiveh/xyz/1.0.0/Shiveh:Shiveh@EPSG:3857@png/{z}/{x}/{y}.png?x-api-key=';
 
   static String apiKey =

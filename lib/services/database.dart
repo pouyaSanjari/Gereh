@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sarkargar/controllers/request_controller.dart';
+import 'package:gereh/controllers/request_controller.dart';
 
 final requestController = Get.put(RequestController());
 final box = GetStorage();
@@ -188,7 +188,6 @@ class AppDataBase {
       'address': address,
       'time': DateTime.now().toString(),
     });
-    print(response.body);
     return response.statusCode;
   }
 

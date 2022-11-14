@@ -2,14 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/switchs/toggle.switch.dart';
-import 'package:sarkargar/components/pages/select.category.dart';
-import 'package:sarkargar/components/textFields/selectable.text.field.dart';
-import 'package:sarkargar/components/textFields/text.field.dart';
-import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/pages/generalPages/select_city_test.dart';
-import 'package:sarkargar/services/ui_design.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:gereh/components/switchs/toggle.switch.dart';
+import 'package:gereh/components/pages/select_category.dart';
+import 'package:gereh/components/textFields/selectable.text.field.dart';
+import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/constants/colors.dart';
+import 'package:gereh/components/pages/select_city.dart';
+import 'package:gereh/services/ui_design.dart';
+import 'package:gereh/services/database.dart';
 import '../../controllers/request_controller.dart';
 
 final dataBase = AppDataBase();
@@ -149,7 +149,7 @@ class TitlePage extends GetView<RequestController> {
                 icon: const Icon(Iconsax.building_3, color: MyColors.black),
                 labeltext: 'شهر خود را انتخاب کنید.',
                 onClick: () {
-                  Get.to(() => SelectCityTest())?.then((value) {
+                  Get.to(() => SelectCity())?.then((value) {
                     if (value != null) {
                       controller.cityError.value = '';
                       return controller.cityTEC.value.text = value;

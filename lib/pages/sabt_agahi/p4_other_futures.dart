@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/components/other/animated_widget.dart';
-import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/controllers/request_controller.dart';
-import 'package:sarkargar/pages/sabt_agahi/map.dart';
-import 'package:sarkargar/services/ui_design.dart';
-import '../../components/pages/error.page.dart';
+import 'package:gereh/components/other/animated_widget.dart';
+import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/controllers/request_controller.dart';
+import 'package:gereh/pages/sabt_agahi/map.dart';
+import 'package:gereh/services/ui_design.dart';
+import '../../components/pages/error_page.dart';
 import '../../components/switchs/switch.dart';
 import '../../constants/colors.dart';
 import '../../services/database.dart';
@@ -66,7 +66,7 @@ class OtherFutures extends GetView<RequestController> {
                       snap = snapshot.data;
                     }
                     if (snapshot.data == null) {
-                      return MyErrorPage(referesh: () {
+                      return ErrorPage(referesh: () {
                         database.paidFeautersImages(uploadedImages);
                       });
                     }
@@ -113,7 +113,7 @@ class OtherFutures extends GetView<RequestController> {
                                           await database
                                               .deleteImage(snap[index]['id']);
 
-                                          Navigator.of(context).pop();
+                                          Navigator.pop(context);
                                         },
                                         child: const Text(
                                           "حذف",

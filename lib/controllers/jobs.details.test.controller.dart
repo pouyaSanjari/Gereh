@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:gereh/services/database.dart';
 
 class JobDetailsTestController extends GetxController {
   final database = AppDataBase();

@@ -4,15 +4,15 @@ import 'package:flutter_multi_slider/flutter_multi_slider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/other/my_chip.dart';
-import 'package:sarkargar/components/pages/select.category.dart';
-import 'package:sarkargar/components/textFields/selectable.text.field.dart';
-import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/constants/my_strings.dart';
-import 'package:sarkargar/constants/my_text_styles.dart';
-import 'package:sarkargar/controllers/filter_controller.dart';
-import 'package:sarkargar/services/ui_design.dart';
-import '../../components/textFields/text.field.dart';
+import 'package:gereh/components/other/my_chip.dart';
+import 'package:gereh/components/pages/select_category.dart';
+import 'package:gereh/components/textFields/selectable.text.field.dart';
+import 'package:gereh/constants/colors.dart';
+import 'package:gereh/constants/my_strings.dart';
+import 'package:gereh/constants/my_text_styles.dart';
+import 'package:gereh/controllers/filter_controller.dart';
+import 'package:gereh/services/ui_design.dart';
+import '../textFields/text.field.dart';
 
 class FilterPage extends StatelessWidget {
   FilterPage({super.key});

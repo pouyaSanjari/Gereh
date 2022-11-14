@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/controllers/image_viewer_controller.dart';
-import 'package:sarkargar/services/ui_design.dart';
+import 'package:gereh/constants/colors.dart';
+import 'package:gereh/controllers/image_viewer_controller.dart';
+import 'package:gereh/services/ui_design.dart';
 
-class ImageViewerPage extends StatelessWidget {
+class ImageViewer extends StatelessWidget {
   final List images;
   final int? currentIndex;
-  ImageViewerPage({Key? key, required this.images, this.currentIndex})
+  ImageViewer({Key? key, required this.images, this.currentIndex})
       : super(key: key);
   final controller = Get.put(ViewerController());
 

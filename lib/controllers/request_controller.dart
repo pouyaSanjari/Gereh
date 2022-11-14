@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:gereh/services/database.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 

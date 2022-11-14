@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:sarkargar/constants/my_strings.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:gereh/constants/my_strings.dart';
+import 'package:gereh/services/database.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 

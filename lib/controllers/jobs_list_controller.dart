@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'package:sarkargar/models/adv_model.dart';
+import 'package:gereh/models/adv_model.dart';
 
 final box = GetStorage();
 
@@ -20,12 +20,12 @@ class JobsListController extends GetxController {
 
   ///گرفتن تمام تبیلغلات
   getAds() async {
-    query = "SELECT * FROM `requests` WHERE `city` = '${box.read('city')}'".obs;
     hasError.value = false;
     loading.value = true;
     var url = Uri.parse('https://sarkargar.ir/phpfiles/jobreqsDB/ads.php');
     try {
       var response = await http.post(url, body: {'query': query.value});
+      print(response.statusCode);
       List jsonResponse = convert.jsonDecode(response.body);
       Uri imagesUrl = Uri.parse(
           'https://sarkargar.ir/phpfiles/userimages/getallimages.php');

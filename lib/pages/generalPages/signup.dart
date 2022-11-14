@@ -7,11 +7,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/textFields/text.field.dart';
-import 'package:sarkargar/pages/generalPages/main_page.dart';
-import 'package:sarkargar/pages/generalPages/select_city_test.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/pages/generalPages/main_page.dart';
+import 'package:gereh/components/pages/select_city.dart';
+import 'package:gereh/services/database.dart';
 import '../../services/ui_design.dart';
 
 class SignUp extends StatefulWidget {
@@ -114,8 +114,7 @@ class _SignUpState extends State<SignUp> {
                                     Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              SelectCityTest(),
+                                          builder: (context) => SelectCity(),
                                         ),
                                         (route) => false).then((value) async {
                                       await box.write('city', value);
@@ -151,7 +150,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future sendIntoDB(String name, String family, String number) async {
-    var url = Uri.parse('https://sarkargar.ir/phpfiles/userDB/signup.php');
+    var url = Uri.parse('https://gereh.ir/phpfiles/userDB/signup.php');
     var response = await http
         .post(url, body: {'name': name, 'family': family, 'number': number});
     setState(() {

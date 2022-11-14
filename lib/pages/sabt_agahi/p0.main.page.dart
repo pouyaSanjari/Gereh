@@ -5,15 +5,15 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/pages/sabt_agahi/p4_other_futures.dart';
-import 'package:sarkargar/services/ui_design.dart';
-import 'package:sarkargar/pages/sabt_agahi/p1.title.dart';
-import 'package:sarkargar/pages/sabt_agahi/p3_contact_info.dart';
-import 'package:sarkargar/pages/sabt_agahi/p2_worker_details.dart';
-import 'package:sarkargar/pages/sabt_agahi/p5_inser_to_database.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/constants/colors.dart';
+import 'package:gereh/pages/sabt_agahi/p4_other_futures.dart';
+import 'package:gereh/services/ui_design.dart';
+import 'package:gereh/pages/sabt_agahi/p1.title.dart';
+import 'package:gereh/pages/sabt_agahi/p3_contact_info.dart';
+import 'package:gereh/pages/sabt_agahi/p2_worker_details.dart';
+import 'package:gereh/pages/sabt_agahi/p5_inser_to_database.dart';
+import 'package:gereh/services/database.dart';
 import '../../controllers/request_controller.dart';
 
 class MainRequestPage extends StatefulWidget {

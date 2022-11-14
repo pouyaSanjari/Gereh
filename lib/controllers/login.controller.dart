@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:sarkargar/services/database.dart';
+import 'package:gereh/services/database.dart';
 
 enum ButtonStatus { getCode, waiting, done }
 

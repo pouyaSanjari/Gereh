@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-class MyErrorPage extends StatelessWidget {
+class ErrorPage extends StatelessWidget {
   final VoidCallback? referesh;
-  const MyErrorPage({Key? key, required this.referesh}) : super(key: key);
+  const ErrorPage({Key? key, required this.referesh}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,40 +1,78 @@
-// part 'adv_model.g.dart';
+import 'package:hive/hive.dart';
 
+part 'adv_model.g.dart';
+
+@HiveType(typeId: 1)
 class AdvModel {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String advertizerId;
+  @HiveField(2)
   final String adType;
+  @HiveField(3)
   final String title;
+  @HiveField(4)
   final String category;
+  @HiveField(5)
   final String city;
+  @HiveField(6)
   final String descs;
+  @HiveField(7)
   final String gender;
+  @HiveField(8)
   final String workType;
+  @HiveField(9)
   final String workTime;
+  @HiveField(10)
   final String payMethod;
+  @HiveField(11)
   final String profission;
+  @HiveField(12)
   final String price;
+  @HiveField(13)
   final String callNumber;
+  @HiveField(14)
   final String smsNumber;
+  @HiveField(15)
   final String emailAddress;
+  @HiveField(16)
   final String websiteAddress;
+  @HiveField(17)
   final String instagramid;
+  @HiveField(18)
   final String telegramId;
+  @HiveField(19)
   final String whatsappNumber;
+  @HiveField(20)
   final String time;
+  @HiveField(21)
   final String lat;
+  @HiveField(22)
   final String lon;
+  @HiveField(23)
   final String address;
+  @HiveField(24)
   final bool resumeBool;
+  @HiveField(25)
   final bool callBool;
+  @HiveField(26)
   final bool smsBool;
+  @HiveField(27)
   final bool chatBool;
+  @HiveField(28)
   final bool emailBool;
+  @HiveField(29)
   final bool websiteBool;
+  @HiveField(30)
   final bool instagramBool;
+  @HiveField(31)
   final bool telegramBool;
+  @HiveField(32)
   final bool whatsappBool;
+  @HiveField(33)
   final bool locationBool;
+  @HiveField(34)
   final List images;
 
   AdvModel(

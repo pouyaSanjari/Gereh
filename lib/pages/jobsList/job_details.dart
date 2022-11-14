@@ -4,16 +4,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/other/icon.container.dart';
-import 'package:sarkargar/components/pages/image.viewer.dart';
-import 'package:sarkargar/components/other/my.container.dart';
-import 'package:sarkargar/components/other/my_row2.dart';
-import 'package:sarkargar/constants/colors.dart';
-import 'package:sarkargar/constants/my_strings.dart';
-import 'package:sarkargar/controllers/jobs.details.test.controller.dart';
-import 'package:sarkargar/models/adv_model.dart';
-import 'package:sarkargar/services/ui_design.dart';
+import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/components/other/icon.container.dart';
+import 'package:gereh/components/pages/image_viewer.dart';
+import 'package:gereh/components/other/my.container.dart';
+import 'package:gereh/components/other/my_row2.dart';
+import 'package:gereh/constants/colors.dart';
+import 'package:gereh/constants/my_strings.dart';
+import 'package:gereh/controllers/jobs.details.test.controller.dart';
+import 'package:gereh/models/adv_model.dart';
+import 'package:gereh/services/ui_design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobDetails extends GetView<JobDetailsTestController> {
@@ -440,7 +440,7 @@ class JobDetails extends GetView<JobDetailsTestController> {
               child: InkWell(
                 onTap: () => Get.to(
                   transition: Transition.rightToLeftWithFade,
-                  () => ImageViewerPage(images: images),
+                  () => ImageViewer(images: images),
                 ),
                 child: CachedNetworkImage(
                     height: MediaQuery.of(context).size.height,

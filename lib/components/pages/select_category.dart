@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sarkargar/services/ui_design.dart';
+import 'package:gereh/services/ui_design.dart';
 
 import '../../controllers/request_controller.dart';
 

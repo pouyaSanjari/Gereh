@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sarkargar/constants/colors.dart';
+import 'package:gereh/constants/colors.dart';
 
 class MyButton extends StatelessWidget {
   final VoidCallback? onClick;

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sarkargar/components/buttons/button.dart';
-import 'package:sarkargar/components/textFields/selectable.text.field.dart';
-import 'package:sarkargar/components/textFields/text.field.dart';
-import 'package:sarkargar/controllers/request_controller.dart';
-import 'package:sarkargar/services/ui_design.dart';
+import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/components/textFields/selectable.text.field.dart';
+import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/controllers/request_controller.dart';
+import 'package:gereh/services/ui_design.dart';
 import '../../constants/colors.dart';
 
 class WorkerDetails extends GetView<RequestController> {
@@ -308,7 +308,7 @@ class WorkerDetails extends GetView<RequestController> {
           children: [
             customIconButton(
                 result: 'مهم نیست',
-                icon: FontAwesomeIcons.peopleArrowsLeftRight,
+                icon: FontAwesomeIcons.peopleArrows,
                 iconColor: MyColors.blue),
             const SizedBox(width: 5),
             customIconButton(
