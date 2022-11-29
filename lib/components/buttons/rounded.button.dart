@@ -6,13 +6,13 @@ class MyRoundedButton extends StatelessWidget {
   final Widget icon;
   final Color backColor;
   final String text;
-  final VoidCallback onClick;
+  final VoidCallback? onClick;
   const MyRoundedButton(
       {Key? key,
       required this.icon,
       required this.backColor,
       required this.text,
-      required this.onClick})
+      this.onClick})
       : super(key: key);
 
   @override

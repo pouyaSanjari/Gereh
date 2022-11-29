@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gereh/services/hive_actions.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/buttons/rounded.button.dart';
 import 'package:gereh/components/other/icon.container.dart';
@@ -50,8 +51,15 @@ class _JobsListSliderState extends State<JobsListSlider> {
       itemCount: widget.data.length,
       itemBuilder: (context, index, realIndex) {
         bool isHiring = widget.data[index].adType == '1' ? false : true;
-        bool isBookmarked =
-            widget.controller.checkIfObjectExists(widget.data[index]);
+        bool isBookmarked = false;
+        Future<void> checkbook() async {
+          isBookmarked = await HiveActions.checkIfObjectExists(
+              advModel: widget.data[index], box: 'bookmarks');
+          setState(() {});
+        }
+
+        checkbook();
+
         return Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -85,25 +93,9 @@ class _JobsListSliderState extends State<JobsListSlider> {
                   },
                 ),
                 MyRoundedButton(
-                  icon: Icon(
-                    isBookmarked
-                        ? FontAwesomeIcons.bookBookmark
-                        : FontAwesomeIcons.book,
-                    color: isBookmarked ? Colors.white : Colors.black,
-                  ),
+                  icon: SaveButton(data: widget.data[index]),
                   backColor: isBookmarked ? MyColors.red : Colors.white,
                   text: '',
-                  onClick: () {
-                    if (isBookmarked) {
-                      setState(() {
-                        widget.controller.deleteBookmark(widget.data[index]);
-                      });
-                    } else {
-                      setState(() {
-                        widget.controller.addBookmark(widget.data[index]);
-                      });
-                    }
-                  },
                 )
               ],
             ),

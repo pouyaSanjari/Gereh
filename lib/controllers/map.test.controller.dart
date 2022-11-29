@@ -1,5 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gereh/services/hive_actions.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -45,8 +46,6 @@ class MapTestController extends GetxController {
 
   @override
   void onInit() {
-    // markerController = MapTileLayerController();
-
     addMarkers();
     initializeHive();
     super.onInit();
@@ -138,44 +137,22 @@ class MapTestController extends GetxController {
           'payMethod', []));
       markerController.insertMarker(markerIndex);
     } catch (e) {
-      print(e);
       Get.back();
       Fluttertoast.showToast(msg: 'اتصال اینترنت خود را بررسی کنید!');
     }
   }
 
-  void addBookmark(AdvModel advModel) {
-    bool isExists = checkIfObjectExists(advModel);
-    if (!isExists) {
-      hive.add(advModel);
-    }
+  void deleteBookmark(AdvModel data) {
+    return HiveActions.deleteBookmark(advModel: data, hive: hive);
   }
 
-  void deleteBookmark(AdvModel advModel) {
-    List<AdvModel> model = [];
-    for (var i = 0; i < hive.length; i++) {
-      model.add(hive.getAt(i));
-    }
-    for (var i = 0; i < model.length; i++) {
-      if (model[i].id == advModel.id) {
-        hive.deleteAt(i);
-      }
-    }
+  void addBookmark(AdvModel data) {
+    HiveActions.addBookmark(advModel: data, hive: hive);
   }
 
-  bool checkIfObjectExists(AdvModel advModel) {
-    List<AdvModel> model = [];
-    for (var i = 0; i < hive.length; i++) {
-      model.add(hive.getAt(i));
-    }
-
-    for (var i = 0; i < model.length; i++) {
-      if (model[i].id == advModel.id) {
-        // object exists
-        return true;
-      }
-    }
-    return false;
+  Future<bool> checkIfObjectExists(AdvModel data) async {
+    return await HiveActions.checkIfObjectExists(
+        advModel: data, box: 'bookmarks');
   }
 
   void showHideAdsDetails() {

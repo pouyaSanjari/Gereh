@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gereh/services/hive_actions.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:gereh/components/buttons/button.dart';
@@ -32,18 +34,7 @@ class JobDetails extends GetView<JobDetailsTestController> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: AppBar(
-            actions: [
-              InkWell(
-                onTap: () {},
-                child: const SizedBox(
-                  width: 50,
-                  child: Icon(
-                    Iconsax.save_add,
-                    color: Colors.black,
-                  ),
-                ),
-              )
-            ],
+            actions: [SaveButton(data: mod), const SizedBox(width: 10)],
             leading: InkWell(
               onTap: () {
                 Navigator.pop(context);
@@ -489,6 +480,56 @@ class JobDetails extends GetView<JobDetailsTestController> {
   Future<void> launchInstagram({required String id}) async {
     // ignore: deprecated_member_use
     await launch("https://www.instagram.com/$id/", universalLinksOnly: true);
+  }
+}
+
+class SaveButton extends StatefulWidget {
+  final AdvModel data;
+  const SaveButton({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  @override
+  State<SaveButton> createState() => _SaveButtonState();
+}
+
+class _SaveButtonState extends State<SaveButton> {
+  bool isAvailable = false;
+
+  void checkAvailability() async {
+    isAvailable = await HiveActions.checkIfObjectExists(
+        advModel: widget.data, box: 'bookmarks');
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    checkAvailability();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkResponse(
+      radius: 10,
+      splashColor: isAvailable
+          ? Colors.black.withOpacity(0.3)
+          : MyColors.red.withOpacity(0.3),
+      onTap: () async {
+        var hive = await Hive.openBox('bookmarks');
+        isAvailable
+            ? HiveActions.deleteBookmark(advModel: widget.data, hive: hive)
+            : HiveActions.addBookmark(advModel: widget.data, hive: hive);
+        checkAvailability();
+      },
+      child: SizedBox(
+        child: Icon(
+          isAvailable ? FontAwesomeIcons.bookBookmark : FontAwesomeIcons.book,
+          color: isAvailable ? MyColors.red : Colors.black,
+        ),
+      ),
+    );
   }
 }
 
