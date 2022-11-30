@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gereh/services/hive_actions.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/buttons/rounded.button.dart';
@@ -92,11 +91,7 @@ class _JobsListSliderState extends State<JobsListSlider> {
                     );
                   },
                 ),
-                MyRoundedButton(
-                  icon: SaveButton(data: widget.data[index]),
-                  backColor: isBookmarked ? MyColors.red : Colors.white,
-                  text: '',
-                )
+                SaveButton(data: widget.data[index]),
               ],
             ),
             const SizedBox(height: 5),
@@ -107,7 +102,8 @@ class _JobsListSliderState extends State<JobsListSlider> {
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => JobDetails(mod: widget.data[index]),
+                      builder: (context) =>
+                          JobDetails(data: widget.data[index]),
                     ));
                   },
                   child: Container(

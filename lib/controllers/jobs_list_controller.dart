@@ -25,7 +25,6 @@ class JobsListController extends GetxController {
     var url = Uri.parse('https://sarkargar.ir/phpfiles/jobreqsDB/ads.php');
     try {
       var response = await http.post(url, body: {'query': query.value});
-      print(response.statusCode);
       List jsonResponse = convert.jsonDecode(response.body);
       Uri imagesUrl = Uri.parse(
           'https://sarkargar.ir/phpfiles/userimages/getallimages.php');

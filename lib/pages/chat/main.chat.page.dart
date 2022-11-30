@@ -45,10 +45,11 @@ class _MainChatPageState extends State<MainChatPage> {
 
   Future<void> readData() async {
     Box hiveBox = await Hive.openBox('bookmarks');
-
+    List<AdvModel> savedJobsList = [];
     for (var i = 0; i < hiveBox.length; i++) {
-      model.add(hiveBox.getAt(i));
+      savedJobsList.add(hiveBox.getAt(i));
     }
+    model = savedJobsList.reversed.toList();
     setState(() {});
   }
 }

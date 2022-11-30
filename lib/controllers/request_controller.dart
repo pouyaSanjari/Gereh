@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gereh/constants/my_strings.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gereh/services/database.dart';
@@ -251,7 +252,8 @@ class RequestController extends GetxController {
 
   getAddressUsingLatLon(double lat, double lon) async {
     var url = Uri.parse('https://map.ir/fast-reverse?lat=$lat&lon=$lon');
-    var response = await http.get(url, headers: {'x-api-key': apiKey});
+    var response =
+        await http.get(url, headers: {'x-api-key': MyStrings.apiKey});
     var decodedResponse =
         convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
 

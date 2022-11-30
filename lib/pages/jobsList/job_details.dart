@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gereh/components/buttons/rounded.button.dart';
 import 'package:gereh/services/hive_actions.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -19,14 +20,14 @@ import 'package:gereh/services/ui_design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobDetails extends GetView<JobDetailsTestController> {
-  final AdvModel mod;
+  final AdvModel data;
   const JobDetails({
     super.key,
-    required this.mod,
+    required this.data,
   });
   @override
   Widget build(BuildContext context) {
-    bool isHiring = mod.adType == '1' ? false : true;
+    bool isHiring = data.adType == '1' ? false : true;
     return MaterialApp(
       theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
@@ -34,15 +35,13 @@ class JobDetails extends GetView<JobDetailsTestController> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: AppBar(
-            actions: [SaveButton(data: mod), const SizedBox(width: 10)],
-            leading: InkWell(
-              onTap: () {
+            actions: [SaveButton(data: data)],
+            leading: MyRoundedButton(
+              elevation: 0,
+              onClick: () {
                 Navigator.pop(context);
               },
-              child: const Icon(
-                Iconsax.arrow_right_3,
-                color: MyColors.black,
-              ),
+              icon: const Icon(Iconsax.arrow_right_3),
             ),
             elevation: 0,
             scrolledUnderElevation: 3,
@@ -64,10 +63,10 @@ class JobDetails extends GetView<JobDetailsTestController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              imagesView(context, mod.images),
+                              imagesView(context, data.images),
                               const SizedBox(height: 30),
                               Text(
-                                mod.title,
+                                data.title,
                                 style: const TextStyle(
                                   color: MyColors.black,
                                   fontSize: 18,
@@ -84,7 +83,7 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                   ),
                                   const SizedBox(width: 5),
                                   Text(
-                                    MyStrings.timeFunction(mod.time),
+                                    MyStrings.timeFunction(data.time),
                                     style: const TextStyle(
                                         color: Colors.grey, fontSize: 12),
                                   ),
@@ -101,31 +100,31 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                     children: [
                                       IconContainer(
                                         title: 'جنسیت',
-                                        value: mod.gender,
-                                        icon: mod.gender == 'آقا'
+                                        value: data.gender,
+                                        icon: data.gender == 'آقا'
                                             ? Iconsax.man
                                             : Iconsax.woman,
                                         iconColor: MyColors.green,
                                       ),
                                       IconContainer(
                                         title: 'دستمزد',
-                                        value: mod.price == 'توافقی'
+                                        value: data.price == 'توافقی'
                                             ? 'توافقی'
-                                            : MyStrings.digi(mod.price == ''
-                                                ? mod.price
-                                                : mod.price),
+                                            : MyStrings.digi(data.price == ''
+                                                ? data.price
+                                                : data.price),
                                         icon: Iconsax.dollar_square,
                                         iconColor: MyColors.red,
                                       ),
                                       IconContainer(
                                         title: 'شیوه پرداخت',
-                                        value: mod.payMethod,
+                                        value: data.payMethod,
                                         icon: Iconsax.wallet_money,
                                         iconColor: MyColors.orange,
                                       ),
                                       IconContainer(
                                         title: 'نوع همکاری',
-                                        value: mod.workType,
+                                        value: data.workType,
                                         icon: Iconsax.home_wifi5,
                                         iconColor: MyColors.blue,
                                       )
@@ -138,7 +137,7 @@ class JobDetails extends GetView<JobDetailsTestController> {
                               MyRow2(
                                 icon: Iconsax.profile_2user,
                                 title: 'عنوان شغلی:',
-                                value: mod.profission,
+                                value: data.profission,
                               ),
                               const Divider(
                                 height: 35,
@@ -146,7 +145,7 @@ class JobDetails extends GetView<JobDetailsTestController> {
                               MyRow2(
                                 icon: Iconsax.category,
                                 title: 'دسته بندی:',
-                                value: mod.category,
+                                value: data.category,
                               ),
                               const Divider(height: 35),
                               const Text(
@@ -156,23 +155,23 @@ class JobDetails extends GetView<JobDetailsTestController> {
                               const SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(mod.descs,
+                                child: Text(data.descs,
                                     textAlign: TextAlign.justify),
                               ),
                               const SizedBox(height: 10),
-                              mod.locationBool
+                              data.locationBool
                                   ? InkWell(
                                       onTap: () {
                                         MapsLauncher.launchCoordinates(
-                                            double.parse(mod.lat),
-                                            double.parse(mod.lon));
+                                            double.parse(data.lat),
+                                            double.parse(data.lon));
                                       },
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: CachedNetworkImage(
                                           imageUrl:
                                               'https://api.neshan.org/v2/static?key=service.3701bff2e5814681af87132d10abe63a&'
-                                              'type=dreamy&zoom=15&center=${mod.lat},${mod.lon}'
+                                              'type=dreamy&zoom=15&center=${data.lat},${data.lon}'
                                               '&width=700&height=400&marker=red',
                                         ),
                                       ),
@@ -226,147 +225,7 @@ class JobDetails extends GetView<JobDetailsTestController> {
                             backgroundColor: Colors.transparent,
                             context: context,
                             builder: (context) {
-                              return SingleChildScrollView(
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xfff2f5fc),
-                                      borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(15),
-                                      )),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Directionality(
-                                      textDirection: TextDirection.rtl,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 6,
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Wrap(
-                                            alignment: WrapAlignment.center,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {},
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 15.0),
-                                                  child: IconContainer(
-                                                    title: 'تلگرام',
-                                                    value: '',
-                                                    icon: FontAwesomeIcons
-                                                        .telegram,
-                                                    iconColor: Colors.lightBlue,
-                                                  ),
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible: true,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 15.0),
-                                                    child: IconContainer(
-                                                      title: 'اینستاگرام',
-                                                      value: '',
-                                                      icon: Iconsax.instagram,
-                                                      iconColor: MyColors.red,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible: true,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 15.0),
-                                                    child: IconContainer(
-                                                      title: 'واتس اپ',
-                                                      value: '',
-                                                      icon: FontAwesomeIcons
-                                                          .whatsapp,
-                                                      iconColor: Colors.green,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible: true,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 15.0),
-                                                    child: IconContainer(
-                                                      title: 'چت',
-                                                      value: '',
-                                                      icon:
-                                                          Iconsax.sms_tracking,
-                                                      iconColor:
-                                                          MyColors.orange,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () {},
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 15.0),
-                                                  child: IconContainer(
-                                                    title: 'وبسایت',
-                                                    value: '',
-                                                    icon: Iconsax.global,
-                                                    iconColor: Colors.brown,
-                                                  ),
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () {},
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 15.0),
-                                                  child: IconContainer(
-                                                    title: 'ایمیل',
-                                                    value: '',
-                                                    icon: Icons
-                                                        .alternate_email_outlined,
-                                                    iconColor:
-                                                        Colors.deepPurple,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          MyRow(
-                                            icon: Iconsax.call,
-                                            text:
-                                                'تماس تلفنی با: ${mod.callNumber}',
-                                            background: MyColors.green,
-                                          ),
-                                          MyRow(
-                                            icon: Iconsax.sms,
-                                            text:
-                                                'ارسال پیامک به: ${mod.smsNumber}',
-                                            background: MyColors.blue,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
+                              return ContactWithAdvertizer(data: data);
                             },
                           );
                         },
@@ -477,9 +336,194 @@ class JobDetails extends GetView<JobDetailsTestController> {
     }
   }
 
-  Future<void> launchInstagram({required String id}) async {
+  Future<void> _launchInstagram({required String id}) async {
     // ignore: deprecated_member_use
     await launch("https://www.instagram.com/$id/", universalLinksOnly: true);
+  }
+}
+
+class ContactWithAdvertizer extends StatelessWidget {
+  const ContactWithAdvertizer({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final AdvModel data;
+
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        decoration: const BoxDecoration(
+            color: Color(0xfff2f5fc),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(15),
+            )),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Column(
+              children: [
+                Container(
+                  height: 6,
+                  width: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    Visibility(
+                      visible: data.telegramBool,
+                      child: InkWell(
+                        onTap: () {
+                          _launchInBrowser(
+                              Uri.parse('https://t.me/${data.telegramId}'));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: IconContainer(
+                            title: 'تلگرام',
+                            value: '',
+                            icon: FontAwesomeIcons.telegram,
+                            iconColor: Colors.lightBlue,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: data.instagramBool,
+                      child: InkWell(
+                        onTap: () {
+                          _launchInBrowser(Uri.parse(
+                              'instagram://user?username=${data.instagramid}'));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: IconContainer(
+                            title: 'اینستاگرام',
+                            value: '',
+                            icon: Iconsax.instagram,
+                            iconColor: MyColors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: data.whatsappBool,
+                      child: InkWell(
+                        onTap: () {
+                          _launchInBrowser(Uri.parse(
+                              'https://wa.me/+98${data.whatsappNumber}:'));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: IconContainer(
+                            title: 'واتس اپ',
+                            value: '',
+                            icon: FontAwesomeIcons.whatsapp,
+                            iconColor: Colors.green,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: data.chatBool,
+                      child: InkWell(
+                        onTap: () {},
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: IconContainer(
+                            title: 'چت',
+                            value: '',
+                            icon: Iconsax.sms_tracking,
+                            iconColor: MyColors.orange,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: data.websiteBool,
+                      child: InkWell(
+                        onTap: () {
+                          _launchInBrowser(
+                              Uri.parse('https://${data.websiteAddress}'));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: IconContainer(
+                            title: 'وبسایت',
+                            value: '',
+                            icon: Iconsax.global,
+                            iconColor: Colors.brown,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: data.emailBool,
+                      child: InkWell(
+                        onTap: () {
+                          _launchInBrowser(
+                            Uri(
+                              scheme: 'mailto',
+                              path: data.emailAddress,
+                              query:
+                                  'subject=آگهی استخدام با عنوان: ${data.title} در اپلیکیشن گره',
+                            ),
+                          );
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: IconContainer(
+                            title: 'ایمیل',
+                            value: '',
+                            icon: Icons.alternate_email_outlined,
+                            iconColor: Colors.deepPurple,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Visibility(
+                  visible: data.callBool,
+                  child: _MyRow(
+                    onTap: () =>
+                        _launchInBrowser(Uri.parse('tel:${data.callNumber}')),
+                    icon: Iconsax.call,
+                    text: 'تماس تلفنی با: ${data.callNumber}',
+                    background: MyColors.green,
+                  ),
+                ),
+                Visibility(
+                  visible: data.smsBool,
+                  child: _MyRow(
+                    onTap: () =>
+                        _launchInBrowser(Uri.parse('sms:${data.smsNumber}')),
+                    icon: Iconsax.sms,
+                    text: 'ارسال پیامک به: ${data.smsNumber}',
+                    background: MyColors.blue,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -511,34 +555,31 @@ class _SaveButtonState extends State<SaveButton> {
 
   @override
   Widget build(BuildContext context) {
-    return InkResponse(
-      radius: 10,
-      splashColor: isAvailable
-          ? Colors.black.withOpacity(0.3)
-          : MyColors.red.withOpacity(0.3),
-      onTap: () async {
+    return MyRoundedButton(
+      elevation: 0,
+      icon: Icon(
+        isAvailable ? FontAwesomeIcons.bookBookmark : FontAwesomeIcons.book,
+        color: isAvailable ? MyColors.red : Colors.black,
+      ),
+      backColor: MyColors.backgroundColor,
+      text: '',
+      onClick: () async {
         var hive = await Hive.openBox('bookmarks');
         isAvailable
             ? HiveActions.deleteBookmark(advModel: widget.data, hive: hive)
             : HiveActions.addBookmark(advModel: widget.data, hive: hive);
         checkAvailability();
       },
-      child: SizedBox(
-        child: Icon(
-          isAvailable ? FontAwesomeIcons.bookBookmark : FontAwesomeIcons.book,
-          color: isAvailable ? MyColors.red : Colors.black,
-        ),
-      ),
     );
   }
 }
 
-class MyRow extends StatelessWidget {
+class _MyRow extends StatelessWidget {
   final Function()? onTap;
   final IconData icon;
   final String text;
   final Color background;
-  const MyRow({
+  const _MyRow({
     Key? key,
     this.onTap,
     required this.icon,

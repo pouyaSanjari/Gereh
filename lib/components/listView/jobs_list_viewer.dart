@@ -32,7 +32,7 @@ class JobsListViewer extends StatelessWidget {
             onTap: () {
               Get.to(
                 () => JobDetails(
-                  mod: jobsList[index],
+                  data: jobsList[index],
                 ),
               );
             },
