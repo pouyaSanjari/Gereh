@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/pages/chat/main.chat.page.dart';
-import 'package:gereh/pages/profile_page/main.profile.page.dart';
-import 'package:gereh/pages/jobsList/jobs_list.dart';
-import 'package:gereh/pages/map/jobs_list_on_map.dart';
+import 'package:gereh/pages/profile_page/view/profile_page.dart';
+import 'package:gereh/pages/jobsList/view/jobs_list.dart';
+import 'package:gereh/pages/map/view/jobs_list_on_map.dart';
 import 'package:gereh/services/ui_design.dart';
-import 'package:gereh/pages/sabt_agahi/p0.main.page.dart';
+import 'package:gereh/pages/sabt_agahi/view/p0.main.page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-import '../../constants/colors.dart';
+import '../../constants/my_colors.dart';
 
 class MyToggleSwitch extends StatelessWidget {
   final void Function(int?)? onToggle;

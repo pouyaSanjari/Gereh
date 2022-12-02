@@ -10,7 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:gereh/components/buttons/button.dart';
 import 'package:gereh/components/textFields/text.field.dart';
 import 'package:gereh/pages/generalPages/main_page.dart';
-import 'package:gereh/components/pages/select_city.dart';
+import 'package:gereh/pages/jobsList/view/select_city.dart';
 import 'package:gereh/services/database.dart';
 import '../../services/ui_design.dart';
 

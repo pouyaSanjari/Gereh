@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:hive/hive.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:gereh/components/listView/jobs_list_viewer.dart';
+import 'package:gereh/components/jobsListViewer/jobs_list_viewer.dart';
 import 'package:gereh/models/adv_model.dart';
 import 'package:gereh/services/ui_design.dart';
 

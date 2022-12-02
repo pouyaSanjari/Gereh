@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
+import '../../constants/my_colors.dart';
 
 class MyTextField extends StatelessWidget {
   final String labeltext;

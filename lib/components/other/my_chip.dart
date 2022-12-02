@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gereh/constants/colors.dart';
+import 'package:gereh/constants/my_colors.dart';
 
 class MyChip extends StatelessWidget {
   final bool val;
