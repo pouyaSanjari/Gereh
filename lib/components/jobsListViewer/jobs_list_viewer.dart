@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gereh/components/filterPage/controller/filter_controller.dart';
+import 'package:gereh/services/database.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/constants/my_strings.dart';
@@ -29,6 +32,13 @@ class JobsListViewer extends StatelessWidget {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: ListTile(
+            onLongPress: () {
+              final box = GetStorage();
+              if (jobsList[index].advertizerId.toString() ==
+                  box.read('id').toString()) {
+                AppDataBase().deleteAd(jobsList[index].id);
+              }
+            },
             onTap: () {
               Get.to(
                 () => JobDetails(

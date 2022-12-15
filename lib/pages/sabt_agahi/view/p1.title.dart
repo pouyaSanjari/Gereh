@@ -92,9 +92,8 @@ class TitlePage extends GetView<RequestController> {
             ),
           ),
           const SizedBox(height: 20),
-          Text('|عنوان آگهی', style: UiDesign.titleTextStyle()),
-          Text('   توضیح مختصری از آگهی خود را وارد کنید.',
-              style: UiDesign.descriptionsTextStyle()),
+          Text('عنوان آگهی', style: UiDesign.titleTextStyle()),
+
           const SizedBox(height: 5),
 
           //تکست فیلد وارد کردن عنوان آگهی
@@ -113,7 +112,7 @@ class TitlePage extends GetView<RequestController> {
             ),
           ),
           const SizedBox(height: 20),
-          Text('|دسته بندی ', style: UiDesign.titleTextStyle()),
+          Text('دسته بندی ', style: UiDesign.titleTextStyle()),
           Text('   انتخاب دسته بندی صحیح بازدید آگهی شما را افزایش خواهد داد.',
               style: UiDesign.descriptionsTextStyle()),
           const SizedBox(height: 5),
@@ -135,7 +134,7 @@ class TitlePage extends GetView<RequestController> {
           ),
 
           const SizedBox(height: 20),
-          Text('|شهر محل آگهی ', style: UiDesign.titleTextStyle()),
+          Text('شهر محل آگهی ', style: UiDesign.titleTextStyle()),
           Text('   آگهی شما در لیست آگهی های کدام شهر نمایش داده شود؟',
               style: UiDesign.descriptionsTextStyle()),
           const SizedBox(height: 5),
@@ -156,32 +155,6 @@ class TitlePage extends GetView<RequestController> {
                     }
                   });
                 }),
-          ),
-
-          const SizedBox(height: 20),
-          Text('|توضیحات', style: UiDesign.titleTextStyle()),
-          Text(
-            '   سعی کنید شرح کاملی از درخواست خود را وارد کنید تا هیچ ابهامی باقی نماند، این مورد می تواند شانس استخدام نیرو و جذب مشتری را افزایش دهد.',
-            style: UiDesign.descriptionsTextStyle(),
-          ),
-          const SizedBox(height: 5),
-          Obx(
-            () => MyTextField(
-                error: controller.descriptionsError.isEmpty
-                    ? null
-                    : controller.descriptionsError.value,
-                textInputType: TextInputType.multiline,
-                control: controller.descriptionsTEC.value,
-                minLine: 1,
-                maxLine: 20,
-                icon: const Icon(Iconsax.textalign_justifyright5,
-                    color: MyColors.black),
-                length: 1000,
-                hint: 'توضیحات کامل آگهی خود را اینجا وارد کنید',
-                onChange: (value) {
-                  controller.descriptionsError.value = '';
-                },
-                labeltext: 'توضیحات آگهی '),
           ),
         ],
       ),

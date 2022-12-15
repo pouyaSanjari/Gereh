@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:gereh/pages/chat/main.chat.page.dart';
+import 'package:gereh/pages/profile_page/view/saved_ads_page.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:gereh/pages/profile_page/view/profile_page.dart';
 import 'package:gereh/pages/jobsList/view/jobs_list.dart';
 import 'package:gereh/pages/map/view/jobs_list_on_map.dart';
@@ -38,7 +39,7 @@ class _MainPageState extends State<MainPage> {
   Widget buildBody() {
     switch (currIndex) {
       case 1:
-        return const MainChatPage();
+        return const ChatPage();
       case 2:
         return const MainRequestPage();
       case 3:
@@ -46,7 +47,7 @@ class _MainPageState extends State<MainPage> {
       case 4:
         return const JobsListOnMap();
       default:
-        return const ProfilePage();
+        return ProfilePage();
     }
   }
 

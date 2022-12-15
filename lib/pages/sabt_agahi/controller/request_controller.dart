@@ -69,9 +69,7 @@ class RequestController extends GetxController {
     if (titleTEC.value.text.trim().isEmpty) {
       titleError.value = 'وارد کردن عنوان برای آگهی الزامی است.';
     }
-    if (descriptionsTEC.value.text.trim().isEmpty) {
-      descriptionsError.value = 'لطفا توضیحات آگهی را وارد کنید.';
-    }
+
     if (categoryTEC.value.text.trim().isEmpty) {
       categoryError.value = 'لطفا یک دسته بندی برای آگهی خود انتخاب کنید.';
     }
@@ -80,7 +78,6 @@ class RequestController extends GetxController {
     }
     if (cityError.isEmpty &&
         categoryError.isEmpty &&
-        descriptionsError.isEmpty &&
         titleError.isEmpty &&
         adType.value != 2) {
       if (adType.value == 0) {
@@ -88,6 +85,50 @@ class RequestController extends GetxController {
       } else {
         activeStep.value = 2;
       }
+    }
+  }
+
+// ad feautures page
+// ##################################################
+  final RxList<TextEditingController> sharayetTEC =
+      [TextEditingController()].obs;
+  final RxList<TextEditingController> mazayaTEC = [TextEditingController()].obs;
+  final RxList<FocusNode> sharayetFocus = [FocusNode()].obs;
+  final RxList<FocusNode> mazayaFocus = [FocusNode()].obs;
+
+  void addSharayetTextField() {
+    // اگر یکی از فیلد ها را پر نکرده بود
+    if (sharayetTEC.any((element) => element.text.isEmpty)) {
+      // بیا چک کن ببین کدوم فیلده
+      for (var i = 0; i < sharayetTEC.length; i++) {
+        if (sharayetTEC[i].text.isEmpty) {
+          // روی همون فیلد فوکس کن
+          sharayetFocus[i].requestFocus();
+        }
+      }
+      // در صورتی که هیچ فیلدی خالی نبود و تعداد کمتر از 8 بود یه فیلد جدید اضافه کن
+    } else if (sharayetTEC.length < 8) {
+      sharayetTEC.add(TextEditingController());
+      sharayetFocus.add(FocusNode());
+      sharayetFocus.last.requestFocus();
+    }
+  }
+
+  void addMazayaTextField() {
+    // اگر یکی از فیلد ها را پر نکرده بود
+    if (mazayaTEC.any((element) => element.text.isEmpty)) {
+      // بیا چک کن ببین کدوم فیلده
+      for (var i = 0; i < mazayaTEC.length; i++) {
+        if (mazayaTEC[i].text.isEmpty) {
+          // روی همون فیلد فوکس کن
+          mazayaFocus[i].requestFocus();
+        }
+      }
+      // در صورتی که هیچ فیلدی خالی نبود یه فیلد جدید اضافه کن
+    } else if (mazayaTEC.length < 8) {
+      mazayaTEC.add(TextEditingController());
+      mazayaFocus.add(FocusNode());
+      mazayaFocus.last.requestFocus();
     }
   }
 

@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gereh/components/buttons/rounded.button.dart';
+import 'package:gereh/components/buttons/save_button.dart';
 import 'package:gereh/constants/my_text_styles.dart';
-import 'package:gereh/services/hive_actions.dart';
+import 'package:gereh/pages/profile_page/controller/saved_ads_page_controller.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/components/buttons/my_button.dart';
 import 'package:gereh/components/other/icon.container.dart';
 import 'package:gereh/components/imageViewer/view/image_viewer.dart';
 import 'package:gereh/components/other/my.container.dart';
@@ -21,11 +20,11 @@ import 'package:gereh/services/ui_design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobDetails extends GetView<JobDetailsTestController> {
-  final AdvModel data;
   const JobDetails({
     super.key,
     required this.data,
   });
+  final AdvModel data;
   @override
   Widget build(BuildContext context) {
     bool isHiring = data.adType == '1' ? false : true;
@@ -42,13 +41,12 @@ class JobDetails extends GetView<JobDetailsTestController> {
                 backColor: Colors.transparent,
               )
             ],
-            leading: MyRoundedButton(
-              backColor: Colors.transparent,
-              elevation: 0,
-              onClick: () {
+            leading: BackButton(
+              onPressed: () {
                 Navigator.pop(context);
+                final svp = Get.put(SavedAdsPageController());
+                svp.readData();
               },
-              icon: const Icon(Iconsax.arrow_right_3),
             ),
             elevation: 0,
             scrolledUnderElevation: 5,
@@ -141,13 +139,21 @@ class JobDetails extends GetView<JobDetailsTestController> {
                               ),
                               const SizedBox(height: 10),
                               const SizedBox(height: 30),
-                              MyRow2(
-                                icon: Iconsax.profile_2user,
-                                title: 'عنوان شغلی:',
-                                value: data.profission,
+                              Visibility(
+                                visible: isHiring,
+                                child: MyRow2(
+                                  icon: Iconsax.profile_2user,
+                                  title: 'عنوان شغلی:',
+                                  value: data.profission,
+                                ),
                               ),
-                              const Divider(
-                                height: 35,
+                              Visibility(
+                                visible: isHiring,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                child: const Divider(
+                                  height: 35,
+                                ),
                               ),
                               MyRow2(
                                 icon: Iconsax.category,
@@ -514,7 +520,8 @@ class _ContactWithAdvertizer extends StatelessWidget {
                     onTap: () =>
                         _launchInBrowser(Uri.parse('tel:${data.callNumber}')),
                     icon: Iconsax.call,
-                    text: 'تماس تلفنی با: ${data.callNumber}',
+                    text:
+                        'تماس تلفنی با: ${data.callNumber.substring(data.callNumber.length - 4)}***${data.callNumber.characters.take(4)}',
                     background: MyColors.green,
                   ),
                 ),
@@ -524,7 +531,8 @@ class _ContactWithAdvertizer extends StatelessWidget {
                     onTap: () =>
                         _launchInBrowser(Uri.parse('sms:${data.smsNumber}')),
                     icon: Iconsax.sms,
-                    text: 'ارسال پیامک به: ${data.smsNumber}',
+                    text:
+                        'ارسال پیامک به: ${data.callNumber.substring(data.callNumber.length - 4)}***${data.callNumber.characters.take(4)}',
                     background: MyColors.blue,
                   ),
                 ),
@@ -533,55 +541,6 @@ class _ContactWithAdvertizer extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class SaveButton extends StatefulWidget {
-  const SaveButton({
-    Key? key,
-    required this.data,
-    this.backColor,
-  }) : super(key: key);
-
-  final AdvModel data;
-  final Color? backColor;
-  @override
-  State<SaveButton> createState() => _SaveButtonState();
-}
-
-class _SaveButtonState extends State<SaveButton> {
-  bool isAvailable = false;
-
-  void checkAvailability() async {
-    isAvailable = await HiveActions.checkIfObjectExists(
-        advModel: widget.data, box: 'bookmarks');
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    checkAvailability();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MyRoundedButton(
-      elevation: 0,
-      icon: Icon(
-        isAvailable ? FontAwesomeIcons.bookBookmark : FontAwesomeIcons.book,
-        color: isAvailable ? MyColors.red : Colors.black,
-      ),
-      backColor: widget.backColor ?? MyColors.backgroundColor,
-      text: '',
-      onClick: () async {
-        var hive = await Hive.openBox('bookmarks');
-        isAvailable
-            ? HiveActions.deleteBookmark(advModel: widget.data, hive: hive)
-            : HiveActions.addBookmark(advModel: widget.data, hive: hive);
-        checkAvailability();
-      },
     );
   }
 }

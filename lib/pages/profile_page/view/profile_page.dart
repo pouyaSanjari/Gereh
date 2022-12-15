@@ -1,41 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gereh/pages/jobsList/view/job_details.dart';
+import 'package:gereh/pages/profile_page/controller/profile_page_controller.dart';
+import 'package:gereh/pages/profile_page/controller/saved_ads_page_controller.dart';
+import 'package:gereh/pages/profile_page/view/my_ads.dart';
+import 'package:gereh/pages/profile_page/view/saved_ads_page.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:gereh/components/buttons/rounded.button.dart';
+import 'package:gereh/components/buttons/my_rounded_button.dart';
 import 'package:gereh/services/ui_design.dart';
-import 'package:gereh/services/database.dart';
 import 'settings.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfilePage extends StatelessWidget {
+  ProfilePage({Key? key}) : super(key: key);
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
+  final controller = Get.put(ProfilePageController());
+  final uiDesign = UiDesign();
 
-class _ProfilePageState extends State<ProfilePage> {
-  final box = GetStorage();
+  final bool isConnected = true;
 
-  String name = '';
-  String family = '';
-  String number = '';
-  int userId = 0;
-
-  AppDataBase dataBase = AppDataBase();
-  int signInType = 1;
-  UiDesign uiDesign = UiDesign();
-
-  bool isConnected = true;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: buildAppBar(
+        appBar: _buildAppBar(
           context: context,
           title: 'وارد شده به عنوان: کارجو',
         ),
@@ -46,20 +36,24 @@ class _ProfilePageState extends State<ProfilePage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 //نام و نام خانوادگی
-                Center(
-                  child: Text(
-                    '$name $family',
-                    style: const TextStyle(fontSize: 20),
+                Obx(
+                  () => Center(
+                    child: Text(
+                      controller.nameAndFamily.value,
+                      style: const TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 //شماره تلفن
-                Center(
-                  child: Text(
-                    '$number ',
-                    style: const TextStyle(fontSize: 12),
+                Obx(
+                  () => Center(
+                    child: Text(
+                      controller.number.value,
+                      style: const TextStyle(fontSize: 12),
+                    ),
                   ),
                 ),
                 const Divider(),
@@ -74,9 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         backColor: Colors.redAccent,
                         text: 'ویرایش مشخصات',
-                        onClick: () {
-                          // TODO: رفتن به صفحه ویرایش مشخصات
-                        }),
+                        onClick: () {}),
                     MyRoundedButton(
                         icon: const Icon(
                           Iconsax.headphone5,
@@ -87,16 +79,29 @@ class _ProfilePageState extends State<ProfilePage> {
                         onClick: () {})
                   ],
                 ),
-                ListTile(
-                  onTap: () {},
-                  leading: const Icon(Iconsax.save_2),
-                  title: const Text(
-                    'موارد ذخیره شده',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: const Text('نشان ها و یادداشت ها',
-                      style: TextStyle(fontSize: 11)),
-                  trailing: const Icon(Iconsax.arrow_left_1),
+                _CostumeListTile(
+                  icon: Iconsax.save_2,
+                  title: 'موارد ذخیره شده',
+                  sub: 'نشانها و یادداشت ها',
+                  onTap: () {
+                    final svdpc = Get.put(SavedAdsPageController());
+                    svdpc.readData();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SavedAdsPage(),
+                        ));
+                  },
+                ),
+                _CostumeListTile(
+                  title: 'آگهی های من',
+                  sub: 'آگهی های شما در اپلیکیشن گره',
+                  icon: Iconsax.briefcase,
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyAds(),
+                      )),
                 ),
               ],
             ),
@@ -106,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  AppBar buildAppBar({required BuildContext context, required String title}) {
+  AppBar _buildAppBar({required BuildContext context, required String title}) {
     return AppBar(
       title: Text(
         title,
@@ -132,28 +137,32 @@ class _ProfilePageState extends State<ProfilePage> {
       elevation: 0,
     );
   }
+}
 
-  getUserDetails() async {
-    await checkConnection();
-    isConnected == false
-        ? Fluttertoast.showToast(msg: 'اتصال اینترنت را بررسی نمایید')
-        : null;
-    userId = box.read('id') ?? 0;
-    var response = await dataBase.getUserDetailsById(userId: userId);
-    setState(() {
-      name = response[0]['name'];
-      family = response[0]['family'];
-      number = response[0]['number'];
-    });
-  }
-
-  checkConnection() async {
-    isConnected = await dataBase.checkUserConnection();
-  }
+class _CostumeListTile extends StatelessWidget {
+  const _CostumeListTile({
+    Key? key,
+    required this.title,
+    required this.sub,
+    required this.icon,
+    required this.onTap,
+  }) : super(key: key);
+  final String title;
+  final String sub;
+  final void Function() onTap;
+  final IconData icon;
 
   @override
-  void initState() {
-    getUserDetails();
-    super.initState();
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      leading: Icon(icon),
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 16),
+      ),
+      subtitle: Text(sub, style: const TextStyle(fontSize: 11)),
+      trailing: const Icon(Iconsax.arrow_left_1),
+    );
   }
 }

@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
-import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/components/buttons/my_button.dart';
 import 'package:gereh/components/textFields/text.field.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/pages/login/controller/login.controller.dart';

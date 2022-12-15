@@ -6,7 +6,7 @@ class MyTextField extends StatelessWidget {
   final String labeltext;
   final Color? backgroundColor;
   final Color? borderColor;
-
+  final bool? expands;
   final Widget? icon;
   final Widget? suffix;
   final TextEditingController control;
@@ -22,6 +22,8 @@ class MyTextField extends StatelessWidget {
   final TextAlign? textAlign;
   final ValueChanged<String>? onSubmit;
   final ValueChanged<String>? onChange;
+  final FocusNode? focusNode;
+  final TextAlignVertical? textAlignVertical;
   const MyTextField(
       {Key? key,
       required this.labeltext,
@@ -41,7 +43,10 @@ class MyTextField extends StatelessWidget {
       this.onChange,
       this.backgroundColor,
       this.borderColor,
-      this.height})
+      this.height,
+      this.focusNode,
+      this.textAlignVertical,
+      this.expands})
       : super(key: key);
 
   @override
@@ -50,6 +55,14 @@ class MyTextField extends StatelessWidget {
     return SizedBox(
       height: height ?? 50,
       child: TextField(
+        cursorRadius: const Radius.circular(50),
+        cursorColor: MyColors.black,
+        cursorWidth: 1.5,
+        cursorHeight: 25,
+        style: const TextStyle(fontSize: 17),
+        textAlignVertical: textAlignVertical,
+        expands: expands ?? false,
+        focusNode: focusNode,
         textInputAction: textInputAction,
         onSubmitted: onSubmit,
         onChanged: onChange,
@@ -64,10 +77,10 @@ class MyTextField extends StatelessWidget {
                 TextPosition(offset: control.text.length));
           }
         },
-        maxLength: length ?? 30,
+        maxLength: length,
         keyboardType: textInputType ?? TextInputType.text,
         minLines: minLine,
-        maxLines: maxLine ?? 1,
+        maxLines: maxLine,
         decoration: InputDecoration(
           fillColor: backgroundColor ?? Colors.brown.withOpacity(0.1),
           filled: true,
@@ -85,7 +98,7 @@ class MyTextField extends StatelessWidget {
             ),
           ),
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           suffixIcon: suffix,
 
           //  control.text.isEmpty ? null : suffix,

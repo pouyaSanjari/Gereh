@@ -1,11 +1,12 @@
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
+import 'package:gereh/pages/sabt_agahi/view/p1_ad_feautures.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
-import 'package:gereh/components/buttons/button.dart';
+import 'package:gereh/components/buttons/my_button.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/pages/sabt_agahi/view/p4_other_futures.dart';
 import 'package:gereh/services/ui_design.dart';
@@ -92,6 +93,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 controller.validateTitlePage();
               }),
         );
+
       case 1:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -109,15 +111,43 @@ class _MainRequestPageState extends State<MainRequestPage>
               MyButton(
                 fillColor: MyColors.red,
                 onClick: () => controller.validateWorkerDeatails(),
-                child: const Text(
-                  'ادامه',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
+                child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
               )
             ],
           ),
         );
       case 2:
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MyButton(
+                elevation: 0,
+                fillColor: Colors.grey.withOpacity(0.4),
+                child: const Icon(Iconsax.arrow_right_4),
+                onClick: () {
+                  controller.activeStep.value--;
+                },
+              ),
+              MyButton(
+                fillColor: MyColors.red,
+                onClick: () {
+                  if (controller.descriptionsTEC.value.text.trim().isEmpty ||
+                      controller.descriptionsTEC.value.text.trim().length <
+                          15) {
+                    controller.descriptionsError.value =
+                        'لطفا توضیحات آگهی را وارد کنید.';
+                  } else {
+                    controller.activeStep.value++;
+                  }
+                },
+                child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
+              )
+            ],
+          ),
+        );
+      case 3:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Row(
@@ -144,7 +174,7 @@ class _MainRequestPageState extends State<MainRequestPage>
             ],
           ),
         );
-      case 3:
+      case 4:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Row(
@@ -169,13 +199,20 @@ class _MainRequestPageState extends State<MainRequestPage>
             ],
           ),
         );
-      case 4:
+      case 5:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              backBTN(),
+              MyButton(
+                elevation: 0,
+                fillColor: Colors.grey.withOpacity(0.4),
+                child: const Icon(Iconsax.arrow_right_4),
+                onClick: () {
+                  controller.activeStep.value--;
+                },
+              ),
               MyButton(
                   fillColor: Colors.green,
                   child: const Text(
@@ -192,19 +229,17 @@ class _MainRequestPageState extends State<MainRequestPage>
         );
       default:
         return Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               MyButton(
+                elevation: 0,
+                fillColor: Colors.grey.withOpacity(0.4),
+                child: const Icon(Iconsax.arrow_right_4),
                 onClick: () {
-                  setState(() {
-                    if (controller.activeStep.value >= 1) {
-                      controller.activeStep.value--;
-                    }
-                  });
+                  controller.activeStep.value--;
                 },
-                child: const Text('بازگشت'),
               ),
               MyButton(
                 onClick: () => setState(() {
@@ -212,23 +247,12 @@ class _MainRequestPageState extends State<MainRequestPage>
                     controller.activeStep.value++;
                   }
                 }),
-                child: const Text('ادامه'),
+                child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
               )
             ],
           ),
         );
     }
-  }
-
-  MyButton backBTN() {
-    return MyButton(
-      elevation: 0,
-      fillColor: Colors.grey.withOpacity(0.4),
-      child: const Icon(Iconsax.arrow_right_4),
-      onClick: () {
-        controller.activeStep.value--;
-      },
-    );
   }
 
 //ذخیره تبلیغ در دیتابیس
@@ -328,7 +352,7 @@ class _MainRequestPageState extends State<MainRequestPage>
     return IconStepper(
       enableStepTapping: false,
       enableNextPreviousButtons: false,
-      stepReachedAnimationDuration: const Duration(milliseconds: 1),
+      stepReachedAnimationDuration: const Duration(milliseconds: 800),
       stepReachedAnimationEffect: Curves.fastLinearToSlowEaseIn,
       stepRadius: 20,
       lineDotRadius: 1.4,
@@ -354,29 +378,34 @@ class _MainRequestPageState extends State<MainRequestPage>
         ),
         // worker datails page icon
         Icon(
-          controller.activeStep.value == 1 ? Iconsax.people5 : Iconsax.people,
+          controller.activeStep.value == 1 ? Iconsax.book5 : Iconsax.book,
           color: controller.activeStep.value == 1 ? MyColors.red : Colors.grey,
         ),
+        Icon(
+          controller.activeStep.value == 2 ? Iconsax.people5 : Iconsax.people,
+          color: controller.activeStep.value == 2 ? MyColors.red : Colors.grey,
+        ),
+
         // contact info page icon
         Icon(
-          controller.activeStep.value == 2
+          controller.activeStep.value == 3
               ? Iconsax.call_calling5
               : Iconsax.call,
-          color: controller.activeStep.value == 2 ? MyColors.red : Colors.grey,
+          color: controller.activeStep.value == 3 ? MyColors.red : Colors.grey,
         ),
         // other futures page icon
         Icon(
-          controller.activeStep.value == 3
+          controller.activeStep.value == 4
               ? Iconsax.more_circle5
               : Iconsax.more_circle,
-          color: controller.activeStep.value == 3 ? MyColors.red : Colors.grey,
+          color: controller.activeStep.value == 4 ? MyColors.red : Colors.grey,
         ),
         // insert page icon
         Icon(
-          controller.activeStep.value == 4
+          controller.activeStep.value == 5
               ? Iconsax.tick_square5
               : Iconsax.tick_square,
-          color: controller.activeStep.value == 4 ? MyColors.red : Colors.grey,
+          color: controller.activeStep.value == 5 ? MyColors.red : Colors.grey,
         ),
       ],
     );
@@ -388,10 +417,12 @@ class _MainRequestPageState extends State<MainRequestPage>
       case 1:
         return const WorkerDetails();
       case 2:
-        return ContactInfo();
+        return const AdFeautures();
       case 3:
         return const OtherFutures();
       case 4:
+        return ContactInfo();
+      case 5:
         return const InsertToDataBase();
       default:
         return const TitlePage();
