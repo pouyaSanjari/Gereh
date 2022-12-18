@@ -79,17 +79,17 @@ class SelectCityController extends GetxController {
         await http.get(url, headers: {"x-api-key": MyStrings.apiKey});
 
     var json = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-
+    print(json);
     String recievedCity = json['city'].toString().trim();
     String county = json['county'].toString().trim();
     String state = json['province'].toString().trim();
 
-    if (city.trim().isNotEmpty) {
-      city.value = recievedCity.trim();
-    } else if (county.trim().isNotEmpty) {
-      city.value = county.trim();
+    if (recievedCity.trim().isNotEmpty) {
+      city.value = recievedCity;
+    } else if (county.isNotEmpty) {
+      city.value = county;
     } else {
-      city.value = state.trim();
+      city.value = state;
     }
   }
 
