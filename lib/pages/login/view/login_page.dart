@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:gereh/components/buttons/my_button.dart';
-import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/components/textFields/my_text_field.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/pages/login/controller/login.controller.dart';
 import 'package:gereh/pages/jobsList/view/select_city.dart';

@@ -1,6 +1,6 @@
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
-import 'package:gereh/pages/sabt_agahi/view/p1_ad_feautures.dart';
+import 'package:gereh/pages/sabt_agahi/view/p2_ad_feautures.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';

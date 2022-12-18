@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:gereh/components/other/loading.dart';
-import 'package:gereh/pages/map/view/marker.details.container.dart';
+import 'package:gereh/pages/map/view/marker_details_container.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/constants/my_strings.dart';
 import 'package:gereh/pages/jobsList/controller/jobs_list_controller.dart';

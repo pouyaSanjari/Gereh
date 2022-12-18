@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gereh/components/switchs/my_switch.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
@@ -9,7 +10,6 @@ import 'package:gereh/pages/sabt_agahi/controller/request_controller.dart';
 import 'package:gereh/pages/sabt_agahi/view/map.dart';
 import 'package:gereh/services/ui_design.dart';
 import '../../../components/errorPage/error_page.dart';
-import '../../../components/switchs/switch.dart';
 import '../../../constants/my_colors.dart';
 import '../../../services/database.dart';
 

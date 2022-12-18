@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gereh/components/switchs/my_switch.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/other/animated_widget.dart';
-import 'package:gereh/components/switchs/switch.dart';
-import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/components/textFields/my_text_field.dart';
 import 'package:gereh/pages/sabt_agahi/controller/paid_futures_controller.dart';
 import 'package:gereh/services/database.dart';
 import 'package:gereh/services/ui_design.dart';

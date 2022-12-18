@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../constants/my_colors.dart';
 
-class MySelectableTextField extends StatelessWidget {
+class SelectableTextField extends StatelessWidget {
   final String labeltext;
   final GestureTapCallback? onClick;
   final TextEditingController? control;
   final Icon? icon;
   final String? error;
   final String? hint;
-  const MySelectableTextField(
+  const SelectableTextField(
       {Key? key,
       required this.labeltext,
       this.onClick,

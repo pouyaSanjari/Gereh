@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:gereh/components/switchs/toggle.switch.dart';
+import 'package:gereh/components/switchs/my_toggle_switch.dart';
 import 'package:gereh/components/selectCategoryPage/select_category.dart';
-import 'package:gereh/components/textFields/selectable.text.field.dart';
-import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/components/textFields/selectable_text_field.dart';
+import 'package:gereh/components/textFields/my_text_field.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/pages/jobsList/view/select_city.dart';
 import 'package:gereh/services/ui_design.dart';
@@ -118,7 +118,7 @@ class TitlePage extends GetView<RequestController> {
           const SizedBox(height: 5),
 
           Obx(
-            () => MySelectableTextField(
+            () => SelectableTextField(
               error: controller.categoryError.isEmpty
                   ? null
                   : controller.categoryError.value,
@@ -140,7 +140,7 @@ class TitlePage extends GetView<RequestController> {
           const SizedBox(height: 5),
 
           Obx(
-            () => MySelectableTextField(
+            () => SelectableTextField(
                 error: controller.cityError.isEmpty
                     ? null
                     : controller.cityError.value,

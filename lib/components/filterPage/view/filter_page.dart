@@ -6,13 +6,13 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/other/my_chip.dart';
 import 'package:gereh/components/selectCategoryPage/select_category.dart';
-import 'package:gereh/components/textFields/selectable.text.field.dart';
+import 'package:gereh/components/textFields/selectable_text_field.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/constants/my_strings.dart';
 import 'package:gereh/constants/my_text_styles.dart';
 import 'package:gereh/components/filterPage/controller/filter_controller.dart';
 import 'package:gereh/services/ui_design.dart';
-import '../../textFields/text.field.dart';
+import '../../textFields/my_text_field.dart';
 
 class FilterPage extends StatelessWidget {
   FilterPage({super.key});
@@ -122,7 +122,7 @@ class FilterPage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: insideElementsPadding),
-                  MySelectableTextField(
+                  SelectableTextField(
                     control: controller.categoryTEC.value,
                     icon: const Icon(Iconsax.category_2),
                     labeltext: 'یک دسته بندی انتخاب کنید',

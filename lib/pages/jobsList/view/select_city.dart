@@ -3,7 +3,7 @@ import 'package:gereh/pages/jobsList/controller/select_city_controller.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/buttons/my_button.dart';
-import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/components/textFields/my_text_field.dart';
 import 'package:gereh/constants/my_colors.dart';
 
 class SelectCity extends StatelessWidget {

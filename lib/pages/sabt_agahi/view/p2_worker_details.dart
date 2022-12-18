@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/buttons/my_button.dart';
-import 'package:gereh/components/textFields/selectable.text.field.dart';
-import 'package:gereh/components/textFields/text.field.dart';
+import 'package:gereh/components/textFields/selectable_text_field.dart';
+import 'package:gereh/components/textFields/my_text_field.dart';
 import 'package:gereh/pages/sabt_agahi/controller/request_controller.dart';
 import 'package:gereh/services/ui_design.dart';
 import '../../../constants/my_colors.dart';
@@ -34,7 +34,7 @@ class WorkerDetails extends GetView<RequestController> {
                 height: 30, color: Colors.black, indent: 50, endIndent: 50),
             // const SizedBox(height: 20),
             Text('|جنسیت', style: UiDesign.titleTextStyle()),
-            MySelectableTextField(
+            SelectableTextField(
               error: controller.genderError.isEmpty
                   ? null
                   : controller.genderError.value,
@@ -61,7 +61,7 @@ class WorkerDetails extends GetView<RequestController> {
             ),
             SizedBox(height: dividerSize),
             Text('|نوع همکاری', style: UiDesign.titleTextStyle()),
-            MySelectableTextField(
+            SelectableTextField(
               error: controller.cooperationTypeError.value == ''
                   ? null
                   : controller.cooperationTypeError.value,
@@ -106,7 +106,7 @@ class WorkerDetails extends GetView<RequestController> {
             ),
             SizedBox(height: dividerSize),
             Text('|ساعات کاری', style: UiDesign.titleTextStyle()),
-            MySelectableTextField(
+            SelectableTextField(
               error: controller.workTimeError.value == ''
                   ? null
                   : controller.workTimeError.value,
@@ -151,7 +151,7 @@ class WorkerDetails extends GetView<RequestController> {
             ),
             SizedBox(height: dividerSize),
             Text('|شیوه پرداخت', style: UiDesign.titleTextStyle()),
-            MySelectableTextField(
+            SelectableTextField(
               error: controller.payMethodError.value == ''
                   ? null
                   : controller.payMethodError.value,

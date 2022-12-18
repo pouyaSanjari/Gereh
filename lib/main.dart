@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:gereh/models/adv_model.dart';
 import 'package:gereh/pages/generalPages/binding.dart';
 import 'package:gereh/services/ui_design.dart';
-import 'package:gereh/pages/login/view/login.dart';
+import 'package:gereh/pages/login/view/login_page.dart';
 import 'package:gereh/pages/generalPages/main_page.dart';
 
 void main() async {

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gereh/pages/chat/main.chat.page.dart';
-import 'package:gereh/pages/profile_page/view/saved_ads_page.dart';
+import 'package:gereh/pages/chat/chat_page.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/pages/profile_page/view/profile_page.dart';
 import 'package:gereh/pages/jobsList/view/jobs_list.dart';
