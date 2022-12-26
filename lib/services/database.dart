@@ -1,13 +1,15 @@
 import 'dart:convert' as convert;
+import 'package:gereh/pages/sabt_agahi/1_title/controller/title_controller.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:gereh/pages/sabt_agahi/controller/request_controller.dart';
+import 'package:gereh/pages/sabt_agahi/mainPage/controller/request_controller.dart';
 
 final requestController = Get.put(RequestController());
+final titleController = Get.put(TitleController());
 final box = GetStorage();
 final ImagePicker picker = ImagePicker();
 
@@ -27,19 +29,19 @@ class AppDataBase {
 
 // گرفتن تصاویر آپلود شده کاربر
   uploadedImages() async {
-    requestController.images.clear();
+    titleController.images.clear();
     Uri url =
         Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
     var jsonresponse =
         await http.post(url, body: {'userid': box.read('id').toString()});
     List result = convert.jsonDecode(jsonresponse.body);
     for (var i = 0; i < result.length; i++) {
-      requestController.images.add(result[i]['image']);
+      titleController.images.add(result[i]['image']);
     }
   }
 
   paidFeautersImages(List uploadedImages) async {
-    requestController.images.clear();
+    titleController.images.clear();
     Uri url =
         Uri.parse('http://sarkargar.ir/phpfiles/userimages/getimages.php');
     try {
@@ -49,8 +51,8 @@ class AppDataBase {
       for (int i = 0; i < result.length; i++) {
         uploadedImages.add(result[i]['image']);
       }
-      requestController.images.isEmpty
-          ? requestController.images.value = uploadedImages
+      titleController.images.isEmpty
+          ? titleController.images.value = uploadedImages
           : null;
       return result;
     } catch (e) {

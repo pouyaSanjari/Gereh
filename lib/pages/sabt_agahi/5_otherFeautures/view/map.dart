@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gereh/pages/sabt_agahi/5_otherFeautures/controller/other_feautures_controller.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/constants/my_colors.dart';
@@ -9,7 +10,7 @@ import 'package:gereh/constants/my_strings.dart';
 import 'package:gereh/services/ui_design.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
-import '../controller/request_controller.dart';
+import '../../mainPage/controller/request_controller.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  final controller = Get.put(RequestController());
+  final controller = Get.put(OtherFeauturesController());
   final uiDesign = UiDesign();
   String mapAddress =
       'https://map.ir/shiveh/xyz/1.0.0/Shiveh:Shiveh@EPSG:3857@png/{z}/{x}/{y}.png?x-api-key=';

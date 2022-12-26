@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gereh/components/switchs/my_switch.dart';
+import 'package:gereh/pages/sabt_agahi/4_contactInfo/controller/contact_info_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/other/animated_widget.dart';
 import 'package:gereh/components/textFields/my_text_field.dart';
-import 'package:gereh/pages/sabt_agahi/controller/paid_futures_controller.dart';
 import 'package:gereh/services/database.dart';
 import 'package:gereh/services/ui_design.dart';
-import '../../../constants/my_colors.dart';
-import '../controller/request_controller.dart';
+import 'package:gereh/constants/my_colors.dart';
 
-class ContactInfo extends GetView<RequestController> {
+class ContactInfo extends GetView<ContactInfoController> {
   ContactInfo({Key? key}) : super(key: key);
 
   final box = GetStorage();
@@ -21,7 +20,6 @@ class ContactInfo extends GetView<RequestController> {
 
   @override
   Widget build(BuildContext context) {
-    final pageController = PaidFuturesController();
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -40,7 +38,7 @@ class ContactInfo extends GetView<RequestController> {
           // call
           Obx(
             () => listTiles(
-              onTap: () => pageController.callState(),
+              onTap: () => controller.callState(),
               leading: Iconsax.call,
               iconColor:
                   controller.phoneBool.value ? Colors.green : Colors.black,
@@ -48,7 +46,7 @@ class ContactInfo extends GetView<RequestController> {
               swich: MySwitch(
                 val: controller.phoneBool.value,
                 onChange: (value) {
-                  pageController.callState();
+                  controller.callState();
                 },
               ),
               sub: 'کاربران می توانند مستقیما با شما تماس بگیرند.',
@@ -80,7 +78,7 @@ class ContactInfo extends GetView<RequestController> {
           // sms
           Obx(
             () => listTiles(
-              onTap: () => pageController.smsState(),
+              onTap: () => controller.smsState(),
               leading: Iconsax.sms,
               iconColor:
                   controller.smsBool.value ? Colors.pink : MyColors.black,
@@ -89,7 +87,7 @@ class ContactInfo extends GetView<RequestController> {
               swich: MySwitch(
                 val: controller.smsBool.value,
                 onChange: (value) {
-                  pageController.smsState();
+                  controller.smsState();
                 },
               ),
             ),
@@ -119,7 +117,7 @@ class ContactInfo extends GetView<RequestController> {
           // chat
           Obx(
             () => listTiles(
-              onTap: () => pageController.chatState(),
+              onTap: () => controller.chatState(),
               leading: Iconsax.sms_tracking,
               iconColor: controller.chatBool.value ? Colors.blue : Colors.black,
               title: 'چت',
@@ -128,7 +126,7 @@ class ContactInfo extends GetView<RequestController> {
               swich: MySwitch(
                 val: controller.chatBool.value,
                 onChange: (value) {
-                  pageController.chatState();
+                  controller.chatState();
                 },
               ),
             ),

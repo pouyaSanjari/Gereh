@@ -96,7 +96,6 @@ class FilterPage extends StatelessWidget {
                   ),
                   SizedBox(height: insideElementsPadding),
                   MyTextField(
-                    height: 45,
                     textInputAction: TextInputAction.search,
                     icon: const Icon(Iconsax.search_normal),
                     labeltext: 'جستجو',

@@ -1,16 +1,16 @@
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gereh/pages/sabt_agahi/2_workerDetails/controller/worker_details_controller.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/buttons/my_button.dart';
 import 'package:gereh/components/textFields/selectable_text_field.dart';
 import 'package:gereh/components/textFields/my_text_field.dart';
-import 'package:gereh/pages/sabt_agahi/controller/request_controller.dart';
 import 'package:gereh/services/ui_design.dart';
-import '../../../constants/my_colors.dart';
+import '../../../../constants/my_colors.dart';
 
-class WorkerDetails extends GetView<RequestController> {
+class WorkerDetails extends GetView<WorkerDetailsController> {
   const WorkerDetails({Key? key}) : super(key: key);
 
   @override

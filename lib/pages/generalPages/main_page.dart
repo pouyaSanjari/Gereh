@@ -7,7 +7,7 @@ import 'package:gereh/pages/profile_page/view/profile_page.dart';
 import 'package:gereh/pages/jobsList/view/jobs_list.dart';
 import 'package:gereh/pages/map/view/jobs_list_on_map.dart';
 import 'package:gereh/services/ui_design.dart';
-import 'package:gereh/pages/sabt_agahi/view/p0.main.page.dart';
+import 'package:gereh/pages/sabt_agahi/mainPage/view/main_request_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

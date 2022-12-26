@@ -1,40 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gereh/pages/sabt_agahi/3_adFeautures/controller/ad_feautures_controller.dart';
+import 'package:gereh/pages/sabt_agahi/4_contactInfo/controller/contact_info_controller.dart';
+import 'package:gereh/pages/sabt_agahi/1_title/controller/title_controller.dart';
+import 'package:gereh/pages/sabt_agahi/2_workerDetails/controller/worker_details_controller.dart';
+import 'package:gereh/pages/sabt_agahi/5_otherFeautures/controller/other_feautures_controller.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/other/my_row2.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/constants/my_strings.dart';
-import 'package:gereh/pages/sabt_agahi/controller/request_controller.dart';
+import 'package:gereh/pages/sabt_agahi/mainPage/controller/request_controller.dart';
 
 class InsertToDataBase extends GetView<RequestController> {
   const InsertToDataBase({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool isHirng = controller.adType.value == 0 ? true : false;
+    final titleController = Get.put(TitleController());
+    final adFeauturesController = Get.put(AdFeauturesController());
+    final workerDetailsController = Get.put(WorkerDetailsController());
+    final contactInfoController = Get.put(ContactInfoController());
+    final otherFeauturesController = Get.put(OtherFeauturesController());
 
-    var title = controller.titleTEC.value.text;
-    var desc = controller.descriptionsTEC.value.text;
-    var category = controller.categoryTEC.value.text;
-    var city = controller.cityTEC.value.text;
-    var gender = controller.genderTEC.value.text;
-    var cooperation = controller.cooperationTypeTEC.value.text;
-    var workTime = controller.workTimeTEC.value.text;
-    var payMthod = controller.payMethodTEC.value.text;
-    var skill = controller.skillTEC.value.text;
-    var price = controller.priceTEC.value.text;
-    bool phone = controller.phoneBool.value;
-    var sms = controller.smsBool.value;
-    var chat = controller.chatBool.value;
-    var email = controller.emailBool.value;
-    var website = controller.websiteBool.value;
-    var whatsapp = controller.whatsappBool.value;
-    var telegram = controller.telegramBool.value;
-    var instagram = controller.instagramBool.value;
-    var location = controller.locationBool.value;
-    var resume = controller.resumeBool.value;
-    var address = controller.address.value;
+    bool isHirng = titleController.adType.value == 0 ? true : false;
+
+    var title = titleController.titleTEC.value.text;
+    var category = titleController.categoryTEC.value.text;
+    var city = titleController.cityTEC.value.text;
+    var desc = adFeauturesController.descriptionsTEC.value.text;
+    var gender = workerDetailsController.genderTEC.value.text;
+    var cooperation = workerDetailsController.cooperationTypeTEC.value.text;
+    var workTime = workerDetailsController.workTimeTEC.value.text;
+    var payMthod = workerDetailsController.payMethodTEC.value.text;
+    var skill = workerDetailsController.skillTEC.value.text;
+    var price = workerDetailsController.priceTEC.value.text;
+    bool phone = contactInfoController.phoneBool.value;
+    var sms = contactInfoController.smsBool.value;
+    var chat = contactInfoController.chatBool.value;
+    var email = contactInfoController.emailBool.value;
+    var website = contactInfoController.websiteBool.value;
+    var whatsapp = contactInfoController.whatsappBool.value;
+    var telegram = contactInfoController.telegramBool.value;
+    var instagram = contactInfoController.instagramBool.value;
+    var location = otherFeauturesController.locationBool.value;
+    var resume = otherFeauturesController.resumeBool.value;
+    var address = otherFeauturesController.address.value;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
@@ -182,12 +193,12 @@ class InsertToDataBase extends GetView<RequestController> {
             title: 'شهر:',
             value: city,
           ),
-          div(visible: controller.locationBool.value),
+          div(visible: otherFeauturesController.locationBool.value),
           MyRow2(
               icon: Iconsax.map,
               title: 'آدرس:',
               value: address,
-              visible: controller.locationBool.value),
+              visible: otherFeauturesController.locationBool.value),
           div(),
           const Center(
             child: Text(

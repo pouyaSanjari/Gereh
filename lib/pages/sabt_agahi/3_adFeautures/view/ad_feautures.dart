@@ -3,11 +3,11 @@ import 'package:gereh/components/buttons/my_button.dart';
 import 'package:gereh/components/textFields/my_text_field.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/constants/my_text_styles.dart';
-import 'package:gereh/pages/sabt_agahi/controller/request_controller.dart';
+import 'package:gereh/pages/sabt_agahi/3_adFeautures/controller/ad_feautures_controller.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class AdFeautures extends GetView<RequestController> {
+class AdFeautures extends GetView<AdFeauturesController> {
   const AdFeautures({super.key});
 
   @override

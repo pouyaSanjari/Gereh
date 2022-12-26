@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gereh/pages/sabt_agahi/1_title/controller/title_controller.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:gereh/services/ui_design.dart';
 
-import '../../pages/sabt_agahi/controller/request_controller.dart';
+import '../../pages/sabt_agahi/mainPage/controller/request_controller.dart';
 
 class SelectCategory extends StatefulWidget {
   const SelectCategory({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class SelectCategory extends StatefulWidget {
 
 class _SelectCategoryState extends State<SelectCategory> {
   final controller = Get.put(RequestController());
+  final titleController = Get.put(TitleController());
 
   double cardheight = 200;
 
@@ -27,23 +29,24 @@ class _SelectCategoryState extends State<SelectCategory> {
           elevation: 0,
         ),
         body: Obx(
-          () => controller.jobGroups.isEmpty
+          () => titleController.jobGroups.isEmpty
               ? Center(
                   child: Lottie.asset('assets/lottie/loading.json',
                       width: 80, height: 80),
                 )
               : ListView.separated(
-                  itemCount: controller.jobGroups.length,
+                  itemCount: titleController.jobGroups.length,
                   itemBuilder: (BuildContext context, int index) {
-                    int icon = int.parse(controller.jobGroups[index]['icon']);
-                    String title = controller.jobGroups[index]['title'];
+                    int icon =
+                        int.parse(titleController.jobGroups[index]['icon']);
+                    String title = titleController.jobGroups[index]['title'];
                     return ExpansionTile(
                       leading: Icon(IconData(icon,
                           fontFamily: 'iconsax', fontPackage: 'iconsax')),
                       title: Text(title, style: UiDesign.titleTextStyle()),
-                      children:
-                          selectJob('${controller.jobGroups[index]['groupid']}')
-                              .toList(),
+                      children: selectJob(
+                              '${titleController.jobGroups[index]['groupid']}')
+                          .toList(),
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) {
@@ -60,7 +63,7 @@ class _SelectCategoryState extends State<SelectCategory> {
   }
 
   List<Widget> selectJob(String jobParent) {
-    List selected = controller.jobs
+    List selected = titleController.jobs
         .where((element) => element['parent'] == jobParent)
         .toList();
 
@@ -68,7 +71,7 @@ class _SelectCategoryState extends State<SelectCategory> {
     for (var i = 0; i < selected.length; i++) {
       items.add(InkWell(
         onTap: () {
-          controller.categoryError.value = '';
+          titleController.categoryError.value = '';
           Get.back(result: selected[i]['title']);
         },
         child: ListTile(
@@ -85,7 +88,7 @@ class _SelectCategoryState extends State<SelectCategory> {
 
   @override
   void initState() {
-    controller.getAllJobs();
+    titleController.getAllJobs();
     super.initState();
   }
 }

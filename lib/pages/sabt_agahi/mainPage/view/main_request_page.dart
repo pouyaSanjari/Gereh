@@ -1,6 +1,11 @@
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:flutter/material.dart';
-import 'package:gereh/pages/sabt_agahi/view/p2_ad_feautures.dart';
+import 'package:gereh/pages/sabt_agahi/3_adFeautures/controller/ad_feautures_controller.dart';
+import 'package:gereh/pages/sabt_agahi/4_contactInfo/controller/contact_info_controller.dart';
+import 'package:gereh/pages/sabt_agahi/1_title/controller/title_controller.dart';
+import 'package:gereh/pages/sabt_agahi/3_adFeautures/view/ad_feautures.dart';
+import 'package:gereh/pages/sabt_agahi/2_workerDetails/controller/worker_details_controller.dart';
+import 'package:gereh/pages/sabt_agahi/5_otherFeautures/controller/other_feautures_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
@@ -8,12 +13,12 @@ import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
 import 'package:gereh/components/buttons/my_button.dart';
 import 'package:gereh/constants/my_colors.dart';
-import 'package:gereh/pages/sabt_agahi/view/p4_other_futures.dart';
+import 'package:gereh/pages/sabt_agahi/5_otherFeautures/view/p4_other_futures.dart';
 import 'package:gereh/services/ui_design.dart';
-import 'package:gereh/pages/sabt_agahi/view/p1.title.dart';
-import 'package:gereh/pages/sabt_agahi/view/p3_contact_info.dart';
-import 'package:gereh/pages/sabt_agahi/view/p2_worker_details.dart';
-import 'package:gereh/pages/sabt_agahi/view/p5_inser_to_database.dart';
+import 'package:gereh/pages/sabt_agahi/1_title/view/title_page.dart';
+import 'package:gereh/pages/sabt_agahi/4_contactInfo/view/contact_info.dart';
+import 'package:gereh/pages/sabt_agahi/2_workerDetails/view/worker_details.dart';
+import 'package:gereh/pages/sabt_agahi/6_insertToDatabase/p5_inser_to_database.dart';
 import 'package:gereh/services/database.dart';
 import '../controller/request_controller.dart';
 
@@ -26,8 +31,15 @@ class MainRequestPage extends StatefulWidget {
 
 class _MainRequestPageState extends State<MainRequestPage>
     with SingleTickerProviderStateMixin {
-  final box = GetStorage();
   final controller = Get.put(RequestController());
+  final titleController = Get.put(TitleController());
+  final adFeauturesController = Get.put(AdFeauturesController());
+  final workerDetailsController = Get.put(WorkerDetailsController());
+  final contactInfoController = Get.put(ContactInfoController());
+  final otherFeauturesController = Get.put(OtherFeauturesController());
+
+  final box = GetStorage();
+
   late Animation animation;
 
   AppDataBase dataBase = AppDataBase();
@@ -90,7 +102,12 @@ class _MainRequestPageState extends State<MainRequestPage>
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onClick: () {
-                controller.validateTitlePage();
+                TitlePageState titlestate = titleController.validateTitlePage();
+                titlestate == TitlePageState.estekhdam
+                    ? controller.activeStep.value++
+                    : titlestate == TitlePageState.tabligh
+                        ? controller.activeStep.value = 2
+                        : false;
               }),
         );
 
@@ -110,7 +127,7 @@ class _MainRequestPageState extends State<MainRequestPage>
               ),
               MyButton(
                 fillColor: MyColors.red,
-                onClick: () => controller.validateWorkerDeatails(),
+                onClick: () => workerDetailsController.validateWorkerDeatails(),
                 child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
               )
             ],
@@ -133,10 +150,14 @@ class _MainRequestPageState extends State<MainRequestPage>
               MyButton(
                 fillColor: MyColors.red,
                 onClick: () {
-                  if (controller.descriptionsTEC.value.text.trim().isEmpty ||
-                      controller.descriptionsTEC.value.text.trim().length <
+                  if (adFeauturesController.descriptionsTEC.value.text
+                          .trim()
+                          .isEmpty ||
+                      adFeauturesController.descriptionsTEC.value.text
+                              .trim()
+                              .length <
                           15) {
-                    controller.descriptionsError.value =
+                    adFeauturesController.descriptionsError.value =
                         'لطفا توضیحات آگهی را وارد کنید.';
                   } else {
                     controller.activeStep.value++;
@@ -158,7 +179,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 elevation: 0,
                 child: const Icon(Iconsax.arrow_right_4),
                 onClick: () {
-                  controller.adType.value == 0
+                  titleController.adType.value == 0
                       ? controller.activeStep.value--
                       : controller.activeStep.value = 0;
                 },
@@ -167,7 +188,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 fillColor: MyColors.red,
                 child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () {
-                  controller.validateContactInfos();
+                  contactInfoController.validateContactInfos();
                   // controller.activeStep.value++;
                 },
               )
@@ -193,7 +214,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 fillColor: MyColors.red,
                 child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () {
-                  controller.validateOtherFuturesPage();
+                  otherFeauturesController.validateOtherFuturesPage();
                 },
               )
             ],
@@ -259,37 +280,37 @@ class _MainRequestPageState extends State<MainRequestPage>
   insertAdToDb() async {
     var response = await dataBase.addNewAD(
       advertizerid: box.read('id').toString(),
-      adtype: controller.adType.value.toString(),
-      title: controller.titleTEC.value.text.trim(),
-      category: controller.categoryTEC.value.text,
-      city: controller.cityTEC.value.text,
-      descs: controller.descriptionsTEC.value.text.trim(),
-      gender: controller.genderTEC.value.text,
-      workType: controller.cooperationTypeTEC.value.text,
-      workTime: controller.workTimeTEC.value.text,
-      payMethod: controller.payMethodTEC.value.text,
-      profission: controller.skillTEC.value.text,
-      price: controller.priceTEC.value.text,
-      resumeBool: controller.resumeBool.value ? '1' : '0',
-      callBool: controller.phoneBool.value ? '1' : '0',
-      callNumber: controller.phoneTEC.value.text,
-      smsBool: controller.smsBool.value ? '1' : '0',
-      smsNumber: controller.smsTEC.value.text,
-      chatBool: controller.chatBool.value ? '1' : '0',
-      emailBool: controller.emailBool.value ? '1' : '0',
-      emailAddress: controller.emailTEC.value.text,
-      websiteBool: controller.websiteBool.value ? '1' : '0',
-      websiteAddress: controller.websiteTEC.value.text,
-      instagramBool: controller.instagramBool.value ? '1' : '0',
-      instagramId: controller.instagramIdTEC.value.text,
-      telegramBool: controller.telegramBool.value ? '1' : '0',
-      telegramId: controller.telegramIdTEC.value.text,
-      whatsappBool: controller.whatsappBool.value ? '1' : '0',
-      whatsappNumber: controller.whatsappTEC.value.text,
-      locationbool: controller.locationBool.value ? '1' : '0',
-      locationlat: controller.selectedLat.value.toString(),
-      locationlon: controller.selectedLon.value.toString(),
-      address: controller.address.value.trim().toString(),
+      adtype: titleController.adType.value.toString(),
+      title: titleController.titleTEC.value.text.trim(),
+      category: titleController.categoryTEC.value.text,
+      city: titleController.cityTEC.value.text,
+      descs: adFeauturesController.descriptionsTEC.value.text.trim(),
+      gender: workerDetailsController.genderTEC.value.text,
+      workType: workerDetailsController.cooperationTypeTEC.value.text,
+      workTime: workerDetailsController.workTimeTEC.value.text,
+      payMethod: workerDetailsController.payMethodTEC.value.text,
+      profission: workerDetailsController.skillTEC.value.text,
+      price: workerDetailsController.priceTEC.value.text,
+      resumeBool: otherFeauturesController.resumeBool.value ? '1' : '0',
+      callBool: contactInfoController.phoneBool.value ? '1' : '0',
+      callNumber: contactInfoController.phoneTEC.value.text,
+      smsBool: contactInfoController.smsBool.value ? '1' : '0',
+      smsNumber: contactInfoController.smsTEC.value.text,
+      chatBool: contactInfoController.chatBool.value ? '1' : '0',
+      emailBool: contactInfoController.emailBool.value ? '1' : '0',
+      emailAddress: contactInfoController.emailTEC.value.text,
+      websiteBool: contactInfoController.websiteBool.value ? '1' : '0',
+      websiteAddress: contactInfoController.websiteTEC.value.text,
+      instagramBool: contactInfoController.instagramBool.value ? '1' : '0',
+      instagramId: contactInfoController.instagramIdTEC.value.text,
+      telegramBool: contactInfoController.telegramBool.value ? '1' : '0',
+      telegramId: contactInfoController.telegramIdTEC.value.text,
+      whatsappBool: contactInfoController.whatsappBool.value ? '1' : '0',
+      whatsappNumber: contactInfoController.whatsappTEC.value.text,
+      locationbool: otherFeauturesController.locationBool.value ? '1' : '0',
+      locationlat: otherFeauturesController.selectedLat.value.toString(),
+      locationlon: otherFeauturesController.selectedLon.value.toString(),
+      address: otherFeauturesController.address.value.trim().toString(),
     );
 
     setState(() {

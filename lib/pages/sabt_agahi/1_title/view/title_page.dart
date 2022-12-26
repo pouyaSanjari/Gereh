@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gereh/pages/sabt_agahi/1_title/controller/title_controller.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:gereh/components/switchs/my_toggle_switch.dart';
@@ -10,11 +11,10 @@ import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/pages/jobsList/view/select_city.dart';
 import 'package:gereh/services/ui_design.dart';
 import 'package:gereh/services/database.dart';
-import '../controller/request_controller.dart';
 
 final dataBase = AppDataBase();
 
-class TitlePage extends GetView<RequestController> {
+class TitlePage extends GetView<TitleController> {
   const TitlePage({Key? key}) : super(key: key);
 
   @override

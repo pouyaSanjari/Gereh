@@ -15,7 +15,6 @@ class MyTextField extends StatelessWidget {
   final int? minLine;
   final int? length;
   final int? maxLine;
-  final double? height;
   final bool? enabled;
   final TextInputType? textInputType;
   final TextInputAction? textInputAction;
@@ -43,7 +42,6 @@ class MyTextField extends StatelessWidget {
       this.onChange,
       this.backgroundColor,
       this.borderColor,
-      this.height,
       this.focusNode,
       this.textAlignVertical,
       this.expands})
@@ -53,7 +51,7 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     double radius = 12;
     return SizedBox(
-      height: height ?? 50,
+      // height: height ?? 50,
       child: TextField(
         cursorRadius: const Radius.circular(50),
         cursorColor: MyColors.black,
