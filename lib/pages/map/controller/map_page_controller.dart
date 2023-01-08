@@ -134,7 +134,10 @@ class MapPageController extends GetxController {
           'gender',
           'workType',
           'workTime',
-          'payMethod', []));
+          'payMethod',
+          [],
+          '',
+          ''));
       markerController.insertMarker(markerIndex);
     } catch (e) {
       Get.back();

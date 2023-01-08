@@ -52,13 +52,15 @@ class AdvModelAdapter extends TypeAdapter<AdvModel> {
       fields[9] as String,
       fields[10] as String,
       (fields[34] as List).cast<dynamic>(),
+      fields[35] as String,
+      fields[36] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, AdvModel obj) {
     writer
-      ..writeByte(35)
+      ..writeByte(37)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -128,7 +130,11 @@ class AdvModelAdapter extends TypeAdapter<AdvModel> {
       ..writeByte(33)
       ..write(obj.locationBool)
       ..writeByte(34)
-      ..write(obj.images);
+      ..write(obj.images)
+      ..writeByte(35)
+      ..write(obj.mazaya)
+      ..writeByte(36)
+      ..write(obj.sharayet);
   }
 
   @override

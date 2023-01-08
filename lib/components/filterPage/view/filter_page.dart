@@ -63,7 +63,11 @@ class FilterPage extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             leading: InkWell(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  controller.checkAllFilters();
+                  controller.searchMethod();
+                  Navigator.pop(context, controller.searchQuery.value);
+                },
                 child: const Icon(FontAwesomeIcons.xmark)),
             title: Text(
               'فیلتر',

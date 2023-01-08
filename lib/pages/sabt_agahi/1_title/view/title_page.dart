@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gereh/pages/sabt_agahi/1_title/controller/title_controller.dart';
 import 'package:get/get.dart';
@@ -41,57 +40,7 @@ class TitlePage extends GetView<TitleController> {
             ),
           ),
 
-          const SizedBox(height: 20),
-
-          Obx(
-            () => Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (controller.images.isEmpty)
-                  InkWell(
-                    onTap: () => dataBase.uploadImage(),
-                    child: Container(
-                      width: 85,
-                      height: 85,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black54),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Icon(
-                        Iconsax.gallery_add,
-                        size: 35,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  )
-                else
-                  Obx(
-                    () => ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: SizedBox(
-                        width: 85,
-                        height: 85,
-                        child: CachedNetworkImage(
-                            imageUrl: controller.images[0], fit: BoxFit.cover),
-                      ),
-                    ),
-                  ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(' تصویر شاخص', style: UiDesign.titleTextStyle()),
-                      Text('   این تصور در لیست آگهی ها نمایش داده خواهد شد.',
-                          style: UiDesign.descriptionsTextStyle()),
-                      Text(
-                          '   (با نگه داشتن روی تصویر می توانید آن را حذف کنید)',
-                          style: UiDesign.descriptionsTextStyle())
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 50),
           Text('عنوان آگهی', style: UiDesign.titleTextStyle()),
 
           const SizedBox(height: 5),

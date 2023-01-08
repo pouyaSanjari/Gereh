@@ -116,6 +116,7 @@ class AppDataBase {
     var url = Uri.parse('https://sarkargar.ir/phpfiles/jobs.php');
     var response = await http.get(url);
     var jsonResponse = convert.jsonDecode(response.body);
+
     return jsonResponse;
   }
 
@@ -134,6 +135,8 @@ class AppDataBase {
   }
 
   addNewAD({
+    required String mazaya,
+    required String sharayet,
     required String advertizerid,
     required String adtype,
     required String title,
@@ -169,12 +172,15 @@ class AppDataBase {
   }) async {
     var url = Uri.parse('https://sarkargar.ir/phpfiles/jobreqsDB/request.php');
     var response = await http.post(url, body: {
+      'mazaya': mazaya,
+      'sharayet': sharayet,
       'advertizerid': advertizerid,
       'adtype': adtype,
       'title': title,
       'category': category,
       'city': city,
-      'descs': descs,
+      // برای رفع ارور ذخیره در دیتابیس
+      'descs': descs.replaceAll('\'', '\'\''),
       'gender': gender,
       'workType': workType,
       'workTime': workTime,
@@ -203,6 +209,7 @@ class AppDataBase {
       'address': address,
       'time': DateTime.now().toString(),
     });
+    print(response.body);
     return response.statusCode;
   }
 

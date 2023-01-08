@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:gereh/components/filterPage/controller/filter_controller.dart';
+import 'package:gereh/pages/jobsList/controller/jobs_list_controller.dart';
 import 'package:gereh/services/database.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -20,6 +20,7 @@ class JobsListViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(JobsListController());
     double height = 130;
     return ListView.separated(
       key: const PageStorageKey('value'),
@@ -38,6 +39,7 @@ class JobsListViewer extends StatelessWidget {
                   box.read('id').toString()) {
                 AppDataBase().deleteAd(jobsList[index].id);
               }
+              controller.getAds();
             },
             onTap: () {
               Get.to(

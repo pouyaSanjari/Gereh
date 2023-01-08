@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,6 +29,8 @@ class JobDetails extends GetView<JobDetailsTestController> {
   @override
   Widget build(BuildContext context) {
     bool isHiring = data.adType == '1' ? false : true;
+    List sharayet = jsonDecode(data.sharayet);
+    List mazaya = jsonDecode(data.mazaya);
     return MaterialApp(
       theme: UiDesign.cTheme(),
       debugShowCheckedModeBanner: false,
@@ -102,36 +105,46 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      IconContainer(
-                                        title: 'جنسیت',
-                                        value: data.gender,
-                                        icon: data.gender == 'آقا'
-                                            ? Iconsax.man
-                                            : Iconsax.woman,
-                                        iconColor: MyColors.green,
+                                      Expanded(
+                                        child: IconContainer(
+                                          title: 'جنسیت',
+                                          value: data.gender,
+                                          icon: data.gender == 'آقا'
+                                              ? Iconsax.man
+                                              : Iconsax.woman,
+                                          iconColor: MyColors.green,
+                                        ),
                                       ),
-                                      IconContainer(
-                                        title: 'دستمزد',
-                                        value: data.price == 'توافقی'
-                                            ? 'توافقی'
-                                            : MyStrings.digi(data.price == ''
-                                                ? data.price
-                                                : data.price),
-                                        icon: Iconsax.dollar_square,
-                                        iconColor: MyColors.red,
+                                      Expanded(
+                                        child: IconContainer(
+                                          title: 'دستمزد',
+                                          value: data.price == 'توافقی'
+                                              ? 'توافقی'
+                                              : MyStrings.digi(data.price == ''
+                                                  ? data.price
+                                                  : data.price),
+                                          icon: Iconsax.dollar_square,
+                                          iconColor: MyColors.red,
+                                        ),
                                       ),
-                                      IconContainer(
-                                        title: 'شیوه پرداخت',
-                                        value: data.payMethod,
-                                        icon: Iconsax.wallet_money,
-                                        iconColor: MyColors.orange,
+                                      Expanded(
+                                        child: IconContainer(
+                                          title: 'شیوه پرداخت',
+                                          value: data.payMethod,
+                                          icon: Iconsax.wallet_money,
+                                          iconColor: MyColors.orange,
+                                        ),
                                       ),
-                                      IconContainer(
-                                        title: 'نوع همکاری',
-                                        value: data.workType,
-                                        icon: Iconsax.home_wifi5,
-                                        iconColor: MyColors.blue,
+                                      Expanded(
+                                        child: IconContainer(
+                                          title: 'نوع همکاری',
+                                          value: data.workType,
+                                          icon: Iconsax.home_wifi5,
+                                          iconColor: MyColors.blue,
+                                        ),
                                       )
                                     ],
                                   ),
@@ -161,15 +174,120 @@ class JobDetails extends GetView<JobDetailsTestController> {
                                 value: data.category,
                               ),
                               const Divider(height: 35),
+                              Visibility(
+                                visible: sharayet.isEmpty,
+                                child: Row(
+                                  children: const [
+                                    Icon(
+                                      Iconsax.tick_square,
+                                      color: Colors.green,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'شرایط احراز',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: sharayet.length,
+                                itemBuilder: (context, index) {
+                                  return sharayet[index].toString().isNotEmpty
+                                      ? Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const SizedBox(width: 10),
+                                                Container(
+                                                  width: 10,
+                                                  height: 10,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(sharayet[index]),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 5),
+                                          ],
+                                        )
+                                      : Container();
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              Visibility(
+                                visible: mazaya.isEmpty,
+                                child: Row(
+                                  children: const [
+                                    Icon(
+                                      Iconsax.gift,
+                                      color: MyColors.blue,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'مزایا',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: mazaya.length,
+                                itemBuilder: (context, index) {
+                                  return mazaya[index]
+                                          .toString()
+                                          .trim()
+                                          .isNotEmpty
+                                      ? Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const SizedBox(width: 10),
+                                                Container(
+                                                  width: 10,
+                                                  height: 10,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(mazaya[index]),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 5),
+                                          ],
+                                        )
+                                      : Container();
+                                },
+                              ),
+                              const SizedBox(height: 5),
                               const Text(
                                 'توضیحات',
                                 style: TextStyle(fontSize: 20),
                               ),
                               const SizedBox(height: 5),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(data.descs,
-                                    textAlign: TextAlign.justify),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(data.descs,
+                                          textAlign: TextAlign.justify),
+                                    ),
+                                  ),
+                                ],
                               ),
                               const SizedBox(height: 10),
                               data.locationBool
@@ -520,8 +638,9 @@ class _ContactWithAdvertizer extends StatelessWidget {
                     onTap: () =>
                         _launchInBrowser(Uri.parse('tel:${data.callNumber}')),
                     icon: Iconsax.call,
-                    text:
-                        'تماس تلفنی با: ${data.callNumber.substring(data.callNumber.length - 4)}***${data.callNumber.characters.take(4)}',
+                    text: data.callNumber.isNotEmpty
+                        ? 'تماس تلفنی با: ${data.callNumber.substring(data.callNumber.length - 4)}***${data.callNumber.characters.take(4)}'
+                        : '',
                     background: MyColors.green,
                   ),
                 ),
@@ -531,8 +650,9 @@ class _ContactWithAdvertizer extends StatelessWidget {
                     onTap: () =>
                         _launchInBrowser(Uri.parse('sms:${data.smsNumber}')),
                     icon: Iconsax.sms,
-                    text:
-                        'ارسال پیامک به: ${data.callNumber.substring(data.callNumber.length - 4)}***${data.callNumber.characters.take(4)}',
+                    text: data.smsNumber.isEmpty
+                        ? ''
+                        : 'ارسال پیامک به: ${data.callNumber.substring(data.callNumber.length - 4)}***${data.callNumber.characters.take(4)}',
                     background: MyColors.blue,
                   ),
                 ),

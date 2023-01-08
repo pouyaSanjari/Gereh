@@ -3,6 +3,7 @@ import 'package:gereh/components/buttons/my_button.dart';
 import 'package:gereh/components/textFields/my_text_field.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/constants/my_text_styles.dart';
+import 'package:gereh/pages/sabt_agahi/1_title/controller/title_controller.dart';
 import 'package:gereh/pages/sabt_agahi/3_adFeautures/controller/ad_feautures_controller.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -12,90 +13,110 @@ class AdFeautures extends GetView<AdFeauturesController> {
 
   @override
   Widget build(BuildContext context) {
+    var titleController = Get.put(TitleController());
+    bool isAd = titleController.adType.value == 0 ? true : false;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'شرایط احراز',
-            style: MyTextStyles.titleTextStyle(Colors.black),
-          ),
-        ),
-        Flexible(
-          child: Obx(
-            () => ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.sharayetTEC.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    _SharayetRow(
-                      label: 'سن، مدرک تحصیلی، سابقه کار و ...',
-                      control: controller.sharayetTEC[index],
-                      focusNode: controller.sharayetFocus[index],
-                      onclick: () {
-                        if (controller.sharayetTEC.length != 1) {
-                          controller.sharayetFocus[index].unfocus();
-                          controller.sharayetFocus.removeAt(index);
-                          controller.sharayetTEC.removeAt(index);
-                        } else {
-                          controller.sharayetTEC.first.clear();
-                          controller.sharayetFocus.first.unfocus();
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 5),
-                  ],
-                );
-              },
+        Visibility(
+          visible: isAd,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'شرایط احراز',
+              style: MyTextStyles.titleTextStyle(Colors.black),
             ),
           ),
         ),
-        _AddButton(
-          onTap: () => controller.addSharayetTextField(),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'تسهیلات و مزایا',
-            style: MyTextStyles.titleTextStyle(Colors.black),
-          ),
-        ),
-        Flexible(
-          child: Obx(
-            () => ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.mazayaTEC.length,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    _SharayetRow(
-                      label: 'پورسانت، صبحانه، بیمه و ...',
-                      control: controller.mazayaTEC[index],
-                      focusNode: controller.mazayaFocus[index],
-                      onclick: () {
-                        if (controller.mazayaTEC.length != 1) {
-                          controller.mazayaFocus[index].unfocus();
-                          controller.mazayaFocus.removeAt(index);
-                          controller.mazayaTEC.removeAt(index);
-                        } else {
-                          controller.mazayaTEC.first.clear();
-                          controller.mazayaFocus.first.unfocus();
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 5),
-                  ],
-                );
-              },
+        Visibility(
+          visible: isAd,
+          child: Flexible(
+            child: Obx(
+              () => ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.sharayetTEC.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      _SharayetRow(
+                        label: 'سن، مدرک تحصیلی، سابقه کار و ...',
+                        control: controller.sharayetTEC[index],
+                        focusNode: controller.sharayetFocus[index],
+                        onclick: () {
+                          if (controller.sharayetTEC.length != 1) {
+                            controller.sharayetFocus[index].unfocus();
+                            controller.sharayetFocus.removeAt(index);
+                            controller.sharayetTEC.removeAt(index);
+                          } else {
+                            controller.sharayetTEC.first.clear();
+                            controller.sharayetFocus.first.unfocus();
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 5),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),
-        _AddButton(
-          onTap: () => controller.addMazayaTextField(),
+        Visibility(
+          visible: isAd,
+          child: _AddButton(
+            onTap: () => controller.addSharayetTextField(),
+          ),
+        ),
+        Visibility(
+          visible: isAd,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'تسهیلات و مزایا',
+              style: MyTextStyles.titleTextStyle(Colors.black),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: isAd,
+          child: Flexible(
+            child: Obx(
+              () => ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.mazayaTEC.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      _SharayetRow(
+                        label: 'پورسانت، صبحانه، بیمه و ...',
+                        control: controller.mazayaTEC[index],
+                        focusNode: controller.mazayaFocus[index],
+                        onclick: () {
+                          if (controller.mazayaTEC.length != 1) {
+                            controller.mazayaFocus[index].unfocus();
+                            controller.mazayaFocus.removeAt(index);
+                            controller.mazayaTEC.removeAt(index);
+                          } else {
+                            controller.mazayaTEC.first.clear();
+                            controller.mazayaFocus.first.unfocus();
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 5),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: isAd,
+          child: _AddButton(
+            onTap: () => controller.addMazayaTextField(),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

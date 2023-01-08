@@ -1,4 +1,4 @@
-import 'package:digit_to_persian_word/digit_to_persian_word.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gereh/pages/sabt_agahi/3_adFeautures/controller/ad_feautures_controller.dart';
 import 'package:gereh/pages/sabt_agahi/4_contactInfo/controller/contact_info_controller.dart';
@@ -29,8 +29,7 @@ class MainRequestPage extends StatefulWidget {
   State<MainRequestPage> createState() => _MainRequestPageState();
 }
 
-class _MainRequestPageState extends State<MainRequestPage>
-    with SingleTickerProviderStateMixin {
+class _MainRequestPageState extends State<MainRequestPage> {
   final controller = Get.put(RequestController());
   final titleController = Get.put(TitleController());
   final adFeauturesController = Get.put(AdFeauturesController());
@@ -40,7 +39,7 @@ class _MainRequestPageState extends State<MainRequestPage>
 
   final box = GetStorage();
 
-  late Animation animation;
+  // late Animation animation;
 
   AppDataBase dataBase = AppDataBase();
 
@@ -144,7 +143,10 @@ class _MainRequestPageState extends State<MainRequestPage>
                 fillColor: Colors.grey.withOpacity(0.4),
                 child: const Icon(Iconsax.arrow_right_4),
                 onClick: () {
-                  controller.activeStep.value--;
+                  // برگشت به صفحه اول درصورتی که گزینه تبلیغ رو انتخاب کرده باشه
+                  titleController.adType.value == 0
+                      ? controller.activeStep.value--
+                      : controller.activeStep.value = 0;
                 },
               ),
               MyButton(
@@ -188,7 +190,8 @@ class _MainRequestPageState extends State<MainRequestPage>
                 fillColor: MyColors.red,
                 child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () {
-                  contactInfoController.validateContactInfos();
+                  otherFeauturesController.validateOtherFuturesPage();
+
                   // controller.activeStep.value++;
                 },
               )
@@ -214,7 +217,7 @@ class _MainRequestPageState extends State<MainRequestPage>
                 fillColor: MyColors.red,
                 child: const Icon(Iconsax.arrow_left_1, color: Colors.white),
                 onClick: () {
-                  otherFeauturesController.validateOtherFuturesPage();
+                  contactInfoController.validateContactInfos();
                 },
               )
             ],
@@ -278,94 +281,113 @@ class _MainRequestPageState extends State<MainRequestPage>
 
 //ذخیره تبلیغ در دیتابیس
   insertAdToDb() async {
-    var response = await dataBase.addNewAD(
-      advertizerid: box.read('id').toString(),
-      adtype: titleController.adType.value.toString(),
-      title: titleController.titleTEC.value.text.trim(),
-      category: titleController.categoryTEC.value.text,
-      city: titleController.cityTEC.value.text,
-      descs: adFeauturesController.descriptionsTEC.value.text.trim(),
-      gender: workerDetailsController.genderTEC.value.text,
-      workType: workerDetailsController.cooperationTypeTEC.value.text,
-      workTime: workerDetailsController.workTimeTEC.value.text,
-      payMethod: workerDetailsController.payMethodTEC.value.text,
-      profission: workerDetailsController.skillTEC.value.text,
-      price: workerDetailsController.priceTEC.value.text,
-      resumeBool: otherFeauturesController.resumeBool.value ? '1' : '0',
-      callBool: contactInfoController.phoneBool.value ? '1' : '0',
-      callNumber: contactInfoController.phoneTEC.value.text,
-      smsBool: contactInfoController.smsBool.value ? '1' : '0',
-      smsNumber: contactInfoController.smsTEC.value.text,
-      chatBool: contactInfoController.chatBool.value ? '1' : '0',
-      emailBool: contactInfoController.emailBool.value ? '1' : '0',
-      emailAddress: contactInfoController.emailTEC.value.text,
-      websiteBool: contactInfoController.websiteBool.value ? '1' : '0',
-      websiteAddress: contactInfoController.websiteTEC.value.text,
-      instagramBool: contactInfoController.instagramBool.value ? '1' : '0',
-      instagramId: contactInfoController.instagramIdTEC.value.text,
-      telegramBool: contactInfoController.telegramBool.value ? '1' : '0',
-      telegramId: contactInfoController.telegramIdTEC.value.text,
-      whatsappBool: contactInfoController.whatsappBool.value ? '1' : '0',
-      whatsappNumber: contactInfoController.whatsappTEC.value.text,
-      locationbool: otherFeauturesController.locationBool.value ? '1' : '0',
-      locationlat: otherFeauturesController.selectedLat.value.toString(),
-      locationlon: otherFeauturesController.selectedLon.value.toString(),
-      address: otherFeauturesController.address.value.trim().toString(),
-    );
-
-    setState(() {
-      if (response.toString() == '200') {
-        showDialog<void>(
-          context: context,
-          barrierDismissible: true,
-          builder: (BuildContext dialogContext) {
-            return AlertDialog(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              content: SingleChildScrollView(
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2.0),
-                    child: Column(
-                      children: [
-                        Lottie.asset(
-                          'assets/lottie/done.json',
-                          height: 150,
-                          width: 150,
-                        ),
-                        const Text(
-                          '( ثبت شد )',
-                          style: TextStyle(color: Colors.green, fontSize: 22),
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          'کاربر گرامی آگهی شما با موفقیت ثبت گردید و پس از تایید نمایش داده خواهد شد.',
-                          style: TextStyle(height: 1.8),
-                        ),
-                      ],
+    // گرفتن لیست مزایا و انکود کردن برای ذخیره در دیتابیس
+    List<String> mazaya = [];
+    for (var element in adFeauturesController.mazayaTEC) {
+      mazaya.add(element.text.toString());
+    }
+    var mazayajson = jsonEncode(mazaya);
+    // گرفتن لیست شرایط
+    List<String> sharayets = [];
+    for (var element in adFeauturesController.sharayetTEC) {
+      sharayets.add(element.text.toString());
+    }
+    var sharayetJson = jsonEncode(sharayets);
+    try {
+      var response = await dataBase.addNewAD(
+        mazaya: mazayajson,
+        sharayet: sharayetJson,
+        advertizerid: box.read('id').toString(),
+        adtype: titleController.adType.value.toString(),
+        title: titleController.titleTEC.value.text.trim(),
+        category: titleController.categoryTEC.value.text,
+        city: titleController.cityTEC.value.text,
+        descs: adFeauturesController.descriptionsTEC.value.text.trim(),
+        gender: workerDetailsController.genderTEC.value.text,
+        workType: workerDetailsController.cooperationTypeTEC.value.text,
+        workTime: workerDetailsController.workTimeTEC.value.text,
+        payMethod: workerDetailsController.payMethodTEC.value.text,
+        profission: workerDetailsController.skillTEC.value.text,
+        price: workerDetailsController.priceTEC.value.text,
+        resumeBool: otherFeauturesController.resumeBool.value ? '1' : '0',
+        callBool: contactInfoController.phoneBool.value ? '1' : '0',
+        callNumber: contactInfoController.phoneTEC.value.text,
+        smsBool: contactInfoController.smsBool.value ? '1' : '0',
+        smsNumber: contactInfoController.smsTEC.value.text,
+        chatBool: contactInfoController.chatBool.value ? '1' : '0',
+        emailBool: contactInfoController.emailBool.value ? '1' : '0',
+        emailAddress: contactInfoController.emailTEC.value.text,
+        websiteBool: contactInfoController.websiteBool.value ? '1' : '0',
+        websiteAddress: contactInfoController.websiteTEC.value.text,
+        instagramBool: contactInfoController.instagramBool.value ? '1' : '0',
+        instagramId: contactInfoController.instagramIdTEC.value.text,
+        telegramBool: contactInfoController.telegramBool.value ? '1' : '0',
+        telegramId: contactInfoController.telegramIdTEC.value.text,
+        whatsappBool: contactInfoController.whatsappBool.value ? '1' : '0',
+        whatsappNumber: contactInfoController.whatsappTEC.value.text,
+        locationbool: otherFeauturesController.locationBool.value ? '1' : '0',
+        locationlat: otherFeauturesController.selectedLat.value.toString(),
+        locationlon: otherFeauturesController.selectedLon.value.toString(),
+        address: otherFeauturesController.address.value.trim().toString(),
+      );
+      print(response);
+      setState(() {
+        if (response.toString() == '200') {
+          showDialog<void>(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext dialogContext) {
+              return AlertDialog(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                content: SingleChildScrollView(
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2.0),
+                      child: Column(
+                        children: [
+                          Lottie.asset(
+                            'assets/lottie/done.json',
+                            height: 150,
+                            width: 150,
+                          ),
+                          const Text(
+                            '( ثبت شد )',
+                            style: TextStyle(color: Colors.green, fontSize: 22),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'کاربر گرامی آگهی شما با موفقیت ثبت گردید و پس از تایید نمایش داده خواهد شد.',
+                            style: TextStyle(height: 1.8),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text(
-                    'تایید',
-                    style: TextStyle(color: Colors.black),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text(
+                      'تایید',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    onPressed: () {
+                      controller.activeStep.value = 0;
+                      Navigator.of(dialogContext).pop(); // Dismiss alert dialog
+                    },
                   ),
-                  onPressed: () {
-                    controller.activeStep.value = 0;
-                    Navigator.of(dialogContext).pop(); // Dismiss alert dialog
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    });
+                ],
+              );
+            },
+          );
+        }
+      });
+    } catch (e) {
+      print(e);
+      e.printError();
+    }
   }
 
 //آیکان های استپر
@@ -448,11 +470,5 @@ class _MainRequestPageState extends State<MainRequestPage>
       default:
         return const TitlePage();
     }
-  }
-
-  //اعداد دریافتی را به تومان تبدیل میکند
-  String digi(String number) {
-    String digit = DigitToWord.toWord(number, StrType.NumWord, isMoney: true);
-    return digit;
   }
 }

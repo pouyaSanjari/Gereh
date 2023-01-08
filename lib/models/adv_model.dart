@@ -74,6 +74,10 @@ class AdvModel {
   final bool locationBool;
   @HiveField(34)
   final List images;
+  @HiveField(35)
+  final String mazaya;
+  @HiveField(36)
+  final String sharayet;
 
   AdvModel(
       this.callNumber,
@@ -110,7 +114,9 @@ class AdvModel {
       this.workType,
       this.workTime,
       this.payMethod,
-      this.images);
+      this.images,
+      this.mazaya,
+      this.sharayet);
 
   AdvModel.fromJson(Map<dynamic, dynamic> json, List imagesJson)
       : id = json['id'],
@@ -147,5 +153,7 @@ class AdvModel {
         lat = json['locationlat'],
         lon = json['locationlon'],
         time = json['time'],
-        images = imagesJson;
+        images = imagesJson,
+        mazaya = json['mazaya'],
+        sharayet = json['sharayet'];
 }
