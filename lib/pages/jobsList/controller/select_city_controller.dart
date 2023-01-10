@@ -79,7 +79,6 @@ class SelectCityController extends GetxController {
         await http.get(url, headers: {"x-api-key": MyStrings.apiKey});
 
     var json = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-    print(json);
     String recievedCity = json['city'].toString().trim();
     String county = json['county'].toString().trim();
     String state = json['province'].toString().trim();

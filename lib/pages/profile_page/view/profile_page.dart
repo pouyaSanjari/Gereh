@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gereh/pages/jobsList/view/job_details.dart';
 import 'package:gereh/pages/profile_page/controller/profile_page_controller.dart';
 import 'package:gereh/pages/profile_page/controller/saved_ads_page_controller.dart';
 import 'package:gereh/pages/profile_page/view/my_ads.dart';

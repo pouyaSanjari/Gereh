@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gereh/components/buttons/my_rounded_button.dart';
 import 'package:gereh/constants/my_colors.dart';
 import 'package:gereh/models/adv_model.dart';

@@ -10,7 +10,6 @@ import 'package:gereh/constants/my_strings.dart';
 import 'package:gereh/services/ui_design.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
-import '../../mainPage/controller/request_controller.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);

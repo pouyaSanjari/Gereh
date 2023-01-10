@@ -51,9 +51,9 @@ class _JobsListSliderState extends State<JobsListSlider> {
       itemCount: widget.data.length,
       itemBuilder: (context, index, realIndex) {
         bool isHiring = widget.data[index].adType == '1' ? false : true;
-        bool isBookmarked = false;
+
         Future<void> checkbook() async {
-          isBookmarked = await HiveActions.checkIfObjectExists(
+          await HiveActions.checkIfObjectExists(
               advModel: widget.data[index], box: 'bookmarks');
           setState(() {});
         }

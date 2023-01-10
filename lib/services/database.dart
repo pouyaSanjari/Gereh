@@ -15,15 +15,11 @@ final ImagePicker picker = ImagePicker();
 
 class AppDataBase {
   deleteAd(String adId) async {
-    print('object');
     try {
-      var response = await http.post(
-          Uri.parse('http://sarkargar.ir/phpfiles/deleteAd.php'),
+      await http.post(Uri.parse('http://sarkargar.ir/phpfiles/deleteAd.php'),
           body: {'adId': adId});
-      print(response.body);
     } catch (e) {
       printError();
-      print(e);
     }
   }
 
@@ -209,7 +205,6 @@ class AppDataBase {
       'address': address,
       'time': DateTime.now().toString(),
     });
-    print(response.body);
     return response.statusCode;
   }
 

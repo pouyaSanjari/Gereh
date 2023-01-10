@@ -330,7 +330,6 @@ class _MainRequestPageState extends State<MainRequestPage> {
         locationlon: otherFeauturesController.selectedLon.value.toString(),
         address: otherFeauturesController.address.value.trim().toString(),
       );
-      print(response);
       setState(() {
         if (response.toString() == '200') {
           showDialog<void>(
@@ -385,7 +384,6 @@ class _MainRequestPageState extends State<MainRequestPage> {
         }
       });
     } catch (e) {
-      print(e);
       e.printError();
     }
   }

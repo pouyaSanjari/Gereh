@@ -18,7 +18,6 @@ class OtherFutures extends GetView<OtherFeauturesController> {
 
   @override
   Widget build(BuildContext context) {
-    String address = '';
     List snap = [];
     final database = AppDataBase();
     List<String> uploadedImages = [];
@@ -201,14 +200,12 @@ class OtherFutures extends GetView<OtherFeauturesController> {
                   ? Align(
                       alignment: Alignment.topCenter,
                       child: MyButton(
-                        fillColor: MyColors.blueGrey,
-                        child: const Text(
-                          'انتخاب موقعیت از روی نقشه',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onClick: () => Get.to(() => const MapPage())
-                            ?.then((value) => address = value[0]),
-                      ),
+                          fillColor: MyColors.blueGrey,
+                          child: const Text(
+                            'انتخاب موقعیت از روی نقشه',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onClick: () => Get.to(() => const MapPage())),
                     )
                   : Column(
                       children: [
