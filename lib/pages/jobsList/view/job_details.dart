@@ -51,8 +51,9 @@ class JobDetails extends GetView<JobDetailsTestController> {
                 svp.readData();
               },
             ),
-            elevation: 0,
-            scrolledUnderElevation: 5,
+            scrolledUnderElevation: 8,
+            shadowColor: Colors.black,
+            surfaceTintColor: Colors.grey,
             title: const Text(
               'جزئیات آگهی',
             ),

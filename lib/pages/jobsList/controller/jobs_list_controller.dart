@@ -1,3 +1,4 @@
+import 'package:gereh/components/filterPage/controller/filter_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +8,7 @@ import 'package:gereh/models/adv_model.dart';
 final box = GetStorage();
 
 class JobsListController extends GetxController {
+  final filterController = Get.put(FilterController());
   RxList<AdvModel> jobsList = <AdvModel>[].obs;
   RxBool loading = false.obs;
   RxBool hasError = false.obs;
@@ -22,6 +24,16 @@ class JobsListController extends GetxController {
 
   ///گرفتن تمام تبیلغلات
   getAds() async {
+    if (city.value != box.read('city')) {
+      city.value = box.read('city');
+      query.value =
+          "SELECT * FROM `requests` WHERE `city` = '${box.read('city')}'";
+      filterController.defaultSearchQuery.value = query.value;
+      filterController.checkAllFilters();
+      filterController.searchMethod();
+      query.value = filterController.searchQuery.value;
+    }
+
     thereIsNoAd.value = false;
     hasError.value = false;
     loading.value = true;

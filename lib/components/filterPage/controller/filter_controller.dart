@@ -94,8 +94,8 @@ class FilterController extends GetxController {
   }
 
   RxString searchQuery = ''.obs;
-  String defaultSearchQuery =
-      "SELECT * FROM `requests` WHERE `city` = '${box.read('city')}'";
+  RxString defaultSearchQuery =
+      "SELECT * FROM `requests` WHERE `city` = '${box.read('city')}'".obs;
 
   void addFilter(
       {required bool check, required String key, required String value}) {
@@ -176,7 +176,7 @@ class FilterController extends GetxController {
   }
 
   void searchMethod() {
-    searchQuery.value = defaultSearchQuery;
+    searchQuery.value = defaultSearchQuery.value;
     searchMap.forEach((key, value) {
       searchQuery.value = "${searchQuery.value} AND `$key` LIKE '%$value%'";
     });
@@ -193,7 +193,7 @@ class FilterController extends GetxController {
             'از ${(formatter.format(sliderValues[0] * sliderValuesMultiplyer.value))} تومان تا ${formatter.format(sliderValues[1] * sliderValuesMultiplyer.value)} تومان'
       });
     }
-    // print(searchQuery);
+    print(searchQuery);
   }
 
   void deleteTitleFilter() {

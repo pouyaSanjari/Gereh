@@ -34,13 +34,15 @@ class JobsListTest extends StatelessWidget {
           () => Scaffold(
             appBar: AppBar(
               excludeHeaderSemantics: true,
-              scrolledUnderElevation: 0,
+              scrolledUnderElevation: 8,
+              shadowColor: Colors.black,
+              surfaceTintColor: Colors.grey,
               bottom:
                   filController.searchChips.isEmpty ? null : const _ChipsBar(),
               actions: [
                 InkWell(
                   onTap: () => Get.to(() => SelectCity())?.then((value) async {
-                    controller.city.value = value;
+                    // controller.city.value = value;
                     await box.write('city', value);
                     controller.getAds();
                   }),
