@@ -1,4 +1,4 @@
 #Gereh
 
-اپلیکیشن آگهی استخدامی با قابلیت نمایش آگهی بر روی نقشه
+a job related application based on users location.
 
